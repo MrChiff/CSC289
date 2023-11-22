@@ -47,7 +47,6 @@ def get_eqnset(user_id):
         abort(404)
     return eqnset
 
-# blah
 # Routes are what we create to move to other webpages.
 
 #####################
