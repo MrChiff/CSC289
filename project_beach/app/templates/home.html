@@ -1,18 +1,35 @@
 {% extends "base.html" %}
 {% block base %}
+<style type="text/css">
+	.OutlineText {
+		font-size: 32px;
+		color: white;
+		text-shadow:
+		/* Outline */
+		-1px -1px 0 #000000,
+		1px -1px 0 #000000,
+		-1px 1px 0 #000000,
+		1px 1px 0 #000000,  
+		-2px 0 0 #000000,
+		2px 0 0 #000000,
+		0 2px 0 #000000,
+		0 -2px 0 #000000; /* Terminate with a semi-colon */
+	}
+	</style>
 	<body class="img js-fullheight" style="background-image: url(static/images/home.jpg);">
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
 					<img src="static/images/vgls_logo.png" alt="Website Logo">
-					<h2 class="heading-section">Welcome to the Video Game & Sales Website (Name to be changed at later date)</h2>
+					<h2 class="heading-section">Welcome to the Video Game Library & Sales Website (Name to be changed at later date)</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
-		      	<h3 class="mb-4 text-center">Here is where you will be able to keep track of your video game collection and what it is currently worth.</h3>
+				<!-- <h3 class="mb-4 text-center">Here is where you will be able to keep track of your video game collection and what it is currently worth.</h3>-->
+		      	<h3 class="OutlineText text-center">Here is where you will be able to keep track of your video game collection and what it is currently worth.</h3>
 	            
 				<div class="form-group">
 					<a class="form-control btn btn-primary submit px-3" href="{{url_for('login')}}" role="button">Continue to Login / Create Account</a>
