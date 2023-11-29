@@ -1,0 +1,35 @@
+<!--This will be the baseline page for all of the other pages in the program.
+This will include a navigation bar-->
+<!doctype html>
+<html lang="en">
+  <head>
+  	<!--Required Meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="static/css/style.css">
+    <!--This is set as our default title for each tab
+        unless the specific page has a title name. Then it 
+        will me hyphenated ex: Mathmaticus-about-->
+        {% if title %}
+        <title> Video Game Library - {{title}} </title>
+        {% else %}
+        <title> Video Game Library </title>
+        {% endif %}
+	</head>
+  <body>
+    {% block base2 %} {% endblock base2 %}
+  </body>
+
+
+  <script src="static/js/jquery.min.js"></script>
+  <script src="static/js/popper.js"></script>
+  <script src="static/js/bootstrap.min.js"></script>
+  <script src="static/js/main.js"></script>
+
+</html>
