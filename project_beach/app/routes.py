@@ -1,7 +1,7 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session
-from app.forms import Registration, Login, ChangePassword
+from app.forms import Registration, Login, ChangePassword, UpdateAccount
 from app.models import User
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -152,6 +152,37 @@ def logout():
     return redirect(url_for('home'))
 
 
+######################
+# Account Info Route #
+######################
+# This is to access the account information page after the user is logged in
+@app.route("/accountinfo", methods = ['GET', 'POST'])
+@login_required
+def accountinfo():
+    form = UpdateAccount()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.firstname = form.first_name.data
+        current_user.lastname = form.last_name.data
+        db.session.commit()
+        flash("Your account has been successfully updated", 'success')
+    elif request.method == 'GET':
+        # This will prepopulate the fields to change
+        form.username.data = current_user.username
+        form.first_name.data = current_user.firstname
+        form.last_name.data = current_user.lastname
+    image_file = url_for('static', filename = 'images/' + current_user.image_file)
+    return render_template('accountinfo.html', title = 'Account Info', image_file = image_file, form = form)
 
 
 
+###############
+# About Route #
+###############
+
+@app.route("/about")
+def about():
+    return render_template('about.html', title = "About Video Game Library & Sales")
