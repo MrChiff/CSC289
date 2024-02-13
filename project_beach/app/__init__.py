@@ -16,7 +16,12 @@ window = webview.create_window('mathmaticus', app)
 app.config['SECRET_KEY'] = 'secretkey'
 
 # This creates the database instance
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///mathmaticus.db"
+
+#Old database on SQLite
+#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///mathmaticus.db"
+
+#New My SQL DB
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password123@localhost/vgls"
 db = SQLAlchemy(app)
 
 # Setting up the hashing for passwords
