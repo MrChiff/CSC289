@@ -63,6 +63,7 @@ This will include a navigation bar-->
                 {% if current_user.is_authenticated %}
                 <a class="nav-item nav-link" href="/accountinfo">Account Information</a>
                 <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+                <a class="nav-item nav-link" href="/admin">Admin Area</a>
                 <nav class="navbar">
                   <span class="navbar-brand mb-0 h1">{{current_user.username}}</span>
                 </nav>

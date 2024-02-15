@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(20), nullable = False)
     password = db.Column(db.String(20), nullable = False)
     image_file = db.Column(db.String(20), nullable = False, default = 'default.jpg')
+    admin_user = db.Column(db.String(20), nullable = False, default = 'User')
     
     
        

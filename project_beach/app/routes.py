@@ -186,3 +186,19 @@ def accountinfo():
 @app.route("/about")
 def about():
     return render_template('about.html', title = "About Video Game Library & Sales")
+
+
+###############
+# Admin Route #
+###############
+
+@app.route("/admin")
+@login_required
+def admin():
+    admin = current_user.admin_user
+    if admin == 'Admin':
+        return render_template('admin.html', title = "Admin Area")
+    else:
+        flash("Sorry you must be an admin to access this page")
+        return redirect(url_for('welcome'))
+    
