@@ -63,7 +63,6 @@ class Registration(FlaskForm):
     first_name = StringField('FirstName', validators=[DataRequired()])
     last_name = StringField('LastName', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    admin_user = StringField('Admin or User', validators=[DataRequired()])
     submit = SubmitField('Register Account')
     
     def validate_username(self, username):
