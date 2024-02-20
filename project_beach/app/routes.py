@@ -1,6 +1,6 @@
 # Importing flask
 import os
-from flask import Flask, render_template, url_for, flash, redirect, request, session
+from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory
 from app.forms import Registration, Login, ChangePassword, UpdateAccount
 from app.models import User
 from app import app, db, bcrypt

@@ -21,6 +21,8 @@ This will include a navigation bar-->
         {% else %}
         <title> Video Game Library </title>
         {% endif %}
+  <!--This will add a favicon to the webpage tab instead of having the gray world icon-->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
 	</head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -45,9 +47,9 @@ This will include a navigation bar-->
                 Video Game Consoles
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Playstation</a></li>
+                <li><a class="dropdown-item" href="#">Nintendo</a></li>
+                <li><a class="dropdown-item" href="#">Xbox</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -55,9 +57,9 @@ This will include a navigation bar-->
                 Video Games
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Playstation</a></li>
+                <li><a class="dropdown-item" href="#">Nintendo</a></li>
+                <li><a class="dropdown-item" href="#">Xbox</a></li>
               </ul>
               <li class="navbar-nav">
                 {% if current_user.is_authenticated %}
@@ -78,6 +80,7 @@ This will include a navigation bar-->
       </div>
     </nav>
     {% block base2 %} {% endblock base2 %}
+    <p> <font color = white>&copy; VGLS is a subsidiary of L.L.A.M.A. Inc.</font></p>
   </body>
 
 
