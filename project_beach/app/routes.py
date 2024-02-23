@@ -201,4 +201,33 @@ def admin():
     else:
         flash("Sorry you must be an admin to access this page")
         return redirect(url_for('welcome'))
-    
+
+
+########################
+# Create Library Route #
+########################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/create")
+@login_required
+def create():
+    return render_template('create.html', title='Create Library')    
+
+
+########################
+# Update Library Route #
+########################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/update")
+@login_required
+def update():
+    return render_template('update.html', title='Update Library')
+
+
+######################
+# Sell Library Route #
+######################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/sell")
+@login_required
+def sell():
+    return render_template('sell.html', title='Sell Library')
