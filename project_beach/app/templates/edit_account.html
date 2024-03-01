@@ -1,0 +1,46 @@
+{% extends "base2.html" %}
+{% block base2 %}
+<body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);">
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Please Enter the Username of the Account You Want to Edit / Delete</h2>
+				</div>
+			</div>
+			<div class="row justify-content-left">
+				<div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+		      	<form method = "POST", action="">
+                    {{ form.hidden_tag() }}
+		      		<div class="form-group">
+                        {{ form.username.label(class="form-control-label") }}
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+		      		</div>
+                <br>
+	            <div class="form-group">
+                    {{ form.submit(class="form-control btn btn-primary submit px-3") }}
+                </div>
+                <br>
+                <br>
+	          </form>
+	          </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	</body>
+</html>
+{% endblock %}

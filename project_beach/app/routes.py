@@ -1,7 +1,7 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory
-from app.forms import Registration, Login, ChangePassword, UpdateAccount
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, EditAccount
 from app.models import User
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -231,3 +231,54 @@ def update():
 @login_required
 def sell():
     return render_template('sell.html', title='Sell Library')
+
+
+
+
+
+
+
+############################
+# Edit/Delete Account Info #
+############################
+# This is to access the account information page after the user is logged in
+@app.route("/edit", methods = ['GET', 'POST'])
+@login_required
+def editinfo():
+    form = EditAccount()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        db.session.commit()
+        flash("Your account has been successfully updated", 'success')
+    elif request.method == 'GET':
+        # This will prepopulate the fields to change
+        form.username.data = current_user.username
+    return render_template('edit_account.html', title = 'Edit/Delete User Accounts', form = form)
+
+
+
+
+
+
+
+
+######################
+# Manufacturer Route #
+######################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/manufacturer")
+@login_required
+def Manufacturer():
+    return render_template('manufacturer.html', title='Manufacturer')
+
+
+######################
+# Game Systems Route #
+######################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/game_systems")
+@login_required
+def game_systems():
+    return render_template('game_systems.html', title='Game Systems')
+
+
