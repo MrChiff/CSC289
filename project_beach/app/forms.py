@@ -31,7 +31,7 @@ class UpdateAccount(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
     first_name = StringField('FirstName', validators=[DataRequired()])
     last_name = StringField('LastName', validators=[DataRequired()])
-    picture = FileField("Update Profile Picture", validators=[FileAllowed(['jpg','png'])])
+    picture = FileField("Update Profile Picture. Only JPG and PNG file extensions allowed.", validators=[FileAllowed(['jpg','png'])])
     submit = SubmitField('Update Account')
     
     def validate_username(self, username):
@@ -72,4 +72,18 @@ class Registration(FlaskForm):
 
 
 
+############################
+# Edit/Delete User Account #
+############################
+
+# This is creating the form for student registration
+class EditAccount(FlaskForm):
+    # Username will be used as the label for the html.
+    username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
+    submit = SubmitField('Update Account')
     
+    def validate_username(self, username):
+        if username.data == current_user.username:
+            user = User.query.filter_by(username = username.data).first()
+            if user:
+                raise ValidationError('This username does not exist. Please try again.')
