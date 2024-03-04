@@ -70,3 +70,14 @@ headers = {
 response = requests.get(url, headers=headers)
 
 print(response.json())
+
+
+# rawg.io API
+# jsonify, loads, dumps
+# restapi parse json; curl
+# 
+rawg_api_key = "8583455b78234c0b940762d0141319c4"
+# GET https://api.rawg.io/api/platforms?key=YOUR_API_KEY
+# GET https://api.rawg.io/api/games?key=YOUR_API_KEY&dates=2019-09-01,2019-09-30&platforms=18,1,7
+
+response = requests.get("https://api.rawg.io/api/games?key=8583455b78234c0b940762d0141319c4&dates=2019-09-01,2019-09-30&platforms=18,1,7)")
