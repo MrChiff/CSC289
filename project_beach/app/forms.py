@@ -83,7 +83,8 @@ class EditAccount(FlaskForm):
     submit = SubmitField('Update Account')
     
     def validate_username(self, username):
-        if username.data == current_user.username:
-            user = User.query.filter_by(username = username.data).first()
-            if user:
-                raise ValidationError('This username does not exist. Please try again.')
+        user = User.query.filter_by(username = username.data).first()
+        if user:
+            print("this is a good test inside the terminal")
+            #raise ValidationError('This username already exists. Please select another one.')
+    
