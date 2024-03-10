@@ -17,7 +17,7 @@ This will include a navigation bar-->
         unless the specific page has a title name. Then it 
         will me hyphenated ex: Mathmaticus-about-->
         {% if title %}
-        <title> Video Game Library - {{title}} </title>
+        <title> VGLS - {{title}} </title>
         {% else %}
         <title> Video Game Library </title>
         {% endif %}
@@ -65,8 +65,11 @@ This will include a navigation bar-->
                 {% if current_user.is_authenticated %}
                 <a class="nav-item nav-link" href="/accountinfo">Account Information</a>
                 <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
-                <a class="nav-item nav-link" href="/admin">Admin Area</a>
-                <nav class="navbar">
+                <!-- This will remove the admin link if the user is not part of the admin group -->
+                {% if current_user.admin_user == 'Admin' %}
+                  <a class="nav-item nav-link" href="/admin">Admin Area</a>
+                {% endif %}
+                  <nav class="navbar">
                   <span class="navbar-brand mb-0 h1">{{current_user.username}}</span>
                 </nav>
                 {% else %}
@@ -79,6 +82,15 @@ This will include a navigation bar-->
         </div>
       </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories = True) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class='alert alert-{{ category }}'>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
     {% block base2 %} {% endblock base2 %}
     <p> <font color = white>&copy; VGLS is a subsidiary of L.L.A.M.A. Inc.</font></p>
   </body>
