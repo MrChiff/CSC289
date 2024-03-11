@@ -27,9 +27,16 @@ class User(db.Model, UserMixin):
     admin_user = db.Column(db.String(20), nullable = False, default = 'User')
     
     
-       
     def __repr__(self):
         return f"{self.username}"
 
 
 
+######################
+# Manufacturer model #
+######################
+
+# Here we are going to create the model for the students table in the database.
+class Manufacturer(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key = True)
+    manufacturer = db.Column(db.String(20), unique = True, nullable = False)

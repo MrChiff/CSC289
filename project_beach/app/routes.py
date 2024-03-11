@@ -203,6 +203,7 @@ def admin():
         return redirect(url_for('welcome'))
 
 
+
 ########################
 # Create Library Route #
 ########################
@@ -242,21 +243,34 @@ def sell():
 # Edit/Delete Account Info #
 ############################
 # This is to access the account information page after the user is logged in
-@app.route("/edit", methods = ['GET', 'POST'])
+#@app.route("/edit", methods = ['GET', 'POST'])
+#@login_required
+#def editinfo():
+#    form = EditAccount()
+#    if form.validate_on_submit():
+#        user = User.query.filter_by(username=form.username.data).first()
+#        if user:
+#            user = User(username=form.username.data, firstname=form.first_name.data, lastname=form.last_name.data, adminuser = form.admin_user)
+#            db.session.commit()
+#            return render_template('admin.html', title = "Admin Area")
+#        else:
+#            flash("Either username or password was typed in incorrectly. Please try agian.")
+#    return render_template('edit_account.html')
+    
+    
+
+############################
+# Edit/Delete Account Info #
+############################
+# This is to access the account information page after the user is logged in
+@app.route("/edit", methods=['GET', 'POST'])
 @login_required
-def editinfo():
+def edit():
     form = EditAccount()
     if form.validate_on_submit():
-        current_user.username = form.username.data
-        db.session.commit()
-        flash("Your account has been successfully updated", 'success')
-    elif request.method == 'GET':
-        # This will prepopulate the fields to change
-        form.username.data = current_user.username
-    return render_template('edit_account.html', title = 'Edit/Delete User Accounts', form = form)
-
-
-
+        flash(f'Good so far at this time {form.username.data}', 'success')
+        return redirect (url_for('admin'))
+    return render_template('edit.html', title = 'Edit/Delete User', form = form)
 
 
 

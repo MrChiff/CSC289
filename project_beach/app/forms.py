@@ -76,15 +76,12 @@ class Registration(FlaskForm):
 # Edit/Delete User Account #
 ############################
 
-# This is creating the form for student registration
+# This is creating the form for updating / deleting user accounts.
 class EditAccount(FlaskForm):
     # Username will be used as the label for the html.
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    admin_user = StringField('Admin or User', validators=[DataRequired()])
     submit = SubmitField('Update Account')
-    
-    def validate_username(self, username):
-        user = User.query.filter_by(username = username.data).first()
-        if user:
-            print("this is a good test inside the terminal")
-            #raise ValidationError('This username already exists. Please select another one.')
-    
+    remove = SubmitField('Delete Account')
