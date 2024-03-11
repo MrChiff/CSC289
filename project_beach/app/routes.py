@@ -11,7 +11,9 @@ from PIL import Image
 from werkzeug.exceptions import abort
 
 
-
+################################################
+# Save user profile pic with Random hex number #
+################################################
 # This will save the picture the user uploads with a random hex number
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -129,11 +131,6 @@ def change_password():
 
 
 
-
-
-
-
-
 #################################################################################
 ###  EVERYTHING BELOW HERE WILL BE PART OF THE NAVIGATION BAR AS WELL.        ###
 ###  DON'T FORGET TO CHANGE THE WELCOME SCREEN AND ADD THE NAVIGATION BAR.    ###
@@ -203,35 +200,9 @@ def admin():
         return redirect(url_for('welcome'))
 
 
-
 ########################
-# Create Library Route #
+# Create Comment Posts #
 ########################
-# This is to log the user out of the current session so another user can log in. 
-@app.route("/create")
-@login_required
-def create():
-    return render_template('create.html', title='Create Library')    
-
-
-########################
-# Update Library Route #
-########################
-# This is to log the user out of the current session so another user can log in. 
-@app.route("/update")
-@login_required
-def update():
-    return render_template('update.html', title='Update Library')
-
-
-######################
-# Sell Library Route #
-######################
-# This is to log the user out of the current session so another user can log in. 
-@app.route("/sell")
-@login_required
-def sell():
-    return render_template('sell.html', title='Sell Library')
 
 
 
@@ -239,25 +210,110 @@ def sell():
 
 
 
-############################
-# Edit/Delete Account Info #
-############################
-# This is to access the account information page after the user is logged in
-#@app.route("/edit", methods = ['GET', 'POST'])
-#@login_required
-#def editinfo():
-#    form = EditAccount()
-#    if form.validate_on_submit():
-#        user = User.query.filter_by(username=form.username.data).first()
-#        if user:
-#            user = User(username=form.username.data, firstname=form.first_name.data, lastname=form.last_name.data, adminuser = form.admin_user)
-#            db.session.commit()
-#            return render_template('admin.html', title = "Admin Area")
-#        else:
-#            flash("Either username or password was typed in incorrectly. Please try agian.")
-#    return render_template('edit_account.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ############################
 # Edit/Delete Account Info #
@@ -294,5 +350,35 @@ def Manufacturer():
 @login_required
 def game_systems():
     return render_template('game_systems.html', title='Game Systems')
+
+
+########################
+# Create Library Route #
+########################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/create")
+@login_required
+def create():
+    return render_template('create.html', title='Create Library')    
+
+
+########################
+# Update Library Route #
+########################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/update")
+@login_required
+def update():
+    return render_template('update.html', title='Update Library')
+
+
+######################
+# Sell Library Route #
+######################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/sell")
+@login_required
+def sell():
+    return render_template('sell.html', title='Sell Library')
 
 
