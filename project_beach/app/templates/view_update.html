@@ -1,0 +1,24 @@
+{% extends "base2.html" %}
+{% block base2 %}
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
+    }
+</style>
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='main.css') }}">
+<article class='media content-section'>
+    <img class="rounded-circle article-img" src="{{ url_for("static", filename='images/' + post.author.image_file) }}">
+    <div class='media-body'>
+        <div class='article-metadata'>
+            <a class="mr-2 text-white" href="#">{{ post.author.username }}</a>
+            <small class='text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <h2 class='article-title'>{{ post.title }}</h2>
+        <p class='article-content'>{{ post.content }}</p>
+    </div>
+</article>
+
+{% endblock base2 %}

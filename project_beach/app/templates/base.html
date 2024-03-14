@@ -13,6 +13,8 @@ There will not be a navbar on this page. Once logged in there will be a navbar--
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="static/css/style.css">
+  <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  
     <!--This is set as our default title for each tab
         unless the specific page has a title name. Then it 
         will me hyphenated ex: Mathmaticus-about-->
@@ -40,7 +42,7 @@ There will not be a navbar on this page. Once logged in there will be a navbar--
               <a class="nav-link" href="{{url_for('change_password')}}">Change Password</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Comments</a>
+              <a class="nav-link" href="{{url_for('review_user')}}">Reviews</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">

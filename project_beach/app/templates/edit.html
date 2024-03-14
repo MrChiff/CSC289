@@ -1,7 +1,15 @@
 {% extends "base2.html" %}
 {% block base2 %}
+<style>
+	body{
+		background-repeat:no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-image:url({{url_for('static', filename='images/edit-user.jpg')}})
+	}
+</style>
 <div class="content-section">
-    <body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			{{ form.hidden_tag() }}
 			<fieldset class = 'from-group'>

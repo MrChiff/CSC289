@@ -1,0 +1,18 @@
+1. Create a virtual environment by typing
+	python -m venv game_env
+
+2. Activate the virtual environment by typing
+	game_env\scripts\activate
+
+3. Update pip to the latest version by typing
+	python.exe -m pip install --upgrade pip
+
+4. Install the requirements text file by typing
+	pip install -r requirements.txt
+
+5. Uninstall the latest version of Werkzeug by typing
+	pip uninstall werkzeug      the press Y to uninstall
+
+6. Install Werkzeug version 2.3.7 by typing
+	pip install werkzeug==2.3.7
+
