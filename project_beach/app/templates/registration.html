@@ -1,14 +1,6 @@
 {% extends "base.html" %}
 {% block base %}
-<style>
-    body{
-        background-repeat:no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        background-image:url({{url_for('static', filename='images/register.jpg')}})
-    }
-</style>
-	<!--body class="img js-fullheight" style="background-image: url(static/images/register.jpg);"-->
+	<body class="img js-fullheight" style="background-image: url(static/images/register.jpg);">
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-start">
@@ -82,6 +74,6 @@
 			</div>
 		</div>
 	</section>
-	<!--/body-->
+	</body>
 </html>
 {% endblock base %}

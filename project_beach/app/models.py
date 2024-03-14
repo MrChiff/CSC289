@@ -36,7 +36,7 @@ class User(db.Model, UserMixin):
 ######################
 # User Reviews model #
 ######################
-class Reviews(db.Model, UserMixin):
+class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(100), nullable = False)
     date_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
@@ -45,4 +45,4 @@ class Reviews(db.Model, UserMixin):
 
     # This is how the object will be printed
     def __repr__(self):
-        return f"('{self.title}', '{self.date_posted}')"
+        return f"Post('{self.title}', '{self.date_posted}')"

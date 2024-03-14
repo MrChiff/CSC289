@@ -2,39 +2,29 @@
 {% block base2 %}
 <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='main.css') }}">
 <main role='main' class="container">
-    <style>
-        body{
-            background-repeat:no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
-        }
-    </style>
-    <!--body class="img js-fullheight" style="background-image: url(static/images/accountinfo.jpg);"-->
+    <body class="img js-fullheight" style="background-image: url(static/images/accountinfo.jpg);">
         <legend class="display-3 border-bottom lead text-center text-white mb-4">User Reviews</legend>
         <div class='row'>
             <div class='col-md-8'>
                 {% for post in posts %}
                     <article class='media content-section'>
-                        <img class="rounded-circle article-img" src="{{ url_for("static", filename='images/' + post.author.image_file) }}">
                         <div class='media-body'>
                             <div class='article-metadata'>
-                                <a class="mr-2 text-white" href="#">{{ post.author.username }}</a>
-                                <small class='text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                                <a class="mr-2 text-white" href="#">{{ post.author }}</a>
+                                <small class='text-muted'>{{ post.date_posted }}</small>
                             </div>
-                            <h2><a class='article-title' href="{{ url_for('view_update', review_id=post.id) }}">{{ post.title }}</a></h2>
-                            <!--p class='article-content'>{{ post.content }}</p-->
+                            <h2><a class='article-title' href="#">{{ post.title }}</a></h2>
+                            <p class='article-content'>{{ post.content }}</p>
                         </div>
                     </article>
                 {% endfor %}
             </div>
             <div class='col-md-4'>
                 <div class='content-section'>
-                    <h3>Customer Reviews</h3>
-                    <p>Create, Edit, or Delete Your Reviews here
+                    <h3>Our Sidebar</h3>
+                    <p>You can put any inormation yer you'd like
                         <ul>
-                            <li class="nav-item text-black">
-                                <a class="nav-link" href="{{url_for('new_post')}}">Create a Review</a></li>
+                            <li>Latest Posts</li>
                             <li>Announcements</li>
                             <li>Calendars</li>
                             <li>etc</li>
@@ -43,7 +33,7 @@
                 </div>
             </div>
         </div>
-    <!--/body-->
+    </body>
 </main>
 
 {% endblock base2 %}

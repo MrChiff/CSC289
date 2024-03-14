@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask import flash
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError
 from app.models import User, Reviews
 
@@ -77,10 +77,9 @@ class Registration(FlaskForm):
 # Reviews Form #
 ################
 # This is creating the form for user reviews
-class Review(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
+class Reviews(FlaskForm):
+    title = 'dd'
+    content = 'dd'
 
 
 

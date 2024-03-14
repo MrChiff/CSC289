@@ -1,13 +1,5 @@
 {% extends "base.html" %}
 {% block base %}
-<style>
-	body{
-		background-repeat:no-repeat;
-		background-attachment: fixed;
-		background-size: cover;
-		background-image:url({{url_for('static', filename='images/home.jpg')}})
-	}
-</style>
 <style type="text/css">
 	.OutlineText {
 		font-size: 32px;
@@ -24,7 +16,7 @@
 		0 -2px 0 #000000; /* Terminate with a semi-colon */
 	}
 	</style>
-	<!--body class="img js-fullheight" style="background-image: url(static/images/home.jpg);"-->
+	<body class="img js-fullheight" style="background-image: url(static/images/home.jpg);">
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -53,7 +45,7 @@
 	</section>
 
 
-	<!--/body-->
+	</body>
 </html>
 
 {% endblock base %}

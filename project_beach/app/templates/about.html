@@ -1,16 +1,8 @@
 <!--This is using template inheritance-->
 {% extends "base2.html" %}
 {% block base2 %}
-<style>
-    body{
-        background-repeat:no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        background-image:url({{url_for('static', filename='images/about.jpg')}})
-    }
-</style>
 <div class="content-section">
-    <!--body class="img js-fullheight" style="background-image: url(static/images/about.jpg);"-->
+    <body class="img js-fullheight" style="background-image: url(static/images/about.jpg);">
     <form method="POST" action="">
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Welcome to Video Game Library And Sales {{current_user.firstname}}.</legend>
@@ -67,7 +59,7 @@
             <br>
             <nav>
             </nav>
-        <!--/body-->
+        </body>
         </div>
     </form>
 
