@@ -1,8 +1,16 @@
 <!--This is using template inheritence-->
 {% extends "base2.html" %}
 {% block base2 %}
+<style>
+	body{
+		background-repeat:no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-image:url({{url_for('static', filename='images/admin.jpg')}})
+	}
+</style>
     <div class="content-section">
-        <body class="img js-fullheight" style="background-image: url(static/images/admin.jpg);">
+        <!--body class="img js-fullheight" style="background-image: url(static/images/admin.jpg);"-->
             <legend class="display-3 border-bottom lead text-center text-white mb-4">Admin Area</legend>
 
 			<div class="row my-1 align-items-center justify-content-center">
@@ -43,7 +51,7 @@
 					</div>
 				</div>
 			</div>
-		</body>
+		<!--/body-->
 	</div>
 
 

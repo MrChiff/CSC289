@@ -1,8 +1,8 @@
 # Importing flask
 import os
-from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, EditAccount
-from app.models import User
+from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, EditAccount, Review
+from app.models import User, Reviews
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
@@ -186,37 +186,100 @@ def admin():
         return redirect(url_for('welcome'))
 
 
-#######################
-# Reviews Admin Posts #
-#######################
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2023' 
-    },
-    {
-        'author': 'Brenda Beach',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2023' 
-    }
-]
 
-
-@app.route("/review_admin")
+####################################
+# Show Reviews on Admin Side Route #
+####################################
+@app.route("/view_admin")
 @login_required
-def review_admin():
-    return render_template('review_admin.html', title = "Reviews", posts = posts)
+def view_admin():
+    posts = Reviews.query.all()
+    return render_template('view_admin.html', title = "Reviews", posts=posts)
 
 
-######################
-# Reviews User Posts #
-######################
-@app.route("/review_user")
-def review_user():
-    return render_template('review_user.html', title = "Reviews")
+###################################
+# Show Reviews on User Side Route #
+###################################
+@app.route("/view_user")
+def view_user():
+    posts = Reviews.query.all()
+    return render_template('view_user.html', title = "Reviews", posts=posts)
+
+
+
+#############################
+# Create a new Review Route #
+#############################
+@app.route("/review/new", methods = ['GET', 'POST'])
+@login_required
+def new_review():
+    form = Review()
+    if form.validate_on_submit():
+        post = Reviews(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!!!', 'success')
+        return redirect(url_for('view_admin'))
+    return render_template('create_review.html', title='Submit Review', form = form, legend = 'New Review')
+
+
+
+####################################################
+# View the extended Review on Logged in side Route #
+####################################################
+@app.route("/review/<int:review_id>")
+@login_required
+def view_admin_detail(review_id):
+    post = Reviews.query.get_or_404(review_id)
+    return render_template('view_update.html', title=post.title, post=post)
+
+
+######################################################
+# View the extended Review on Unlogged in side Route #
+######################################################
+@app.route("/user_review/<int:review_id>")
+def view_user_detail(review_id):
+    post = Reviews.query.get_or_404(review_id)
+    return render_template('view_update_user.html', title=post.title, post=post)
+
+
+
+#########################
+# Update a Review Route #
+#########################
+@app.route("/review/<int:review_id>/update", methods = ['GET', 'POST'])
+@login_required
+def view_update(review_id):
+    post = Reviews.query.get_or_404(review_id)
+    if post.author != current_user:
+        abort(403)
+    form = Review()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash("Your post has been updated", 'success')
+        return redirect(url_for("view_admin", post_id=post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_review.html', title='Submit Review', form = form, legend='Update Review')
+
+
+#########################
+# Delete a Review Route #
+#########################
+@app.route("/review/delete/<int:review_id>")
+@login_required
+def delete_review(review_id):
+    post = Reviews.query.get_or_404(review_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Your post has been deleted", 'success')
+    return redirect(url_for('view_admin'))
+
+        
+
 
 
 
@@ -372,7 +435,7 @@ def game_systems():
 @app.route("/create")
 @login_required
 def create():
-    return render_template('create.html', title='Create Library')    
+    return render_template('create_library.html', title='Create Library')    
 
 
 ########################
@@ -382,7 +445,7 @@ def create():
 @app.route("/update")
 @login_required
 def update():
-    return render_template('update.html', title='Update Library')
+    return render_template('update_library.html', title='Update Library')
 
 
 ######################
@@ -392,6 +455,6 @@ def update():
 @app.route("/sell")
 @login_required
 def sell():
-    return render_template('sell.html', title='Sell Library')
+    return render_template('sell_library.html', title='Sell Library')
 
 

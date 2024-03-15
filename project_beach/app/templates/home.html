@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 {% block base %}
+<style>
+	body{
+		background-repeat:no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-image:url({{url_for('static', filename='images/home.jpg')}})
+	}
+</style>
 <style type="text/css">
 	.OutlineText {
 		font-size: 32px;
@@ -16,18 +24,18 @@
 		0 -2px 0 #000000; /* Terminate with a semi-colon */
 	}
 	</style>
-	<body class="img js-fullheight" style="background-image: url(static/images/home.jpg);">
+	<!--body class="img js-fullheight" style="background-image: url(static/images/home.jpg);"-->
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
 					<img src="static/images/vgls_logo.png" alt="Website Logo">
-					<h2 class="heading-section">Video Game Library & Sales</h2>
+					<h2 class="OutlineText heading-section2">Video Game Library & Sales</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-9 col-lg-4">
-					<div class="login-wrap p-0">
+					<div class="login-wrap2 p-0">
 		      	<h3 class="OutlineText text-center">Create Your own video game library, browse, or sell your collection here.
 				</h3>
 				<div class="form-group">
@@ -45,7 +53,7 @@
 	</section>
 
 
-	</body>
+	<!--/body-->
 </html>
 
 {% endblock base %}

@@ -1,24 +1,36 @@
 {% extends "base2.html" %}
 {% block base2 %}
-<style>
-    body{
-        background-repeat:no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
-    }
-</style>
 <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='main.css') }}">
-<article class='media content-section'>
-    <img class="rounded-circle article-img" src="{{ url_for("static", filename='images/' + post.author.image_file) }}">
-    <div class='media-body'>
-        <div class='article-metadata'>
-            <a class="mr-2 text-white" href="#">{{ post.author.username }}</a>
-            <small class='text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-        </div>
-        <h2 class='article-title'>{{ post.title }}</h2>
-        <p class='article-content'>{{ post.content }}</p>
+<main role='main' class="container">
+    <style>
+        body{
+            background-repeat:no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
+        }
+    </style>
+    <div class='content-section col-8'>
+        <article class='media content-section'>
+            <img class="rounded-circle article-img" src="{{ url_for("static", filename='images/' + post.author.image_file) }}">
+            <div class='media-body'>
+                <div class='article-metadata'>
+                    <a class="mr-2 text-white" href="#">{{ post.author.username }}</a>
+                    <small class='text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                    <!-- This is only going to show a link that will allow the author of the review to delete it -->
+                    {% if post.author == current_user %}
+                    <div><a class="btn btn-secondary btn-sm m-1" href="{{ url_for('view_update', review_id=post.id) }}">Update</a>
+                        <!-- This button has a modal that will work to delete the post the user wants to delete. -->
+                        <!-- The modal will usually show a pop up to verify you want to perform that action -->
+                        <a class="btn btn-danger btn-sm m-1" href="{{ url_for('delete_review', review_id=post.id) }}">Delete</a>
+                        <!--button type='button' class='btn btn-danger btn-sm m-1'>Delete</button-->
+                    </div>
+                    {% endif %}
+                </div>
+                <h2 class='article-title'>{{ post.title }}</h2>
+                <p class='article-content'>{{ post.content }}</p>
+            </div>
+        </article>
     </div>
-</article>
-
+</main>
 {% endblock base2 %}

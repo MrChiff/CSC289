@@ -1,0 +1,3 @@
+[console_scripts]
+virtualenv-tools = virtualenv_tools:main
+
