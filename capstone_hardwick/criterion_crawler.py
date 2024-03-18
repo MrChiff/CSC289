@@ -19,7 +19,7 @@
 #
 # look into rawgpy
 #
-# to run:  python -m uvicorn filename(no .py):app --reload
+# to run uvicorn:  python -m uvicorn filename(no .py):app --reload
 # output reqs:  pip freeze > reqs.txt
 #      or       python -m pipreqs.pipreqs ./ --encoding=utf-8
 # (./ is for current directory)
@@ -91,7 +91,7 @@ print(website_json["online"])
 if website_json["online"] == True:
     print("Nexarda is online")
 else:
-    print("Nexarda is unreachable.")
+    print("Nexarda is unreachable. Exiting Program.")
     sys.exit()
 
 search = requests.get(search_url + "games" + "&" + query + searchable_name)
