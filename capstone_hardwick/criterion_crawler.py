@@ -10,6 +10,8 @@
 import requests
 import json
 import re
+import sys
+
 
 # API page example (not useful/too much info)
 # GET https://api.rawg.io/api/platforms?key=YOUR_API_KEY
@@ -44,9 +46,6 @@ print("Console:  ", response_json["results"][0]["platforms"][0]["platform"]["nam
 # # To Do:  Figure out how to download an updated CSV either everyday or every time the program is started.
 # csv_url = "https://www.pricecharting.com/api-documentation#download"
 
-# pricing = requests.get(csv_url)
-# print(pricing)
-
 # Other possible APIs
 # CheapShark API => digital pc games only.  (apidocs.cheapshark.com)
 # IGDB => may be better than RAWG but uses Oauth2 through twitch for validation (api-docs.igdb.com)
@@ -68,9 +67,13 @@ query = "q="
 searchable_name = "Crysis+2"
 
 website_status = requests.get(status_url)
-status_json = website_status.json
-# print("Status:  ", website_status.headers)
-
+website_json = json.loads(website_status.content.decode('utf-8'))
+print(website_json["online"])
+if website_json["online"] == True:
+    print("Nexarda is online")
+else:
+    print("Nexarda is unreachable.")
+    sys.exit()
 
 search = requests.get(search_url + "games" + "&" + query + searchable_name)
 search_json = json.loads(search.content.decode('utf-8'))
@@ -78,6 +81,7 @@ names = []
 low_price = []
 year = []
 price_dict = {}
+print("\nGame:  ", searchable_name)
 print("Search URL:  ", search.url)
 # print("Search:  ", search.content)
 print("Success?  ", search_json["success"])
