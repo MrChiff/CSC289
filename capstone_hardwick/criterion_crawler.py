@@ -1,8 +1,22 @@
-# price fetcher for CSC289 VGLS
-# criterion crawler
-# data detective
-# super searcher
+# criterion crawler for CSC289 VGLS
 # 
+# Convert this into a class that will save all of the details to the database.
+# Need to create decision structure for the cases:
+#   - just a game
+#   - just a console
+#   - just an accessory
+#   - a combination of all of these
+# Do I look up a multiplatform game for each console individually or look them all up at once 
+# and save all types to the database?
+#
+# Need a file that extracts the items from the database for this class to look up and save 
+# to the database. (will be used at start to populate the database with the details)
+#
+# Will I need a separate class for each of the categories (games, consoles, accessories).
+# 
+# Need to figure out how to use a class without all passing all the values to the class 
+# (default values?)
+#
 # to run:  python -m uvicorn filename(no .py):app --reload
 #       
 # https://rawgthedocs.orels.sh/api/#api-clients
@@ -80,7 +94,7 @@ search_json = json.loads(search.content.decode('utf-8'))
 names = []
 low_price = []
 year = []
-price_dict = {}
+game_dict = {}
 print("\nGame:  ", searchable_name)
 print("Search URL:  ", search.url)
 # print("Search:  ", search.content)
@@ -94,15 +108,12 @@ for i in range(results_total):
     names.append(search_json["results"]["items"][i]["title"][:-7])
     year.append(search_json["results"]["items"][i]["title"][-5:-1])
     low_price.append((re.findall(r"[$,\d]+[.,\d]+[.,\d]+[.,\d]", search_json["results"]["items"][i]["text"]))[0])
-    price_dict[names[i]] = [year[i], low_price[i]]
+    game_dict[names[i]] = [year[i], low_price[i]]
     print("\nitem:  ", i)
     print("Result " + str(i+1) + ":  " + names[i])
     print("Price:  ", search_json["results"]["items"][i]["text"])
     print("Lowest Price:  ", low_price[i])
-print(price_dict)
+print(game_dict)
 
-# retailers = requests.get("https://www.nexarda.com/api/v3/retailers")
-# print("Retailers:  ", retailers.content)
 
-# print(requests.get("https://www.nexarda.com/api/v3/prices?type=game&id=2781&currency=GBP").content)
 
