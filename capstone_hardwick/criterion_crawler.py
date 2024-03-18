@@ -17,8 +17,13 @@
 # Need to figure out how to use a class without all passing all the values to the class 
 # (default values?)
 #
+# look into rawgpy
+#
 # to run:  python -m uvicorn filename(no .py):app --reload
-#       
+# output reqs:  pip freeze > reqs.txt
+#      or       python -m pipreqs.pipreqs ./ --encoding=utf-8
+# (./ is for current directory)
+#      
 # https://rawgthedocs.orels.sh/api/#api-clients
 
 import requests
