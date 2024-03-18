@@ -23,6 +23,8 @@
 # output reqs:  pip freeze > reqs.txt
 #      or       python -m pipreqs.pipreqs ./ --encoding=utf-8
 # (./ is for current directory)
+#
+# Add these tasks to kanban
 #      
 # https://rawgthedocs.orels.sh/api/#api-clients
 
