@@ -27,6 +27,14 @@
 # Add these tasks to kanban
 #      
 # https://rawgthedocs.orels.sh/api/#api-clients
+#
+# use firefox to display json
+# pretty print => json.dumps(json_data, indent=4) => rawg
+# determine what columns want for games
+# use cases for rawg.io
+# asyncio lib function
+# look into rawg on github: pip install rawg
+# explain where data comes from (final pres)
 
 import requests
 import json
@@ -56,6 +64,7 @@ print(url_name)
 # response = requests.get(base_url + games_search + game_name + rawg_api_key)
 response = requests.get(url_name)
 response_json = response.json()
+print(response_json)
 print("Name:  ", response_json["results"][0]["name"])
 print("Duration:  ", response_json["results"][0]["playtime"])
 print("Console:  ", response_json["results"][0]["platforms"][0]["platform"]["name"])
