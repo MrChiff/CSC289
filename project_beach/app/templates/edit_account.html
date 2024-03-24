@@ -1,43 +1,77 @@
+<!--This is using template inheritence-->
 {% extends "base2.html" %}
 {% block base2 %}
-<body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);">
-	<section id="intro">
-		<legend class="display-3 border-bottom lead text-center text-white mb-4">Edit / Delete Accounts</legend>
-		<div class='row g-4 justify-content-center align-items-center'>
-			<div class="col-md-5 text-center text-md-start">
-				<h3 class="text-white">Enter username you want to edit or delete</h3>
-			</div>
-		</div>
-		<div class='row justify-content-center'>
-			<div class="col-md-3 text-center mb-5">
-				<h3>Username</h3>
-			</div>
-			<div class="col-md-3 text-center mb-5">
-				<div class="form-group text-white">
-					<form method = "POST", action="">
-        	            {{ form.hidden_tag() }}
-		    	  		<div class="form-group">
-                	        {% if form.username.errors %}
-                    	    {{ form.username(class="form-control form-control-lg is-invalid") }}
-                        	<div class="invalid-feedback">
-                            	{% for error in form.username.errors %}
-                            	<span>{{ error }}</span>
-                            	{% endfor %}
-                        	</div>
-                        	{% else %}
-                        	{{ form.username(class="form-control form-control-lg") }}
-                        	{% endif %}
-		      			</div>
-					</form>
-				</div>
-			</div>
-			<div class="col-md-6 text-center mb-5">
-				<h3>test line<h3>
-			</div>
-		</div>
-	</section>
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
+    }
+</style>
+        <div class="content-section2">
+            <!--body class="img js-fullheight" style="background-image: url(static/images/accountinfo.jpg);"-->
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="display-3 border-bottom lead text-center mb-4">Account Information</legend>
+                    <div class="media">
+                        
+                        <div class="form-group">
+                            {{ form.username.label(class="form-control3-label") }}    
+                            {% if form.username.errors %}
+                            {{ form.username(class="form-control3 form-control3-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.username(class="form-control3 form-control3-lg") }}
+                            {% endif %}
+                            <br>
+                            {{ form.first_name.label(class="form-control3-label") }}
+                            {% if form.first_name.errors %}
+                            {{ form.first_name(class="form-control3 form-control3-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.first_name.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.first_name(class="form-control3 form-control3-lg") }}
+                            {% endif %}
+                            <br>
+                            {{ form.last_name.label(class="form-control3-label") }}
+                            {% if form.last_name.errors %}
+                            {{ form.last_name(class="form-control3 form-control3-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                            {% for error in form.last_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.last_name(class="form-control3 form-control3-lg") }}
+                            {% endif %}
+                            <br>
+                            {{ form.admin_user.label(class="form-control3-label") }}
+                            {% if form.admin_user.errors %}
+                            {{ form.admin_user(class="form-control3 form-control3-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                            {% for error in form.admin_user.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.admin_user(class="form-control3 form-control3-lg") }}
+                            {% endif %}
+                            <br>
 
-
-</body>
-</html>
-{% endblock %}
+                            {{ form.submit(class="btn btn-outline-info") }}
+                            <a class='btn btn-outline-info m-1' href="{{url_for('view_accounts')}}">Cancel</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+{% endblock base2 %}

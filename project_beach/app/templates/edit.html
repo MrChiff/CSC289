@@ -8,72 +8,30 @@
 		background-image:url({{url_for('static', filename='images/edit-user.jpg')}})
 	}
 </style>
-<div class="content-section">
+<div class="content-section2">
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
-			{{ form.hidden_tag() }}
 			<fieldset class = 'from-group'>
 				<legend class="display-3 border-bottom lead text-center text-white mb-4">Edit / Delete Account</legend>
-				<div class='media-body col-5'>
-					<div class='form-group text-white'>
-						{{ form.username.label(class="form-control-label") }}
-						{% if form.username.errors %}
-						{{ form.username(class="form-control form-control-lg is-invalid") }}
-						<div class='invalid-feedback'>
-							{% for errors in form.username.errors %}
-								<span>{{ error }} </span>
-							{% endfor %}
-						</div>
-						{% else %}
-						{{ form.username(class="form-control form-control-lg") }}
-						{% endif %}
+				<div class="row justify-content-center">
+					<div class='media-body col-5'>
+						<h2>Please select a username to be able to edit or delete the user</h2>
+						{% for account in accounts %}
+							<article class='media content-section'>
+								<div class='media-body'>
+									<div class='article-metadata'>
+										<a class="mr-2">{{account.username}}</a>
+										<a class="ml-5 mr-2" href="{{ url_for('delete_account', user_id=account.id) }}">Delete</a>
+										<a class="ml-5 mr-2" href="{{ url_for('account_update', user_id=account.id) }}">Update Admin/User</a>
+									</div>
+								</div>
+							</article>
+						{% endfor %}
 					</div>
-					<div class='form-group text-white'>
-						{{ form.first_name.label(class="form-control-label") }}
-						{% if form.first_name.errors %}
-						{{ form.first_name(class="form-control form-control-lg is-invalid") }}
-						<div class='invalid-feedback'>
-							{% for errors in form.first_name.errors %}
-								<span>{{ error }} </span>
-							{% endfor %}
-						</div>
-						{% else %}
-						{{ form.first_name(class="form-control form-control-lg") }}
-						{% endif %}
 					</div>
-					<div class='form-group text-white'>
-						{{ form.last_name.label(class="form-control-label") }}
-						{% if form.last_name.errors %}
-						{{ form.last_name(class="form-control form-control-lg is-invalid") }}
-						<div class='invalid-feedback'>
-							{% for errors in form.last_name.errors %}
-								<span>{{ error }} </span>
-							{% endfor %}
-						</div>
-						{% else %}
-						{{ form.last_name(class="form-control form-control-lg") }}
-						{% endif %}
-					</div>
-					<div class='form-group text-white'>
-						{{ form.admin_user.label(class="form-control-label") }}
-						{% if form.admin_user.errors %}
-						{{ form.admin_user(class="form-control form-control-lg is-invalid") }}
-						<div class='invalid-feedback'>
-							{% for errors in form.admin_user.errors %}
-								<span>{{ error }} </span>
-							{% endfor %}
-						</div>
-						{% else %}
-						{{ form.admin_user(class="form-control form-control-lg") }}
-						{% endif %}
-					</div>
-				</fieldset>
-				<div class='form-group'>
-					{{ form.submit(class = 'btn btn-outline-info') }}
-					{{ form.remove(class = 'btn btn-outline-warning') }}
 				</div>
-			</div>
-		</form>
-	</body>
+			</fieldset>
+		</div>
+	</form>
 </div>
 {% endblock base2 %}

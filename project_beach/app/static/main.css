@@ -33,6 +33,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 20px;
 }
 
+.content-section2 {
+  background: #ffffff00;
+  padding: 10px 20px;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
 
 .article-title {
   color: #000000;

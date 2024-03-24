@@ -1,7 +1,7 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, EditAccount, Review
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount
 from app.models import User, Reviews
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -281,128 +281,182 @@ def delete_review(review_id):
         
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-############################
-# Edit/Delete Account Info #
-############################
+####################################
+# Show usernames of accounts route #
+####################################
 # This is to access the account information page after the user is logged in
-@app.route("/edit", methods=['GET', 'POST'])
+@app.route("/view_accounts")
 @login_required
-def edit():
+def view_accounts():
+    accounts = User.query.all()
+    return render_template('edit.html', title = 'Edit/Delete User',  accounts= accounts)
+
+
+
+########################################################
+# View the full account information for username Route #
+########################################################
+@app.route("/view_accounts/<int:user_id>")
+@login_required
+def edit_delete_user(user_id):
+    form = EditAccount()
+    accounts = User.query.get_or_404(user_id)
+    form.username.data = accounts.username
+    form.first_name.data = accounts.firstname
+    form.last_name.data = accounts.lastname
+    form.admin_user.data = accounts.admin_user
+    return render_template('edit_account.html', title = accounts.username, form=form)
+    
+
+
+
+###############################
+# Delete a User Account Route #
+###############################
+@app.route("/view_accounts/delete/<int:user_id>")
+@login_required
+def delete_account(user_id):        
+    users_to_delete = User.query.get_or_404(user_id)
+    if users_to_delete == current_user:
+        abort(403)
+    try:
+        db.session.delete(users_to_delete)
+        db.session.commit()
+        flash("The user account has been deleted", 'success')
+        return redirect(url_for('view_accounts'))
+    except:
+        flash("something went wrong deleting the user")
+        return render_template('edit.html')
+
+
+
+
+
+###############################
+# Update a user account Route #
+###############################
+@app.route("/view_accounts/<int:user_id>/update", methods = ['GET', 'POST'])
+@login_required
+def account_update(user_id):
+    users = User.query.get_or_404(user_id)
     form = EditAccount()
     if form.validate_on_submit():
-        flash(f'Good so far at this time {form.username.data}', 'success')
-        return redirect (url_for('admin'))
-    return render_template('edit.html', title = 'Edit/Delete User', form = form)
+        users.username = form.username.data
+        users.firstname = form.first_name.data
+        users.lastname = form.last_name.data
+        users.admin_user = form.admin_user.data
+        db.session.commit()
+        flash("Your account has been successfully updated", 'success')
+    elif request.method == 'GET':
+        # This will prepopulate the fields to change
+        form.username.data = users.username
+        form.first_name.data = users.firstname
+        form.last_name.data = users.lastname
+        form.admin_user.data = users.admin_user
+    return render_template('edit_account.html', title = 'Account Info', form = form)
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

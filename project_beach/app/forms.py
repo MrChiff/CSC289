@@ -83,44 +83,21 @@ class Review(FlaskForm):
     submit = SubmitField('Submit Review')
 
 
+#####################
+# User Profile Form #
+#####################
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-############################
-# Edit/Delete User Account #
-############################
-
-# This is creating the form for updating / deleting user accounts.
+# This is creating the form for student registration
 class EditAccount(FlaskForm):
     # Username will be used as the label for the html.
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    admin_user = StringField('Admin or User', validators=[DataRequired()])
+    first_name = StringField('FirstName', validators=[DataRequired()])
+    last_name = StringField('LastName', validators=[DataRequired()])
+    picture = FileField("Update Profile Picture. Only JPG and PNG file extensions allowed.", validators=[FileAllowed(['jpg','png'])])
+    admin_user = StringField('Admin/User', validators=[DataRequired()])
     submit = SubmitField('Update Account')
-    remove = SubmitField('Delete Account')
+    
+    
+
+
+
