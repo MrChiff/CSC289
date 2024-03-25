@@ -1,8 +1,8 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount
-from app.models import User, Reviews
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers
+from app.models import User, Reviews, Manufacturer
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
@@ -330,8 +330,6 @@ def delete_account(user_id):
 
 
 
-
-
 ###############################
 # Update a user account Route #
 ###############################
@@ -357,119 +355,161 @@ def account_update(user_id):
 
 
 
-
-
-
-
-
-
-
-
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######################
-# Manufacturer Route #
-######################
+################################
+# View all Manufacturers Route #
+################################
 # This is to log the user out of the current session so another user can log in. 
-@app.route("/manufacturer")
+@app.route("/view_manufacturer")
 @login_required
-def Manufacturer():
-    return render_template('manufacturer.html', title='Manufacturer')
+def view_manufacturer():
+    accounts=Manufacturer.query.all()
+    return render_template('manufacturer.html', title='Manufacturer', accounts=accounts)
+
+
+#############################
+# Create Manufacturer Route #
+#############################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/create_manufacturer", methods = ['GET', 'POST'])
+@login_required
+def create_manufacturer():
+    form = Manufacturers()
+    if form.validate_on_submit():
+        post = Manufacturer(manufacturer=form.manufacturer.data)
+        db.session.add(post)
+        db.session.commit()
+        flash("The manufacturer has been added successfully.")
+        return redirect(url_for('view_manufacturer'))
+    return render_template('create_manufacturer.html', title='Manufacturer', form=form)
+
+
+
+###############################
+# Delete a Manufacturer Route #
+###############################
+@app.route("/manufacturer/delete/<int:user_id>")
+@login_required
+def delete_manufacturer(user_id):        
+    post = Manufacturer.query.get_or_404(user_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Your post has been deleted", 'success')
+    return redirect(url_for('view_manufacturer'))
+
+
+
+#######################################
+# Update a manufacturer account Route #
+#######################################
+@app.route("/manufacturer/<int:user_id>/update", methods = ['GET', 'POST'])
+@login_required
+def manufacturer_update(user_id):
+    users = Manufacturer.query.get_or_404(user_id)
+    form = UpdateManufacturers()
+    if form.validate_on_submit():
+        users.manufacturer = form.manufacturer.data
+        db.session.commit()
+        flash("The manufacturer has been successfully updated", 'success')
+    elif request.method == 'GET':
+        # This will prepopulate the fields to change
+        form.manufacturer.data = users.manufacturer
+    return render_template('edit_manufacturer.html', title = 'Manufacturer Info', form = form)
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ######################

@@ -1,0 +1,42 @@
+{% extends "base2.html" %}
+{% block base2 %}
+
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/create.webp')}})
+    }
+</style>
+<div class="content-section2">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
+	 	<form method ="POST" action = ''>
+			<fieldset class = 'from-group'>
+				<legend class="display-3 border-bottom lead text-center text-white mb-4">Add Manufacturer</legend>
+                <div class="row justify-content-center">
+					<div class='media-body col-5'>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group text-white">
+                            {{ form.manufacturer.label(class="form-control2-label") }}
+                            {% if form.manufacturer.errors %}
+                                {{ form.manufacturer(class="form-control2 form-control2-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.manufacturer.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.manufacturer(class="form-control2 form-control2-lg") }}
+                            {% endif %}
+                        </div>
+                        {{ form.submit(class="btn btn-outline-info") }}
+                        <a class='btn btn-outline-info m-1' href="{{url_for('view_manufacturer')}}">Cancel</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+</div>
+
+
+{% endblock base2 %}

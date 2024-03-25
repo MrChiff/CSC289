@@ -4,7 +4,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError
-from app.models import User, Reviews
+from app.models import User, Reviews, Manufacturer
 
 
 ##############
@@ -98,6 +98,29 @@ class EditAccount(FlaskForm):
     submit = SubmitField('Update Account')
     
     
+############################
+# Create Manufacturer Form #
+############################
+
+# This is creating the form for user registration
+class Manufacturers(FlaskForm):
+    # Username will be used as the label for the html.
+    manufacturer = StringField('Manufacturer', validators=[DataRequired()])
+    submit = SubmitField('Create Manufacturer')
+    
+    def validate_manufacturer(self, manufacturer):
+        company_name = Manufacturer.query.filter_by(manufacturer = manufacturer.data).first()
+        if company_name:
+            flash("This manufacturer already exists. Please try again")
+            raise ValidationError('This manufacturer already exists. Please select another one.')
 
 
+############################
+# Update Manufacturer Form #
+############################
 
+# This is creating the form for user registration
+class UpdateManufacturers(FlaskForm):
+    # Username will be used as the label for the html.
+    manufacturer = StringField('Manufacturer', validators=[DataRequired()])
+    submit = SubmitField('Create Manufacturer')
