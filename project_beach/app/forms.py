@@ -123,4 +123,4 @@ class Manufacturers(FlaskForm):
 class UpdateManufacturers(FlaskForm):
     # Username will be used as the label for the html.
     manufacturer = StringField('Manufacturer', validators=[DataRequired()])
-    submit = SubmitField('Create Manufacturer')
+    submit = SubmitField('Update Manufacturer')
