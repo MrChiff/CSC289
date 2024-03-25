@@ -35,6 +35,10 @@
 # asyncio lib function
 # look into rawg on github: pip install rawg
 # explain where data comes from (final pres)
+# look at forms.py and routes.py (post=Console(....)), Console=name of db
+#   forms.py => Create Manufacturer Form, Update Manufacturer Form
+#   routes.py => View all Manufacturers Route, Create Manufacturer Route, 
+#                Delete a Manufacturer Route, Update a manufacturer account Route
 
 import requests
 import json
@@ -80,7 +84,7 @@ print("Console:  ", response_json["results"][0]["platforms"][0]["platform"]["nam
 # CheapShark API => digital pc games only.  (apidocs.cheapshark.com)
 # IGDB => may be better than RAWG but uses Oauth2 through twitch for validation (api-docs.igdb.com)
 #      => searchable fields: age rating
-
+# look at models
 
 
 # NEXARDA => github.com/NEXARDA/NEXARDA
