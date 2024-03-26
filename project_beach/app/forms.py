@@ -4,8 +4,8 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError
-from app.models import User, Reviews, Manufacturer
-
+from app.models import User, Reviews, Manufacturer, Consoles
+from wtforms_sqlalchemy.fields import QuerySelectField
 
 ##############
 # Login Form #
@@ -105,11 +105,11 @@ class EditAccount(FlaskForm):
 # This is creating the form for user registration
 class Manufacturers(FlaskForm):
     # Username will be used as the label for the html.
-    manufacturer = StringField('Manufacturer', validators=[DataRequired()])
+    manufacturer_name = StringField('Manufacturer', validators=[DataRequired()])
     submit = SubmitField('Create Manufacturer')
     
-    def validate_manufacturer(self, manufacturer):
-        company_name = Manufacturer.query.filter_by(manufacturer = manufacturer.data).first()
+    def validate_manufacturer(self, manufacturer_name):
+        company_name = Manufacturer.query.filter_by(manufacturer_name = manufacturer_name.data).first()
         if company_name:
             flash("This manufacturer already exists. Please try again")
             raise ValidationError('This manufacturer already exists. Please select another one.')
@@ -122,5 +122,41 @@ class Manufacturers(FlaskForm):
 # This is creating the form for user registration
 class UpdateManufacturers(FlaskForm):
     # Username will be used as the label for the html.
-    manufacturer = StringField('Manufacturer', validators=[DataRequired()])
+    manufacturer_name = StringField('Manufacturer', validators=[DataRequired()])
     submit = SubmitField('Update Manufacturer')
+
+
+################################################
+# Query the manufacturer Table for QuerySelect #
+################################################
+# This will query the manufacturer table to populate the QuerySelect
+def manufacturer_query():
+    return Manufacturer.query
+
+
+#################################################
+# Query the Game Consoles Table for QuerySelect #
+#################################################
+# This will query the manufacturer table to populate the QuerySelect
+def console_query():
+    return Consoles.query
+
+
+
+############################
+# Create Game Console Form #
+############################
+
+# This is creating the form for user registration
+class GameConsole(FlaskForm):
+    # Username will be used as the label for the html.
+    console = StringField('Game Console', validators=[DataRequired()])
+    console_manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=True)
+    submit = SubmitField('Create Game Console')
+    
+    def validate_console(self, console):
+        system = Consoles.query.filter_by(console = console.data).first()
+        if system:
+            flash("This console already exists. Please try again")
+            raise ValidationError('This console already exists. Please select another one.')
+

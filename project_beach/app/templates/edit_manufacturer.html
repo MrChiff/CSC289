@@ -18,16 +18,16 @@
 					<div class='media-body col-5'>
                         {{ form.hidden_tag() }}
                         <div class="form-group text-white">
-                            {{ form.manufacturer.label(class="form-control2-label") }}
-                            {% if form.manufacturer.errors %}
-                                {{ form.manufacturer(class="form-control2 form-control2-lg is-invalid") }}
+                            {{ form.manufacturer_name.label(class="form-control2-label") }}
+                            {% if form.manufacturer_name.errors %}
+                                {{ form.manufacturer_name(class="form-control2 form-control2-lg is-invalid") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.manufacturer.errors %}
+                                    {% for error in form.manufacturer_name.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.manufacturer(class="form-control2 form-control2-lg") }}
+                                {{ form.manufacturer_name(class="form-control2 form-control2-lg") }}
                             {% endif %}
                         </div>
                         {{ form.submit(class="btn btn-outline-info") }}

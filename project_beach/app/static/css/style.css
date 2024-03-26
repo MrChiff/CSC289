@@ -8295,6 +8295,7 @@ body {
     opacity: .3;
     z-index: -1; }
     
+    
 
 a {
   -webkit-transition: .3s all ease;
@@ -8647,3 +8648,8 @@ textarea.form-control {
         border: 1px solid transparent;
         background: #fbceb5;
         color: #fff; }
+
+
+.my-text {
+  color: black;
+}

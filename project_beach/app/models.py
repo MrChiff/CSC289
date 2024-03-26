@@ -55,8 +55,21 @@ class Reviews(db.Model, UserMixin):
 # Here we are going to create the model for the students table in the database.
 class Manufacturer(db.Model, UserMixin):
     manufacturer_id = db.Column(db.Integer, primary_key = True)
-    manufacturer = db.Column(db.String(100), unique = True, nullable = False)
+    manufacturer_name = db.Column(db.String(100), unique = True, nullable = False)
+    #console = db.relationship('Consoles', backref='manufactuer', lazy=True)
+    # This is how the object will be printed
+    def __repr__(self):
+        return f"{self.manufacturer_name}"
+    
+
+#######################
+# Game Consoles model #
+#######################
+class Consoles(db.Model, UserMixin):
+    system_id = db.Column(db.Integer, primary_key = True)
+    console = db.Column(db.String(100), nullable = False)
+    manufacturer = db.Column(db.Integer, db.ForeignKey('manufacturer.manufacturer_id'), nullable = False)
 
     # This is how the object will be printed
     def __repr__(self):
-        return f"{self.manufacturer}"
+        return f"('{self.console}')"

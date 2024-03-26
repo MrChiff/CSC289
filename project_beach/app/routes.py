@@ -1,8 +1,8 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers
-from app.models import User, Reviews, Manufacturer
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole
+from app.models import User, Reviews, Manufacturer, Consoles
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
@@ -375,7 +375,7 @@ def view_manufacturer():
 def create_manufacturer():
     form = Manufacturers()
     if form.validate_on_submit():
-        post = Manufacturer(manufacturer=form.manufacturer.data)
+        post = Manufacturer(manufacturer_name=form.manufacturer_name.data)
         db.session.add(post)
         db.session.commit()
         flash("The manufacturer has been added successfully.")
@@ -407,118 +407,141 @@ def manufacturer_update(user_id):
     users = Manufacturer.query.get_or_404(user_id)
     form = UpdateManufacturers()
     if form.validate_on_submit():
-        users.manufacturer = form.manufacturer.data
+        users.manufacturer_name = form.manufacturer_name.data
         db.session.commit()
         flash("The manufacturer has been successfully updated", 'success')
     elif request.method == 'GET':
         # This will prepopulate the fields to change
-        form.manufacturer.data = users.manufacturer
+        form.manufacturer_name.data = users.manufacturer_name
     return render_template('edit_manufacturer.html', title = 'Manufacturer Info', form = form)
 
 
     
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######################
-# Game Systems Route #
-######################
+###############################
+# Game Consoles Systems Route #
+###############################
 # This is to log the user out of the current session so another user can log in. 
-@app.route("/game_systems")
+@app.route("/consoles")
 @login_required
-def game_systems():
+def consoles():
+    accounts = Consoles.query.all()
+    return render_template('consoles.html', title='Game consoles', accounts = accounts)
+    
+
+
+#########################
+# Create Consoles Route #
+#########################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/create_consoles", methods = ['GET', 'POST'])
+@login_required
+def create_consoles():
+    form = GameConsole()
+    if form.validate_on_submit():
+        db.session.add(form)
+        db.session.commit()
+        flash("The console has been added successfully.")
+        return redirect(url_for('consoles'))
+    return render_template('create_consoles.html', title='Consoles', form=form)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+############################
+# Video Game Systems Route #
+############################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/video_games")
+@login_required
+def video_games():
     return render_template('game_systems.html', title='Game Systems')
 
 

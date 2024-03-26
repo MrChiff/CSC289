@@ -5,24 +5,24 @@
         background-repeat:no-repeat;
         background-attachment: fixed;
         background-size: cover;
-        background-image:url({{url_for('static', filename='images/create.webp')}})
+        background-image:url({{url_for('static', filename='images/game_systems.webp')}})
     }
 </style>
 <div class="content-section2">
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			<fieldset class = 'from-group'>
-				<legend class="display-3 border-bottom lead text-center text-white mb-4">Add/Edit/Delete Manufacturer</legend>
+				<legend class="display-3 border-bottom lead text-center mb-4">Add/Edit/Delete Consoles</legend>
 				<div class="row justify-content-center">
-					<div class='media-body col-5'>
-						<a class='btn btn-outline-info m-1' href="{{url_for('create_manufacturer')}}">Create Manufacturer</a>
+					<div class='media-body col-6'>
+						<a class='btn btn-outline-info m-1' href="{{url_for('create_consoles')}}">Create Console</a>
                         {% for account in accounts %}
 							<article class='media content-section'>
 								<div class='media-body'>
 									<div class='article-metadata'>
-										<a class="mr-2">{{account.manufacturer_name}}</a>
-										<a class="ml-5 mr-2" href="{{ url_for('delete_manufacturer', user_id=account.manufacturer_id) }}">Delete</a>
-										<a class="ml-5 mr-2" href="{{ url_for('manufacturer_update', user_id=account.manufacturer_id) }}">Update Manufacturer</a>
+										<a class="mr-2">{{account.system_name}}</a>
+										<a class="ml-5 mr-2" href="#">Delete</a>
+										<a class="ml-5 mr-2" href="#">Update Manufacturer</a>
 									</div>
 								</div>
 							</article>
@@ -34,5 +34,4 @@
 		</div>
 	</form>
 </div>
-{% endblock base2 %}
-
+{% endblock %}
