@@ -375,7 +375,7 @@ def view_manufacturer():
 def create_manufacturer():
     form = Manufacturers()
     if form.validate_on_submit():
-        post = Manufacturer(manufacturer_name=form.manufacturer_name.data)
+        post = Manufacturer(manufacturer=form.manufacturer.data)
         db.session.add(post)
         db.session.commit()
         flash("The manufacturer has been added successfully.")
@@ -407,12 +407,12 @@ def manufacturer_update(user_id):
     users = Manufacturer.query.get_or_404(user_id)
     form = UpdateManufacturers()
     if form.validate_on_submit():
-        users.manufacturer_name = form.manufacturer_name.data
+        users.manufacturer = form.manufacturer.data
         db.session.commit()
         flash("The manufacturer has been successfully updated", 'success')
     elif request.method == 'GET':
         # This will prepopulate the fields to change
-        form.manufacturer_name.data = users.manufacturer_name
+        form.manufacturer.data = users.manufacturer
     return render_template('edit_manufacturer.html', title = 'Manufacturer Info', form = form)
 
 
@@ -438,7 +438,8 @@ def consoles():
 def create_consoles():
     form = GameConsole()
     if form.validate_on_submit():
-        db.session.add(form)
+        post = Consoles(console=form.console.data, manufacturer = form.manufacturer.data)
+        db.session.add(post)
         db.session.commit()
         flash("The console has been added successfully.")
         return redirect(url_for('consoles'))

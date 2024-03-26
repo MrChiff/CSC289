@@ -54,22 +54,25 @@ class Reviews(db.Model, UserMixin):
 
 # Here we are going to create the model for the students table in the database.
 class Manufacturer(db.Model, UserMixin):
-    manufacturer_id = db.Column(db.Integer, primary_key = True)
-    manufacturer_name = db.Column(db.String(100), unique = True, nullable = False)
-    #console = db.relationship('Consoles', backref='manufactuer', lazy=True)
+    id = db.Column(db.Integer, primary_key = True)
+    manufacturer = db.Column(db.String(100), unique = True, nullable = False)
+    # Manufacturer can have many consoles
+    # The backref is basically creating a virtual column I'm naming systems and it references the foreign key name before the dot.
+    console_id = db.relationship('Consoles', backref='manufacturer', lazy=True)
     # This is how the object will be printed
     def __repr__(self):
-        return f"{self.manufacturer_name}"
+        return f"{self.manufacturer}"
     
 
 #######################
 # Game Consoles model #
 #######################
 class Consoles(db.Model, UserMixin):
-    system_id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     console = db.Column(db.String(100), nullable = False)
-    manufacturer = db.Column(db.Integer, db.ForeignKey('manufacturer.manufacturer_id'), nullable = False)
+    # Each Console can have only one manufacturer
+    manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable = False)
 
     # This is how the object will be printed
     def __repr__(self):
-        return f"('{self.console}')"
+        return f"('{self.console} {self.manufacturer_id}')"

@@ -20,9 +20,9 @@
 							<article class='media content-section'>
 								<div class='media-body'>
 									<div class='article-metadata'>
-										<a class="mr-2">{{account.manufacturer_name}}</a>
-										<a class="ml-5 mr-2" href="{{ url_for('delete_manufacturer', user_id=account.manufacturer_id) }}">Delete</a>
-										<a class="ml-5 mr-2" href="{{ url_for('manufacturer_update', user_id=account.manufacturer_id) }}">Update Manufacturer</a>
+										<a class="mr-2">{{account.manufacturer}}</a>
+										<a class="ml-5 mr-2" href="{{ url_for('delete_manufacturer', user_id=account.id) }}">Delete</a>
+										<a class="ml-5 mr-2" href="{{ url_for('manufacturer_update', user_id=account.id) }}">Update Manufacturer</a>
 									</div>
 								</div>
 							</article>
