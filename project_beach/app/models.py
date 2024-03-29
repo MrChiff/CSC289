@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, func
 
 
+
 # Creating a user loader for the login manager to work
 @login_manager.user_loader
 def load_user(user_id):
@@ -72,7 +73,23 @@ class Consoles(db.Model, UserMixin):
     console = db.Column(db.String(100), nullable = False)
     # Each Console can have only one manufacturer
     manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable = False)
-
+    # This is the back reference for the one to many
+    system_id = db.relationship('Games', backref='consoles', lazy=True)
     # This is how the object will be printed
     def __repr__(self):
-        return f"('{self.console} {self.manufacturer_id}')"
+        return f"{self.console}"
+
+
+#####################
+# Video Games model #
+#####################
+class Games(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key = True)
+    videogame = db.Column(db.String(100), nullable = False)
+    # Each Console can have more than one game
+    console_id = db.Column(db.Integer, db.ForeignKey('consoles.id'), nullable = False)
+    # This is how the object will be printed
+    def __repr__(self):
+        return f"{self.videogame}"
+
+

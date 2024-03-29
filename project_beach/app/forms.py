@@ -4,7 +4,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, ValidationError
-from app.models import User, Reviews, Manufacturer, Consoles
+from app.models import User, Reviews, Manufacturer, Consoles, Games
 from wtforms_sqlalchemy.fields import QuerySelectField
 
 ##############
@@ -159,7 +159,6 @@ class GameConsole(FlaskForm):
     # Username will be used as the label for the html.
     console = StringField('Game Console', validators=[DataRequired()])
     manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=True)
-    #manufacturer = StringField('Manufacturer', validators=[DataRequired()])
     submit = SubmitField('Create Game Console')
     
     def validate_console(self, console):
@@ -168,3 +167,38 @@ class GameConsole(FlaskForm):
             flash("This console already exists. Please try again")
             raise ValidationError('This console already exists. Please select another one.')
 
+
+############################
+# Update Consoles Form #
+############################
+
+# This is creating the form for user registration
+class UpdateConsole(FlaskForm):
+    # Username will be used as the label for the html.
+    console = StringField('Manufacturer', validators=[DataRequired()])
+    manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=True)
+    submit = SubmitField('Update Manufacturer')
+    #######################################################
+    # Need to figure out how to prevent a duplicate from  #
+    # Being created when updating but still allow the     #
+    # Console name if you need to change the manufacturer #
+    #######################################################
+    
+    
+    
+##########################
+# Create Video Game Form #
+##########################
+
+# This is creating the form for user registration
+class Game_Names(FlaskForm):
+    # Username will be used as the label for the html.
+    videogame = StringField('Video Game', validators=[DataRequired()])
+    console = QuerySelectField(query_factory = console_query, allow_blank=False)
+    submit = SubmitField('Create Video Games')
+    
+    #######################################################
+    # Figure out a way to say if this game already exists #
+    # in both video game name and console then to say it  #
+    # already exists.                                     #
+    #######################################################

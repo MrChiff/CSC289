@@ -1,8 +1,8 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole
-from app.models import User, Reviews, Manufacturer, Consoles
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names
+from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
@@ -420,7 +420,7 @@ def manufacturer_update(user_id):
 ###############################
 # Game Consoles Systems Route #
 ###############################
-# This is to log the user out of the current session so another user can log in. 
+# This is to view all of the consoles in the database. 
 @app.route("/consoles")
 @login_required
 def consoles():
@@ -447,92 +447,37 @@ def create_consoles():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+###############################
+# Delete a Consoles Route #
+###############################
+@app.route("/consoles/delete/<int:user_id>")
+@login_required
+def delete_console(user_id):        
+    post = Consoles.query.get_or_404(user_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Your Console has been deleted", 'success')
+    return redirect(url_for('consoles'))
+
+
+
+#########################
+# Update Consoles Route #
+#########################
+@app.route("/console/<int:user_id>/update", methods = ['GET', 'POST'])
+@login_required
+def console_update(user_id):
+    users = Consoles.query.get_or_404(user_id)
+    form = UpdateConsole()
+    if form.validate_on_submit():
+        users.console = form.console.data
+        users.manufacturer = form.manufacturer.data
+        db.session.commit()
+        flash("The manufacturer has been successfully updated", 'success')
+    elif request.method == 'GET':
+        # This will prepopulate the fields to change
+        form.console.data = users.console
+    return render_template('edit_consoles.html', title = 'Manufacturer Info', form = form)
 
 
 
@@ -543,7 +488,114 @@ def create_consoles():
 @app.route("/video_games")
 @login_required
 def video_games():
-    return render_template('game_systems.html', title='Game Systems')
+    accounts = Games.query.all()
+    return render_template('video_games.html', title='Video Games', accounts = accounts)
+
+
+
+############################
+# Create Video Games Route #
+############################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/create_game", methods = ['GET', 'POST'])
+@login_required
+def create_game():
+    form = Game_Names()
+    if form.validate_on_submit():
+        #post = Games(videogame=form.videogame.data, console_id=form.console.data)
+        # Query database to find console_id from the name of the console
+        #console_idnum = 0
+        #if str(form.console.data)  == "Nintendo Entertianment System":
+        #    console_idnum = 6
+        # Console is a Result object
+        console_name = str(form.console.data)
+        console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
+        console_idnum = console.id
+        post = Games(videogame=form.videogame.data, console_id=console_idnum)
+        db.session.add(post)
+        db.session.commit()
+        flash("The video game has been added successfully.")
+        return redirect(url_for('video_games'))
+    return render_template('create_games.html', title='Create Games', form=form)
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################
@@ -552,7 +604,7 @@ def video_games():
 # This is to log the user out of the current session so another user can log in. 
 @app.route("/create")
 @login_required
-def create():
+def library():
     return render_template('create_library.html', title='Create Library')    
 
 
@@ -562,7 +614,7 @@ def create():
 # This is to log the user out of the current session so another user can log in. 
 @app.route("/update")
 @login_required
-def update():
+def update_library():
     return render_template('update_library.html', title='Update Library')
 
 
@@ -572,7 +624,7 @@ def update():
 # This is to log the user out of the current session so another user can log in. 
 @app.route("/sell")
 @login_required
-def sell():
+def sell_library():
     return render_template('sell_library.html', title='Sell Library')
 
 

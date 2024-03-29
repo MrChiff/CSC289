@@ -20,10 +20,11 @@
 							<article class='media content-section'>
 								<div class='media-body'>
 									<div class='article-metadata'>
-										<a class="mr-5">{{account.console}}</a>
-										<a class="mr-5">{{account.manufacturer}}</a>
-										<a class="ml-4 mr-2" href="#">Delete</a>
-										<a class="ml-4 mr-2" href="#">Update Manufacturer</a>
+										<a class="mr-4">{{account.console}}</a>
+										<a class="mr-4">{{account.manufacturer}}</a>
+										<a class="ml-4 mr-6" href="{{url_for("delete_console", user_id=account.id)}}">Delete</a>
+										<!--I need to update this line of code to update the console information-->
+										<a class="ml-4 mr-6" href="{{url_for('console_update', user_id=account.id)}}">Update Manufacturer</a>
 									</div>
 								</div>
 							</article>
