@@ -1,7 +1,7 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames
 from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -519,82 +519,40 @@ def create_game():
     return render_template('create_games.html', title='Create Games', form=form)
 
 
-
+###############################
+# Delete a Video GAme Route #
+###############################
+@app.route("/games/delete/<int:user_id>")
+@login_required
+def delete_game(user_id):        
+    post = Games.query.get_or_404(user_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Your Game has been deleted", 'success')
+    return redirect(url_for('video_games'))
     
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#########################
+# Update Games Route #
+#########################
+@app.route("/games/<int:user_id>/update", methods = ['GET', 'POST'])
+@login_required
+def games_update(user_id):
+    users = Games.query.get_or_404(user_id)
+    form = UpdateGames()
+    if form.validate_on_submit():
+        users.videogame = form.videogame.data
+        console_name = str(form.console.data)
+        console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
+        console_idnum = console.id
+        users.console_id = console_idnum
+        db.session.commit()
+        flash("The videogame has been successfully updated", 'success')
+    elif request.method == 'GET':
+        # This will prepopulate the fields to change
+        form.videogame.data = users.videogame
+    return render_template('edit_games.html', title = 'Game Info', form = form)
 
 
 
@@ -602,10 +560,82 @@ def create_game():
 # Create Library Route #
 ########################
 # This is to log the user out of the current session so another user can log in. 
-@app.route("/create")
+@app.route("/create_library")
 @login_required
 def library():
-    return render_template('create_library.html', title='Create Library')    
+    return render_template('create_library.html', title='Create Library')  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 
 ########################

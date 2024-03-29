@@ -5,7 +5,7 @@
         background-repeat:no-repeat;
         background-attachment: fixed;
         background-size: cover;
-        background-image:url({{url_for('static', filename='images/game_systems.webp')}});
+        background-image:url({{url_for('static', filename='images/welcome.jpg')}});
         
     }
 </style>
@@ -13,28 +13,28 @@
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			<fieldset class = 'from-group'>
-				<legend class="display-3 border-bottom lead text-center mb-4">Edit Consoles</legend>
+				<legend class="display-3 border-bottom lead text-center mb-4 text-white">Edit Video Games</legend>
 				<div class="row justify-content-center">
 					<div class='media-body col-6'>
                         {{ form.hidden_tag() }}
                         <div class="form-group">
-                            {{ form.console.label(class="form-control3-label my-text") }}
-                            {% if form.console.errors %}
-                                {{ form.console(class="form-control3 form-control3-lg is-invalid") }}
+                            {{ form.videogame.label(class="form-control3-label my-text") }}
+                            {% if form.videogame.errors %}
+                                {{ form.videogame(class="form-control3 form-control3-lg is-invalid") }}
                                 <div class="invalid-feedback">
                                     {% for error in form.console.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.console(class="form-control3 form-control3-lg") }}
+                                {{ form.videogame(class="form-control3 form-control3-lg") }}
                             {% endif %}
-                            {{ form.manufacturer.label(class="form-control3-label my-text") }}
-                            {{ form.manufacturer (class="form-control3 form-control3-lg") }}
+                            {{ form.console.label(class="form-control3-label my-text") }}
+                            {{ form.console (class="form-control3 form-control3-lg") }}
                             <br>
                             <br>
                             {{ form.submit(class='btn btn-outline-info text-bold') }}    
-                        <a class='btn btn-outline-info m-1 my-text' href="{{url_for('consoles')}}">Cancel</a>
+                        <a class='btn btn-outline-info m-1 my-text' href="{{url_for('video_games')}}">Cancel</a>
                     </div>
                 </div>
             </fieldset>

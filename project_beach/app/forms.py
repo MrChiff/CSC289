@@ -149,6 +149,13 @@ def console_query():
     return Consoles.query
 
 
+###############################################
+# Query the Video Games Table for QuerySelect #
+###############################################
+# This will query the manufacturer table to populate the QuerySelect
+def games_query():
+    return Games.query
+
 
 ############################
 # Create Game Console Form #
@@ -202,3 +209,23 @@ class Game_Names(FlaskForm):
     # in both video game name and console then to say it  #
     # already exists.                                     #
     #######################################################
+    
+    
+    
+#####################
+# Update Games Form #
+#####################
+
+# This is creating the form for user registration
+class UpdateGames(FlaskForm):
+    # Username will be used as the label for the html.
+    videogame = StringField('Video Game', validators=[DataRequired()])
+    console = QuerySelectField(query_factory = console_query, allow_blank=True)
+    submit = SubmitField('Update Video Games')
+    #######################################################
+    # Need to figure out how to prevent a duplicate from  #
+    # Being created when updating but still allow the     #
+    # Console name if you need to change the manufacturer #
+    #######################################################
+    
+    

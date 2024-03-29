@@ -29,7 +29,7 @@ CREATE TABLE `consoles` (
   PRIMARY KEY (`id`),
   KEY `manufacturer_fk_idx` (`manufacturer_id`),
   CONSTRAINT `manufacturer_fk` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,8 +38,67 @@ CREATE TABLE `consoles` (
 
 LOCK TABLES `consoles` WRITE;
 /*!40000 ALTER TABLE `consoles` DISABLE KEYS */;
-INSERT INTO `consoles` VALUES (1,'Switch',2),(2,'Playstation One',3);
+INSERT INTO `consoles` VALUES (1,'Playstation One',2),(2,'X Box 360',3),(3,'X Box One',3),(4,'Super Nintendo',1),(5,'Nintendo Entertainment Center',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'Game Cube',1),(9,'Wii',1),(10,'Atari',7);
 /*!40000 ALTER TABLE `consoles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `games`
+--
+
+DROP TABLE IF EXISTS `games`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `games` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `videogame` varchar(100) NOT NULL,
+  `console_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `console_fk_idx` (`console_id`),
+  CONSTRAINT `console_fk` FOREIGN KEY (`console_id`) REFERENCES `consoles` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `games`
+--
+
+LOCK TABLES `games` WRITE;
+/*!40000 ALTER TABLE `games` DISABLE KEYS */;
+INSERT INTO `games` VALUES (1,'Super Mario Brothers / Duck Hunt',5),(2,'Rad Racer',5),(3,'Animal Crossing',8),(4,'Animal Crossing New Horizions',6);
+/*!40000 ALTER TABLE `games` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `library`
+--
+
+DROP TABLE IF EXISTS `library`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `library` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `videogame_id` int NOT NULL,
+  `machine_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `game_fk_idx` (`videogame_id`),
+  KEY `console_fk_idx` (`machine_id`),
+  KEY `library_user_fk_idx` (`user_id`),
+  CONSTRAINT `game_fk` FOREIGN KEY (`videogame_id`) REFERENCES `games` (`id`),
+  CONSTRAINT `library_console_fk` FOREIGN KEY (`machine_id`) REFERENCES `consoles` (`id`),
+  CONSTRAINT `library_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `library`
+--
+
+LOCK TABLES `library` WRITE;
+/*!40000 ALTER TABLE `library` DISABLE KEYS */;
+/*!40000 ALTER TABLE `library` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -51,9 +110,9 @@ DROP TABLE IF EXISTS `manufacturer`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `manufacturer` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `manufacturer` varchar(100) NOT NULL,
+  `manufacturer` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +121,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (2,'Nintendo'),(3,'Sony'),(4,'Namco'),(6,'Microsoft');
+INSERT INTO `manufacturer` VALUES (1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,8 +139,8 @@ CREATE TABLE `reviews` (
   `content` longtext NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id_fk_idx` (`user_id`),
-  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  KEY `user_fk_idx` (`user_id`),
+  CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,7 +171,7 @@ CREATE TABLE `user` (
   `admin_user` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +180,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'niatheangel','Brenda','Beach','$2b$12$8ZRKlA58QA7pdFHaUMpzWOdhpSiM0PgHJWyHCyDR00sdxSZtSOvTm','default.jpg','Admin'),(2,'testuser','Test','User','$2b$12$LUjfP38q6PLv7BB86RWmnuz42nNexNW1cQAnRz3jI58tIQsIinYby','default.jpg','Admin'),(3,'dragon2peer','David','North','$2b$12$wVKDadH/gSUUCCk8mhUW/eE..htOtDxqITrDETOI2pgUHgBeZ3jMW','default.jpg','User'),(4,'testuser2','test','user2','$2b$12$wswCbOB/4A9d/cQeR5hRMe8cwLVNQS8s3Rs9pz5ImDfJFoRrGM3ji','default.jpg','Admin'),(9,'deaduser','dead','user','$2b$12$FZJAF7z5YHqhZ18d.1PKpe9I5elH/tFeU.Ob2mFnfvKyiYMtnWZSG','default.jpg','User'),(13,'magicunicorn','Daniel','Jones','$2b$12$WL8LMi6rMo3WjwhOfiu/W.WCth6Xu57yz0Uk.VfgfgkhkuJWlY6S6','default.jpg','User');
+INSERT INTO `user` VALUES (1,'niatheangel','Brenda','Beach','$2b$12$8ZRKlA58QA7pdFHaUMpzWOdhpSiM0PgHJWyHCyDR00sdxSZtSOvTm','default.jpg','Admin'),(2,'testuser','Test','User','$2b$12$LUjfP38q6PLv7BB86RWmnuz42nNexNW1cQAnRz3jI58tIQsIinYby','default.jpg','Admin'),(3,'dragon2peer','David','North','$2b$12$.azK9JwUerZQ15bCkVfVveby9eBu3VwSp/dPPP75YigRPTUCYSe/W','default.jpg','User'),(4,'testuser2','test','user2','$2b$12$wswCbOB/4A9d/cQeR5hRMe8cwLVNQS8s3Rs9pz5ImDfJFoRrGM3ji','default.jpg','User');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -134,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-26 17:44:19
+-- Dump completed on 2024-03-29 14:46:13

@@ -93,3 +93,4 @@ class Games(db.Model, UserMixin):
         return f"{self.videogame}"
 
 
+
