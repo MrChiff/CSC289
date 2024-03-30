@@ -1,0 +1,26 @@
+{% extends "base2.html" %}
+{% block base2 %}
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/welcome.jpg')}});
+        
+    }
+</style>
+<div class='media-body col-6'>
+    {% for console_name in console_names %}
+        <article class='media content-section'>
+            <div class='media-body'>
+                <div class='article-metadata'>
+                    <a class="mr-4">{{console_name.videogame}}</a>
+                    <a class="ml-4 mr-6" href="#">Delete</a>
+                    <!--I need to update this line of code to update the console information-->
+                    <a class="ml-4 mr-6" href="#">Update Console</a>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+</div>
+{% endblock base2 %}

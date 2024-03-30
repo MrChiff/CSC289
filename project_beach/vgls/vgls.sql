@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: vgls
+-- Host: localhost    Database: vgls2
 -- ------------------------------------------------------
 -- Server version	8.0.36
 
@@ -53,9 +53,12 @@ CREATE TABLE `games` (
   `id` int NOT NULL AUTO_INCREMENT,
   `videogame` varchar(100) NOT NULL,
   `console_id` int NOT NULL,
+  `creator_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `console_fk_idx` (`console_id`),
-  CONSTRAINT `console_fk` FOREIGN KEY (`console_id`) REFERENCES `consoles` (`id`)
+  KEY `creator_id_fk_idx` (`creator_id`),
+  CONSTRAINT `console_fk` FOREIGN KEY (`console_id`) REFERENCES `consoles` (`id`),
+  CONSTRAINT `creator_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `manufacturer` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -65,40 +68,8 @@ CREATE TABLE `games` (
 
 LOCK TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
-INSERT INTO `games` VALUES (1,'Super Mario Brothers / Duck Hunt',5),(2,'Rad Racer',5),(3,'Animal Crossing',8),(4,'Animal Crossing New Horizions',6);
+INSERT INTO `games` VALUES (1,'Super Mario Brothers / Duck Hunt',5,1),(2,'Rad Racer',5,1),(3,'Animal Crossing',8,1),(4,'Animal Crossing New Horizions',6,1);
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `library`
---
-
-DROP TABLE IF EXISTS `library`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `library` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `videogame_id` int NOT NULL,
-  `machine_id` int NOT NULL,
-  `quantity` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `game_fk_idx` (`videogame_id`),
-  KEY `console_fk_idx` (`machine_id`),
-  KEY `library_user_fk_idx` (`user_id`),
-  CONSTRAINT `game_fk` FOREIGN KEY (`videogame_id`) REFERENCES `games` (`id`),
-  CONSTRAINT `library_console_fk` FOREIGN KEY (`machine_id`) REFERENCES `consoles` (`id`),
-  CONSTRAINT `library_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `library`
---
-
-LOCK TABLES `library` WRITE;
-/*!40000 ALTER TABLE `library` DISABLE KEYS */;
-/*!40000 ALTER TABLE `library` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -193,4 +164,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 14:46:13
+-- Dump completed on 2024-03-29 22:22:58

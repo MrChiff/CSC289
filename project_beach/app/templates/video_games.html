@@ -22,6 +22,7 @@
 									<div class='article-metadata'>
 										<a class="mr-4">{{account.videogame}}</a>
 										<!-- Possibly need to take out the Jinga code out and add html to get console name -->
+										<a class="mr-4">{{account.manufacturer}}</a>
 										<a class="mr-4">{{account.console_id}}</a>
 										<a class="ml-4 mr-6" href="{{url_for("delete_game", user_id=account.id)}}">Delete</a>
 										<!--I need to update this line of code to update the console information-->

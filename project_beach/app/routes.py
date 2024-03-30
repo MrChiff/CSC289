@@ -1,9 +1,10 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query
 from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
+#from app.db_query import playstation_one
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import sqlite3
@@ -508,10 +509,13 @@ def create_game():
         #if str(form.console.data)  == "Nintendo Entertianment System":
         #    console_idnum = 6
         # Console is a Result object
+        manufacturer_name = str(form.manufacturer.data)
+        manufacturer = db.session.execute(db.select(Manufacturer).filter_by(manufacturer=manufacturer_name)).scalar_one()
+        manufacturer_idnum = manufacturer.id
         console_name = str(form.console.data)
         console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
         console_idnum = console.id
-        post = Games(videogame=form.videogame.data, console_id=console_idnum)
+        post = Games(videogame=form.videogame.data, creator_id=manufacturer_idnum ,console_id=console_idnum )
         db.session.add(post)
         db.session.commit()
         flash("The video game has been added successfully.")
@@ -547,12 +551,33 @@ def games_update(user_id):
         console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
         console_idnum = console.id
         users.console_id = console_idnum
+        manufacturer_name = str(form.manufacturer.data)
+        manufacturer = db.session.execute(db.select(Manufacturer).filter_by(manufacturer=manufacturer_name)).scalar_one()
+        manufacturer_idnum = manufacturer.id
+        users.creator_id = manufacturer_idnum
         db.session.commit()
         flash("The videogame has been successfully updated", 'success')
     elif request.method == 'GET':
         # This will prepopulate the fields to change
         form.videogame.data = users.videogame
     return render_template('edit_games.html', title = 'Game Info', form = form)
+
+
+
+
+
+
+
+#########################
+# Display games, consoles, and manufacturer
+
+@app.route("/playstation_one")
+def playstation_one():
+    game_name = Consoles.query.filter_by(console='Playstation One').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('playstation_one.html', title = 'Playstation Games', console_names = console_names)
+
 
 
 

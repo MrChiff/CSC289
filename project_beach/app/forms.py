@@ -165,7 +165,7 @@ def games_query():
 class GameConsole(FlaskForm):
     # Username will be used as the label for the html.
     console = StringField('Game Console', validators=[DataRequired()])
-    manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=True)
+    manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=False)
     submit = SubmitField('Create Game Console')
     
     def validate_console(self, console):
@@ -183,7 +183,7 @@ class GameConsole(FlaskForm):
 class UpdateConsole(FlaskForm):
     # Username will be used as the label for the html.
     console = StringField('Manufacturer', validators=[DataRequired()])
-    manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=True)
+    manufacturer = QuerySelectField(query_factory = manufacturer_query, allow_blank=False)
     submit = SubmitField('Update Manufacturer')
     #######################################################
     # Need to figure out how to prevent a duplicate from  #
@@ -201,6 +201,7 @@ class UpdateConsole(FlaskForm):
 class Game_Names(FlaskForm):
     # Username will be used as the label for the html.
     videogame = StringField('Video Game', validators=[DataRequired()])
+    manufacturer = QuerySelectField(query_factory=manufacturer_query, allow_blank=False)
     console = QuerySelectField(query_factory = console_query, allow_blank=False)
     submit = SubmitField('Create Video Games')
     
@@ -220,7 +221,8 @@ class Game_Names(FlaskForm):
 class UpdateGames(FlaskForm):
     # Username will be used as the label for the html.
     videogame = StringField('Video Game', validators=[DataRequired()])
-    console = QuerySelectField(query_factory = console_query, allow_blank=True)
+    manufacturer = QuerySelectField(query_factory=manufacturer_query, allow_blank=False)
+    console = QuerySelectField(query_factory = console_query, allow_blank=False)
     submit = SubmitField('Update Video Games')
     #######################################################
     # Need to figure out how to prevent a duplicate from  #
