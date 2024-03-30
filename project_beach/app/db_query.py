@@ -11,13 +11,14 @@ from PIL import Image
 from werkzeug.exceptions import abort
 
 
-##################################
-# Playstation One Database Query #
-##################################
-#def playstation_one():
-#    game_name = Consoles.query.filter_by(console='Playstation One').first()
-#    game_id = game_name.id
-#    console_names = Games.query.filter_by(console_id = game_id).all()
-#    for console_name in console_names:
-#        print(console_name)
-#        return console_name
+#####################################
+# Display all Playstation One Games #
+#####################################
+
+@app.route("/playstation_one")
+def playstation_one():
+    game_name = Consoles.query.filter_by(console='Playstation One').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('playstation_one.html', title = 'Playstation Games', console_names = console_names)
+
