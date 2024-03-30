@@ -4,7 +4,7 @@ from flask import Flask, render_template, url_for, flash, redirect, request, ses
 from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query
 from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
-from app.db_query import playstation_one
+from app.db_query import playstation_one, switch
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import sqlite3

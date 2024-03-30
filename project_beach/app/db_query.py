@@ -20,5 +20,40 @@ def playstation_one():
     game_name = Consoles.query.filter_by(console='Playstation One').first()
     game_id = game_name.id
     console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('playstation_one.html', title = 'Playstation Games', console_names = console_names)
+    return render_template('videogame_view.html', title = 'Playstation Games', console_names = console_names)
 
+
+#####################################
+# Display all Nintendo Switch Games #
+#####################################
+
+@app.route("/switch")
+def switch():
+    game_name = Consoles.query.filter_by(console='Switch').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'Switch Games', console_names = console_names)
+
+
+###################################################
+# Display all Nintendo Entertainment System Games #
+###################################################
+
+@app.route("/nes")
+def nes():
+    game_name = Consoles.query.filter_by(console='NES').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'NES Games', console_names = console_names)
+
+
+#####################################
+# Display all Xbox One System Games #
+#####################################
+
+@app.route("/xbox_one")
+def xbox_one():
+    game_name = Consoles.query.filter_by(console='X Box One').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'X Box One Games', console_names = console_names)

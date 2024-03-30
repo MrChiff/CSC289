@@ -149,13 +149,6 @@ def console_query():
     return Consoles.query
 
 
-###############################################
-# Query the Video Games Table for QuerySelect #
-###############################################
-# This will query the manufacturer table to populate the QuerySelect
-def games_query():
-    return Games.query
-
 
 ############################
 # Create Game Console Form #
