@@ -10,6 +10,7 @@ import secrets
 import sqlite3
 from PIL import Image
 from werkzeug.exceptions import abort
+import search_class as SC
 
 
 ################################################
