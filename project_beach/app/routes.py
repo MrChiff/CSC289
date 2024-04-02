@@ -46,6 +46,7 @@ def save_picture(form_picture):
 @app.route("/")
 def home():
     session['set_complete'] = ""
+    # add update info for top # of games 
     return render_template('home.html')
 
 
