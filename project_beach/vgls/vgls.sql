@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: vgls2
+-- Host: localhost    Database: vgls
 -- ------------------------------------------------------
 -- Server version	8.0.36
 
@@ -38,7 +38,7 @@ CREATE TABLE `consoles` (
 
 LOCK TABLES `consoles` WRITE;
 /*!40000 ALTER TABLE `consoles` DISABLE KEYS */;
-INSERT INTO `consoles` VALUES (1,'Playstation One',2),(2,'X Box 360',3),(3,'X Box One',3),(4,'Super Nintendo',1),(5,'Nintendo Entertainment Center',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'Game Cube',1),(9,'Wii',1),(10,'Atari',7);
+INSERT INTO `consoles` VALUES (1,'Playstation One',2),(2,'X Box 360',3),(3,'X Box One',3),(4,'Super Nintendo',1),(5,'NES',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'Game Cube',1),(9,'Wii',1),(10,'Atari',7);
 /*!40000 ALTER TABLE `consoles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,8 +58,8 @@ CREATE TABLE `games` (
   KEY `console_fk_idx` (`console_id`),
   KEY `creator_id_fk_idx` (`creator_id`),
   CONSTRAINT `console_fk` FOREIGN KEY (`console_id`) REFERENCES `consoles` (`id`),
-  CONSTRAINT `creator_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `manufacturer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `creator_fk` FOREIGN KEY (`creator_id`) REFERENCES `manufacturer` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,8 +68,40 @@ CREATE TABLE `games` (
 
 LOCK TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
-INSERT INTO `games` VALUES (1,'Super Mario Brothers / Duck Hunt',5,1),(2,'Rad Racer',5,1),(3,'Animal Crossing',8,1),(4,'Animal Crossing New Horizions',6,1);
+INSERT INTO `games` VALUES (30,'Super Mario Brothers / Duck Hunt',5,1),(31,'Abe\'s Odysee',1,8),(32,'Parasite Eve',1,8),(33,'Gran Tursimo 2',1,9),(34,'Gran Turismo',1,2),(35,'Crash Bandicoot Warped',1,2),(36,'Animal Crossing New Horizions',6,1),(37,'Assassins Creed IV Black Flag',3,10);
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `library`
+--
+
+DROP TABLE IF EXISTS `library`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `library` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `videogame_id` int NOT NULL,
+  `machine_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `game_fk_idx` (`videogame_id`),
+  KEY `console_fk_idx` (`machine_id`),
+  KEY `library_user_fk_idx` (`user_id`),
+  CONSTRAINT `game_fk` FOREIGN KEY (`videogame_id`) REFERENCES `games` (`id`),
+  CONSTRAINT `library_console_fk` FOREIGN KEY (`machine_id`) REFERENCES `consoles` (`id`),
+  CONSTRAINT `library_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `library`
+--
+
+LOCK TABLES `library` WRITE;
+/*!40000 ALTER TABLE `library` DISABLE KEYS */;
+/*!40000 ALTER TABLE `library` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -83,7 +115,7 @@ CREATE TABLE `manufacturer` (
   `id` int NOT NULL AUTO_INCREMENT,
   `manufacturer` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +124,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA');
+INSERT INTO `manufacturer` VALUES (1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA'),(8,'Square'),(9,'Sony Interactive Entertainment America'),(10,'Ubisoft');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 22:22:58
+-- Dump completed on 2024-04-08 10:33:47
