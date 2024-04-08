@@ -16,7 +16,7 @@ class RAWG_Search:
         self.base_url = "https://api.rawg.io/api/"
         self.results_total = 20
 
-    def search(self, category, name):
+    def game_search(self, category, name):
 
         self.category = category + "?"
         # print(self.category)
@@ -24,7 +24,7 @@ class RAWG_Search:
         self.search_results_dict = {}
 
         self.search_url = self.base_url + self.category + self.api_key + "&search=" + self.searchable_name
-        # print(self.url_name)
+        print(self.search_url)
 
         response = requests.get(self.search_url)
         response_json = response.json()
@@ -41,6 +41,7 @@ class RAWG_Search:
             platform = []
             for p in range(len(response_json["results"][i]["platforms"])):
                 platform.append(response_json["results"][i]["platforms"][p]["platform"]["name"])
+            
             self.search_results_dict[name] = [platform, playtime]
 
             if DEBUG:
@@ -49,6 +50,7 @@ class RAWG_Search:
         return self.search_results_dict
     
     def top_games(self):
+
         '''
         This function gathers the top games by RAWG and exports them as a dictionary.
         '''
@@ -76,6 +78,35 @@ class RAWG_Search:
                 print(f'{i:<5}{name:<54}{" ".join(platform):<72}{playtime:<5}')
         
         return self.top_results_dict
+    
+    def update_console(self):
+
+        # Do I need to pass in the database in order to modify it and then resave new data.
+        # Or is the database held in memory like with the binary tree?
+
+        self.update_consoles_dict = {}
+
+        self.update_consoles_url = self.base_url + "consoles?" + self.api_key
+        response = requests.get(self.update_consoles_url)
+        response_json = response.json()
+
+        # parse the json file for consoles and manufacturer.
+
+        return self.update_consoles_dict
+    
+    def update_mfg(self):
+        # Do I need to pass in the database in order to modify it and then resave new data.
+        # Or is the database held in memory like with the binary tree?
+
+        self.update_mfg_dict = {}
+
+        self.update_mfg_url = self.base_url + "publisher?" + self.api_key
+        response = requests.get(self.update_mfg_url)
+        response_json = response.json()
+
+        # parse the json file for consoles and manufacturer.
+
+        return self.update_consoles_dict
     
 #===================#    
 class NEXARDA_Search:
@@ -114,13 +145,6 @@ class NEXARDA_Search:
         # self.results_total = search_json["results"]["total"]
         if search_json["success"] == False:
             return search_json["message"]
-        
-        # if DEBUG:
-        #     print("\nGame:  ", name)
-        #     print("Search URL:  ", search.url)
-        #     # print("Search:  ", search.content)
-        #     print("Success?  ", search_json["success"])
-        #     print("Total Results:  ", search_json["results"]["total"])
 
         if DEBUG:
             print(f'{"item":<5}{"Name":<54}{"Lowest Price":<10}')
@@ -140,10 +164,7 @@ class NEXARDA_Search:
         
         return self.search_results_dict
 
-#=====================#    
-class Top_Games_Update:
-#=====================#
-    
-    
+class Update_DB:
+
     def __init__(self):
         pass
