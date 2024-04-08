@@ -54,7 +54,7 @@ def main():
     game_name="call of duty"
     category = "games" 
     # rawg_search_results(game_name) 
-    search_class.RAWG_Search().search(category, game_name)
+    results_dict = search_class.RAWG_Search().game_search(category, game_name)
 
 
     print("\n####################\n" + \
