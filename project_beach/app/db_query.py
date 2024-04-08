@@ -20,28 +20,11 @@ def price_descript():
     return render_template('price_descript.html', title = "Price/Description")
 
 
-#####################################
-# Display all Playstation One Games #
-#####################################
-
-@app.route("/playstation_one")
-def playstation_one():
-    game_name = Consoles.query.filter_by(console='Playstation One').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Playstation Games', console_names = console_names)
-
-
-#####################################
-# Display all Nintendo Switch Games #
-#####################################
-
-@app.route("/switch")
-def switch():
-    game_name = Consoles.query.filter_by(console='Switch').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Switch Games', console_names = console_names)
+#########################################
+#########################################
+## NINTENDO GAME LOOKUP BY CONSOLENAME ##
+#########################################
+#########################################
 
 
 ###################################################
@@ -57,12 +40,102 @@ def nes():
 
 
 #####################################
-# Display all Xbox One System Games #
+# Display all Nintendo Switch Games #
 #####################################
 
-@app.route("/xbox_one")
-def xbox_one():
-    game_name = Consoles.query.filter_by(console='X Box One').first()
+@app.route("/switch")
+def switch():
+    game_name = Consoles.query.filter_by(console='Switch').first()
     game_id = game_name.id
     console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'X Box One Games', console_names = console_names)
+    return render_template('videogame_view.html', title = 'Switch Games', console_names = console_names)
+
+
+
+
+
+
+###################################
+###################################
+## Display all Sony System Games ##
+###################################
+###################################
+
+
+#################################
+# Display all Playstation Games #
+#################################
+
+@app.route("/playstation")
+def playstation():
+    game_name = Consoles.query.filter_by(console='Playstation').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'Playstation Games', console_names = console_names)
+
+
+###################################
+# Display all Playstation 4 Games #
+###################################
+
+@app.route("/playstation_4")
+def playstation_4():
+    game_name = Consoles.query.filter_by(console='Playstation 4').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'Playstation 4 Games', console_names = console_names)
+
+
+###################################
+# Display all Playstation 5 Games #
+###################################
+
+@app.route("/playstation_5")
+def playstation_5():
+    game_name = Consoles.query.filter_by(console='Playstation 5').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'Playstation 5 Games', console_names = console_names)
+
+
+
+
+
+
+########################################
+########################################
+## Display all Microsoft System Games ##
+########################################
+########################################
+
+
+##########################################
+# Display all Xbox Seriex X System Games #
+##########################################
+
+@app.route("/xbox_x")
+def xbox_x():
+    game_name = Consoles.query.filter_by(console='Xbox Series X').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'Xbox Series X Games', console_names = console_names)
+
+
+
+####################################
+####################################
+## Display all Atari System Games ##
+####################################
+####################################
+
+
+###########################
+# Display all Atari Games #
+###########################
+
+@app.route("/atari")
+def atari():
+    game_name = Consoles.query.filter_by(console='atari').first()
+    game_id = game_name.id
+    console_names = Games.query.filter_by(console_id = game_id).all()
+    return render_template('videogame_view.html', title = 'Atari Games', console_names = console_names)

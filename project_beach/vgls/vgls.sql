@@ -29,7 +29,7 @@ CREATE TABLE `consoles` (
   PRIMARY KEY (`id`),
   KEY `manufacturer_fk_idx` (`manufacturer_id`),
   CONSTRAINT `manufacturer_fk` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `consoles` (
 
 LOCK TABLES `consoles` WRITE;
 /*!40000 ALTER TABLE `consoles` DISABLE KEYS */;
-INSERT INTO `consoles` VALUES (1,'Playstation One',2),(2,'X Box 360',3),(3,'X Box One',3),(4,'Super Nintendo',1),(5,'NES',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'Game Cube',1),(9,'Wii',1),(10,'Atari',7);
+INSERT INTO `consoles` VALUES (1,'Playstation',2),(2,'Xbox 360',3),(3,'Xbox One',3),(4,'Super Nintendo',1),(5,'NES',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'Game Cube',1),(9,'Wii',1),(10,'Atari',7),(11,'Playstation 5',2),(12,'Playstation 3',2),(13,'Playstation 4',2),(14,'Xbox Series S',3),(15,'Xbox Series X',3),(16,'Wii U',1),(17,'Atari Jaguar',7),(18,'Saturn',4),(19,'Dreamcast',4),(20,'SG-1000',4),(21,'Master System',4),(22,'Genesis',4),(23,'Game Gear',4),(24,'Sega CD',4),(25,'Pico',4),(26,'32X',4),(27,'Advanced Pico Beena',4),(28,'Genesis Mini',4),(29,'Game Gear Micro',4),(30,'Genesis Mini 2',4),(31,'64',1),(32,'Game Boy',1),(33,'Game Boy Color',1),(34,'Game Boy Advance',1),(35,'DS',1),(36,'3DS',1),(37,'Virtual Boy',1),(38,'Playstation Portable',2),(39,'Vita',2),(40,'PS One',2),(41,'Xbox',3);
 /*!40000 ALTER TABLE `consoles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +68,7 @@ CREATE TABLE `games` (
 
 LOCK TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
-INSERT INTO `games` VALUES (30,'Super Mario Brothers / Duck Hunt',5,1),(31,'Abe\'s Odysee',1,8),(32,'Parasite Eve',1,8),(33,'Gran Tursimo 2',1,9),(34,'Gran Turismo',1,2),(35,'Crash Bandicoot Warped',1,2),(36,'Animal Crossing New Horizions',6,1),(37,'Assassins Creed IV Black Flag',3,10);
+INSERT INTO `games` VALUES (1,'Final Fantasy XIV: Dawntrail',13,6),(2,'Final Fantasy XIV: Dawntrail',11,6),(3,'Final Fantasy XIV: Dawntrail',15,6),(4,'Visions of Mana',13,6),(5,'Visions of Mana',11,6),(6,'Visions of Mana',15,6),(7,'Final Fantasy VII Rebirth',11,6),(8,'Foamstars',11,6),(9,'Foamstars',13,6),(10,'Star Ocean: The Second Story',11,6),(11,'Star Ocean: The Second Story',13,6),(12,'Front Mission 2: Remake',11,6),(13,'Front Mission 2: Remake',13,6),(14,'Front Mission 2: Remake',3,6),(15,'Front Mission 2: Remake',15,6),(16,'Marble Madness',10,7),(17,'Paperboy',10,7),(18,'Star Wars: The Empire Strikes Back',10,7),(19,'Peter Pack Rat',10,7),(20,'Indiana Jones and the Temple of Doom',10,7),(21,'Gauntlet',10,7),(22,'Super Sprint',10,7),(23,'Road Runner',10,7),(24,'Gauntlet II',10,7),(25,'Championship Sprint',10,7),(26,'720 Degrees',10,7),(27,'Pac Man',10,7),(28,'E.T. The Extra Terrestrial',10,7),(29,'R.B.I. Baseball',10,7),(30,'Super Mario Brothers / Duck Hunt',5,1),(31,'Abe\'s Odysee',1,8),(32,'Parasite Eve',1,8),(33,'Gran Tursimo 2',1,9),(34,'Gran Turismo',1,2),(35,'Crash Bandicoot Warped',1,2),(36,'Animal Crossing New Horizions',6,1),(37,'Assassins Creed IV Black Flag',3,10);
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `manufacturer` (
   `id` int NOT NULL AUTO_INCREMENT,
   `manufacturer` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA'),(8,'Square'),(9,'Sony Interactive Entertainment America'),(10,'Ubisoft');
+INSERT INTO `manufacturer` VALUES (1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA'),(8,'Square'),(9,'Sony Interactive Entertainment America'),(10,'Ubisoft'),(11,'Headless Chicken'),(12,'Graphite Lab'),(13,'BigBoat Interactive'),(14,'Dreams Uncorporated'),(15,'Mega Cat Studios');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-08 10:33:47
+-- Dump completed on 2024-04-08 13:00:51
