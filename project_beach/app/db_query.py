@@ -11,6 +11,15 @@ from PIL import Image
 from werkzeug.exceptions import abort
 
 
+##########################################
+# Display Description and Price for Game #
+##########################################
+
+@app.route("/price_descript")
+def price_descript():
+    return render_template('price_descript.html', title = "Price/Description")
+
+
 #####################################
 # Display all Playstation One Games #
 #####################################

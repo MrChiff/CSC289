@@ -427,20 +427,6 @@ def manufacturer_update(user_id):
 def consoles():
     accounts = Consoles.query.all()
     return render_template('consoles.html', title='Game consoles', accounts = accounts)
-
-#####################################
-# Update Game Consoles (RAWG) Route #
-#####################################
-# This is to update the console list from RAWG API. 
-@app.route("/update_consoles")
-@login_required
-def update_consoles():
-    # accounts = Consoles.query.all()
-    # return render_template('consoles.html', title='Game consoles', accounts = accounts)
-    top_consoles = SC.RAWG_Search().update_console_list()
-    # take the the dictionary from SC.RAWG_Search() (top_consoles var) 
-    # and input the data into the database. => create a class for this
-    return 'working on this page'
     
 
 
