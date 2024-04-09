@@ -40,8 +40,10 @@
 #   routes.py => View all Manufacturers Route, Create Manufacturer Route, 
 #                Delete a Manufacturer Route, Update a manufacturer account Route
 
+# add class function to get screenshots and images from RAWG
 
-import search_class
+
+import search_class as SC
 
 # API page example (not useful/too much info)
 # GET https://api.rawg.io/api/platforms?key=YOUR_API_KEY
@@ -53,14 +55,28 @@ def main():
    
     game_name="call of duty"
     category = "games" 
-    # rawg_search_results(game_name) 
-    results_dict = search_class.RAWG_Search().game_search(category, game_name)
+    # # rawg_search_results(game_name) 
+    # results_dict = SC.RAWG_Search().game_search(category, game_name)
 
 
     print("\n####################\n" + \
           "# Top Games (RAWG) #\n" + \
           "####################\n")
-    search_class.RAWG_Search().top_games()
+    # top_games_dict = SC.RAWG_Search().top_games()
+
+    print("\n###################\n" + \
+            "# Consoles (RAWG) #\n" + \
+            "###################\n")
+    console_list = SC.RAWG_Search().update_console()
+    print("Length:  ", len(console_list))
+    print(console_list)
+
+    print("\n########################\n" + \
+            "# Manufacturers (RAWG) #\n" + \
+            "########################\n")
+    mfg_list = SC.RAWG_Search().update_mfg()
+    print("Length:  ", len(mfg_list))
+    print(mfg_list)
 
     # print("PriceMatching.com Work Around")
     # # a $49/mo subscription is required to use the Price Matching API. However, they do have a csv file with the data
@@ -83,7 +99,7 @@ def main():
           "###########\n")
 
     
-    game_dict = search_class.NEXARDA_Search().search(category, game_name)
+    game_dict = SC.NEXARDA_Search().search(category, game_name)
     # print(game_dict)
 
 
