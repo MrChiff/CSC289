@@ -10,7 +10,8 @@ import secrets
 import sqlite3
 from PIL import Image
 from werkzeug.exceptions import abort
-
+from search_class import RAWG_Search as RS
+from search_class import NEXARDA_Search as NS
 
 ################################################
 # Save user profile pic with Random hex number #
@@ -417,6 +418,22 @@ def manufacturer_update(user_id):
     return render_template('edit_manufacturer.html', title = 'Manufacturer Info', form = form)
 
 
+#######################################
+# Pulling Manufacturer Info from RAWG #
+#######################################
+@app.route("/manufacturer/pull", methods = ['GET', 'POST'])
+@login_required
+def manufacturer_pull():
+    accounts=Manufacturer.query.all()
+    print(accounts)
+    temp = RS().update_mfg
+    # for i in range(len(mfg_list)):
+
+    #     Manufacturer.manufacturer = mfg_list[i]
+    #     db.session.commit()
+    return render_template('manufacturer.html', title='Manufacturer')
+
+
     
 ###############################
 # Game Consoles Systems Route #
@@ -427,24 +444,6 @@ def manufacturer_update(user_id):
 def consoles():
     accounts = Consoles.query.all()
     return render_template('consoles.html', title='Game consoles', accounts = accounts)
-<<<<<<< Updated upstream
-=======
-
-#####################################
-# Update Game Consoles (RAWG) Route #
-#####################################
-# This is to update the console list from RAWG API. 
-@app.route("/update_consoles")
-@login_required
-def update_consoles():
-    # accounts = Consoles.query.all()
-    # return render_template('consoles.html', title='Game consoles', accounts = accounts)
-    top_consoles = SC.RAWG_Search().update_console_list()
-    # take the the dictionary from SC.RAWG_Search() (top_consoles var) 
-    # and input the data into the database. => create a class for this
-    # - use for loop to iterate through the dictionary and another for the list of consoles.
-    return 'working on this page'
->>>>>>> Stashed changes
     
 
 

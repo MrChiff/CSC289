@@ -2,6 +2,7 @@ import requests
 import json
 import re
 import sys
+import math
 
 DEBUG = True
 #================#
@@ -16,7 +17,9 @@ class RAWG_Search:
         self.base_url = "https://api.rawg.io/api/"
         self.results_total = 20
 
+    #====================================#
     def game_search(self, category, name):
+    #====================================#
 
         self.category = category + "?"
         # print(self.category)
@@ -49,8 +52,10 @@ class RAWG_Search:
         
         return self.search_results_dict
     
+    #==================#
     def top_games(self):
-
+    #==================#
+        
         '''
         This function gathers the top games by RAWG and exports them as a dictionary.
         '''
@@ -79,34 +84,67 @@ class RAWG_Search:
         
         return self.top_results_dict
     
+    #=======================#
     def update_console(self):
+    #=======================#
+        '''
+        This function retrieves all of the consoles from the RAWG database (51).
+        '''
 
-        # Do I need to pass in the database in order to modify it and then resave new data.
-        # Or is the database held in memory like with the binary tree?
+        # RAWG has 51 consoles => try to implement the next url to get all of the consoles.
+        # create a function in which this function submits the url and console list and the
+        # new function returns an updated list?
 
-        self.update_consoles_dict = {}
+        self.update_consoles_list = []
 
-        self.update_consoles_url = self.base_url + "consoles?" + self.api_key
+        self.update_consoles_url = self.base_url + "platforms?" + self.api_key
         response = requests.get(self.update_consoles_url)
         response_json = response.json()
 
-        # parse the json file for consoles and manufacturer.
+        # if DEBUG:
+        #     print(response_json)
+        
+        # This is the total number of results for the first page of results.
 
-        return self.update_consoles_dict
+        results_total = response_json["count"]
+        page_results = len(response_json["results"])
+        max_pages = math.ceil(results_total/page_results)
+        
+        for p in range(max_pages):
+
+            for i in range(page_results):
+                self.update_consoles_list.append(response_json["results"][i]["name"])
+
+            if p > 1:
+                # to get the next page add "&page=#" where # is the page number
+                # Updating values for new page.
+                response = requests.get(response_json["next"])
+                response_json = response.json()
+                page_results = len(response_json["results"])
+
+
+        return self.update_consoles_list
     
+    #===================#
     def update_mfg(self):
-        # Do I need to pass in the database in order to modify it and then resave new data.
-        # Or is the database held in memory like with the binary tree?
-
+    #===================#
+        
         self.update_mfg_dict = {}
-
-        self.update_mfg_url = self.base_url + "publisher?" + self.api_key
+        # 40 results is the max per page.
+        self.update_mfg_url = self.base_url + "publishers?" + self.api_key + "&page_size=40"
         response = requests.get(self.update_mfg_url)
         response_json = response.json()
+        
+        for i in range(len(response_json["results"])):
+            name = response_json["results"][i]["name"]
+            games = []
+            
+            for a in range(len(response_json["results"][i]["games"])):
+                games.append(response_json["results"][i]["games"][a]["name"])
 
-        # parse the json file for consoles and manufacturer.
+            self.update_mfg_dict[name] = games
 
-        return self.update_consoles_dict
+        return self.update_mfg_dict
     
 #===================#    
 class NEXARDA_Search:
@@ -163,8 +201,3 @@ class NEXARDA_Search:
                 print(f'{i:<5}{name:<54}{lowest_price:<10}')
         
         return self.search_results_dict
-
-class Update_DB:
-
-    def __init__(self):
-        pass
