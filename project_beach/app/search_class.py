@@ -6,7 +6,7 @@ import math
 
 DEBUG = True
 #================#
-class RAWG_Search:
+class RAWG_Search():
 #================#    
     '''
     This class uses the RAWG API to search for platforms and video games
@@ -84,6 +84,80 @@ class RAWG_Search:
         
         return self.top_results_dict
     
+    #=======================#
+    def update_console(self):
+    #=======================#
+        '''
+        This function retrieves all of the consoles from the RAWG database (51).
+        '''
+
+        # RAWG has 51 consoles => try to implement the next url to get all of the consoles.
+        # create a function in which this function submits the url and console list and the
+        # new function returns an updated list?
+
+        self.update_consoles_list = []
+
+        self.update_consoles_url = self.base_url + "platforms?" + self.api_key
+        response = requests.get(self.update_consoles_url)
+        response_json = response.json()
+
+        # if DEBUG:
+        #     print(response_json)
+        
+        # This is the total number of results for the first page of results.
+
+        results_total = response_json["count"]
+        page_results = len(response_json["results"])
+        max_pages = math.ceil(results_total/page_results)
+        
+        for p in range(max_pages):
+
+            for i in range(page_results):
+                self.update_consoles_list.append(response_json["results"][i]["name"])
+
+            if p > 1:
+                # to get the next page add "&page=#" where # is the page number
+                # Updating values for new page.
+                response = requests.get(response_json["next"])
+                response_json = response.json()
+                page_results = len(response_json["results"])
+
+
+        return self.update_consoles_list
+    
+    #===================#
+    def update_mfg(self):
+    #===================#
+        
+        self.update_mfg_dict = {}
+        # 40 results is the max per page.
+        self.update_mfg_url = self.base_url + "publishers?" + self.api_key + "&page_size=40"
+        response = requests.get(self.update_mfg_url)
+        response_json = response.json()
+        
+        for i in range(len(response_json["results"])):
+            name = response_json["results"][i]["name"]
+            games = []
+            
+            for a in range(len(response_json["results"][i]["games"])):
+                games.append(response_json["results"][i]["games"][a]["name"])
+
+            self.update_mfg_dict[name] = games
+
+        return self.update_mfg_dict
+    
+#================#
+class RAWG_Pull:
+#================#    
+    '''
+    This class uses the RAWG API to search for platforms and video games
+    '''
+
+    def __init__(self):
+        self.api_key = "key=8583455b78234c0b940762d0141319c4"
+        self.base_url = "https://api.rawg.io/api/"
+        self.results_total = 20
+
     #=======================#
     def update_console(self):
     #=======================#

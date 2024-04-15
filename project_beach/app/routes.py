@@ -10,8 +10,9 @@ import secrets
 import sqlite3
 from PIL import Image
 from werkzeug.exceptions import abort
-from search_class import RAWG_Search as RS
-from search_class import NEXARDA_Search as NS
+from search_class import RAWG_Search, NEXARDA_Search, RAWG_Pull
+# from search_class import NEXARDA_Search as NS
+# from search_class import RAWG_Pull as RP
 
 ################################################
 # Save user profile pic with Random hex number #
@@ -426,7 +427,7 @@ def manufacturer_update(user_id):
 def manufacturer_pull():
     accounts=Manufacturer.query.all()
     print(accounts)
-    temp = RS().update_mfg
+    temp = RAWG_Pull().update_mfg()
     # for i in range(len(mfg_list)):
 
     #     Manufacturer.manufacturer = mfg_list[i]

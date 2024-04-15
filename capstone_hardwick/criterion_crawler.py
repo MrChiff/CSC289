@@ -43,7 +43,8 @@
 # add class function to get screenshots and images from RAWG
 
 
-import search_class as SC
+# import search_class as SC
+from search_class import RAWG_Pull as RP
 
 # API page example (not useful/too much info)
 # GET https://api.rawg.io/api/platforms?key=YOUR_API_KEY
@@ -67,14 +68,14 @@ def main():
     print("\n###################\n" + \
             "# Consoles (RAWG) #\n" + \
             "###################\n")
-    console_list = SC.RAWG_Search().update_console()
+    console_list = RP().update_console()
     print("Length:  ", len(console_list))
     print(console_list)
 
     print("\n########################\n" + \
             "# Manufacturers (RAWG) #\n" + \
             "########################\n")
-    mfg_list = SC.RAWG_Search().update_mfg()
+    mfg_list = RP().update_mfg()
     print("Length:  ", len(mfg_list))
     print(mfg_list)
 
@@ -94,13 +95,13 @@ def main():
     # NEXARDA => github.com/NEXARDA/NEXARDA
     # print("\n\n\n")
 
-    print("\n###########\n" + \
-          "# NEXARDA #\n" + \
-          "###########\n")
+    # print("\n###########\n" + \
+    #       "# NEXARDA #\n" + \
+    #       "###########\n")
 
     
-    game_dict = SC.NEXARDA_Search().search(category, game_name)
-    # print(game_dict)
+    # game_dict = SC.NEXARDA_Search().search(category, game_name)
+    # # print(game_dict)
 
 
 
