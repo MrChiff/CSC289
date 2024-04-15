@@ -10,9 +10,11 @@ import secrets
 import sqlite3
 from PIL import Image
 from werkzeug.exceptions import abort
-from search_class import RAWG_Search, NEXARDA_Search, RAWG_Pull
-# from search_class import NEXARDA_Search as NS
-# from search_class import RAWG_Pull as RP
+from search_class import RAWG_Search as RS
+from search_class import NEXARDA_Search as NS
+
+
+
 
 ################################################
 # Save user profile pic with Random hex number #
@@ -426,13 +428,20 @@ def manufacturer_update(user_id):
 @login_required
 def manufacturer_pull():
     accounts=Manufacturer.query.all()
-    print(accounts)
-    temp = RAWG_Pull().update_mfg()
-    # for i in range(len(mfg_list)):
+    flash(accounts)
+    mfg_list = RS().update_mfg()
+    flash(mfg_list)
+    for i in range(len(mfg_list)):
+        if mfg_list[i] in accounts:
+            accounts.remove(mfg_list[i])
+        else:
+            Manufacturer.manufacturer = mfg_list[i]
+            # flash(Manufacturer.manufacturer)
+            db.session.commit()
 
-    #     Manufacturer.manufacturer = mfg_list[i]
-    #     db.session.commit()
-    return render_template('manufacturer.html', title='Manufacturer')
+    accounts=Manufacturer.query.all()
+    flash("The manufacturers have been successfully updated from RAWG.", 'success')
+    return render_template('manufacturer.html', title='Manufacturer', accounts=accounts)
 
 
     
