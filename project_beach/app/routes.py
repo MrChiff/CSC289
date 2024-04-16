@@ -427,22 +427,22 @@ def manufacturer_update(user_id):
 @app.route("/manufacturer/pull", methods = ['GET', 'POST'])
 @login_required
 def manufacturer_pull():
+    temp = []
     accounts=Manufacturer.query.all()
-    flash(accounts)
+    for account in accounts:
+        temp.append(str(account))
     mfg_list = RS().update_mfg()
-    flash(mfg_list)
-    for i in range(len(mfg_list)):
-        if mfg_list[i] in accounts:
-            accounts.remove(mfg_list[i])
-        else:
-            Manufacturer.manufacturer = mfg_list[i]
-            # flash(Manufacturer.manufacturer)
+    for mfg in mfg_list:
+        not_in_list = mfg not in temp
+        flash(not_in_list) 
+        if mfg not in temp:
+            input = Manufacturer(manufacturer=mfg)
+            db.session.add(input)
             db.session.commit()
 
     accounts=Manufacturer.query.all()
     flash("The manufacturers have been successfully updated from RAWG.", 'success')
     return render_template('manufacturer.html', title='Manufacturer', accounts=accounts)
-
 
     
 ###############################
