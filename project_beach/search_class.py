@@ -3,6 +3,7 @@ import json
 import re
 import sys
 import math
+from flask import flash
 
 DEBUG = True
 #================#
@@ -94,12 +95,26 @@ class RAWG_Search():
         # RAWG has 51 consoles => try to implement the next url to get all of the consoles.
         # create a function in which this function submits the url and console list and the
         # new function returns an updated list?
-
+        print("####################################################################################")
+        print("using update console function in Search Class")
+        print("####################################################################################")
         self.update_consoles_list = []
 
         self.update_consoles_url = self.base_url + "platforms?" + self.api_key
+
+        print("####################################################################################")
+        print("creating url to RAWG")
+        print("####################################################################################")
+
         response = requests.get(self.update_consoles_url)
+
+        print("####################################################################################")
+        print("Getting response from RAWG")
+        print("####################################################################################")
+        print(response.json)
         response_json = response.json()
+        flash("passed response.json")
+        print("passed response.json")
 
         # if DEBUG:
         #     print(response_json)
