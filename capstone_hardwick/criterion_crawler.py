@@ -59,29 +59,29 @@ def main():
    
     game_name="call of duty"
     category = "games" 
-    # # rawg_search_results(game_name) 
-    # results_dict = SC.RAWG_Search().game_search(category, game_name)
+    # rawg_search_results(game_name) 
+    results_dict = SC.RAWG_Search().game_search(category, game_name)
 
 
-    print("\n####################\n" + \
-          "# Top Games (RAWG) #\n" + \
-          "####################\n")
-    top_games_dict = SC.RAWG_Search().top_games()
-    # print(top_games_dict)
+    # print("\n####################\n" + \
+    #       "# Top Games (RAWG) #\n" + \
+    #       "####################\n")
+    # top_games_dict = SC.RAWG_Search().top_games()
+    # # print(top_games_dict)
 
-    print("\n###################\n" + \
-            "# Consoles (RAWG) #\n" + \
-            "###################\n")
-    console_list = SC.RAWG_Search().update_console()
-    # print("Length:  ", len(console_list))
-    # print(console_list)
+    # print("\n###################\n" + \
+    #         "# Consoles (RAWG) #\n" + \
+    #         "###################\n")
+    # console_list = SC.RAWG_Search().update_console()
+    # # print("Length:  ", len(console_list))
+    # # print(console_list)
 
-    print("\n########################\n" + \
-            "# Manufacturers (RAWG) #\n" + \
-            "########################\n")
-    mfg_list = SC.RAWG_Search().update_mfg()
-    # print("Length:  ", len(mfg_list))
-    # print(mfg_list)
+    # print("\n########################\n" + \
+    #         "# Manufacturers (RAWG) #\n" + \
+    #         "########################\n")
+    # mfg_list = SC.RAWG_Search().update_mfg()
+    # # print("Length:  ", len(mfg_list))
+    # # print(mfg_list)
 
     # print("PriceMatching.com Work Around")
     # # a $49/mo subscription is required to use the Price Matching API. However, they do have a csv file with the data
@@ -99,13 +99,13 @@ def main():
     # NEXARDA => github.com/NEXARDA/NEXARDA
     # print("\n\n\n")
 
-    print("\n###########\n" + \
-          "# NEXARDA #\n" + \
-          "###########\n")
+    # print("\n###########\n" + \
+    #       "# NEXARDA #\n" + \
+    #       "###########\n")
 
     
-    game_dict = SC.NEXARDA_Search().search(category, game_name)
-    # # print(game_dict)
+    # game_dict = SC.NEXARDA_Search().search(category, game_name)
+    # # # print(game_dict)
 
 
 

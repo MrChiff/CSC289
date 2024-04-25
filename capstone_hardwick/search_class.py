@@ -1,6 +1,6 @@
 import requests
 import json
-import re
+# import re
 import sys
 import math
 
@@ -34,21 +34,31 @@ class RAWG_Search():
         # print(response_json)
 
         if DEBUG:
-            print(f'{"item":<5}{"Name":<54}{"Platform":<72}{"Playtime":<5}')
+            print(f'{"item":<5}{"ID":<8}{"Name":<54}{"Platform":<72}{"lowest price":<5}')
 
         for i in range(self.results_total):
             name = response_json["results"][i]["name"]
             playtime = response_json["results"][i]["playtime"]
+            rawg_id = response_json["results"][i]["id"]
             if playtime == 0:
                 playtime = "unknown"
             platform = []
             for p in range(len(response_json["results"][i]["platforms"])):
                 platform.append(response_json["results"][i]["platforms"][p]["platform"]["name"])
+
+            # use NEXARDA for getting the description and price
+            price_desc_dict = NEXARDA_Search().search("games", name)
+
+            if price_desc_dict is None:
+                self.search_results_dict[name] = [rawg_id, platform, playtime]
+            else: 
+                price_desc_list = price_desc_dict[(next(iter(price_desc_dict)))]
+                self.search_results_dict[name] = [rawg_id, platform, price_desc_list[0], price_desc_list[1], playtime]
             
-            self.search_results_dict[name] = [platform, playtime]
+            # self.search_results_dict[name] = [rawg_id, platform, playtime]
 
             if DEBUG:
-                print(f'{i:<5}{name:<54}{" ".join(platform):<72}{playtime:<5}')
+                print(f'{i:<5}{rawg_id:<8}{name:<54}{" ".join(platform):<72}{price_desc_list[0]:<5}')
         
         return self.search_results_dict
     
@@ -60,12 +70,14 @@ class RAWG_Search():
         This function gathers the top games by RAWG and exports them as a dictionary.
         '''
         self.top_results_dict = {}
+        desc_price_dict = {}
+        desc_price_list = []
 
         self.top_games_url = self.base_url + "games?" + self.api_key + "&-ordering=metacritic" 
         print(self.top_games_url)
         response = requests.get(self.top_games_url)
         response_json = response.json()
-        # print(response_json)
+        print(response_json)
 
         if DEBUG:
             print(f'{"item":<5}{"Name":<54}{"Platform":<72}{"Playtime":<5}')
@@ -78,7 +90,15 @@ class RAWG_Search():
             platform = []
             for p in range(len(response_json["results"][i]["platforms"])):
                 platform.append(response_json["results"][i]["platforms"][p]["platform"]["name"])
-            self.top_results_dict[name] = [platform, playtime]
+            
+            # use NEXARDA for getting the description and price
+            price_desc_dict = NEXARDA_Search().search("games", name)
+
+            if price_desc_dict is None:
+                self.top_results_dict[name] = [platform, playtime]
+            else: 
+                price_desc_list = price_desc_dict[(next(iter(price_desc_dict)))]
+                self.top_results_dict[name] = [platform, price_desc_list[0], price_desc_list[1], playtime]
 
             if DEBUG:
                 print(f'{i:<5}{name:<54}{" ".join(platform):<72}{playtime:<5}')
@@ -134,7 +154,8 @@ class RAWG_Search():
         self.update_mfg_dict = {}
         # 40 results is the max per page.
         self.update_mfg_url = self.base_url + "publishers?" + self.api_key + "&page_size=40"
-        print(self.update_mfg_url)
+        if DEBUG:
+            print(self.update_mfg_url)
         response = requests.get(self.update_mfg_url)
         response_json = response.json()
         
@@ -160,9 +181,11 @@ class NEXARDA_Search:
         self.search_url = "https://www.nexarda.com/api/v3/search?type="
         self.query = "q="
         self.results_total = 20
-
+    
+    #===============================#
     def search(self, category, name):
-
+    #===============================#
+        DEBUG = False
         self.category = category
         self.search_results_dict = {} 
 
@@ -184,11 +207,17 @@ class NEXARDA_Search:
         # Creating URL and sending request
         self.searchable_name = "+".join(name.split())
         search = requests.get(self.search_url + self.category + "&" + self.query + self.searchable_name)
-        print(self.search_url + self.category + "&" + self.query + self.searchable_name)
+        if DEBUG:
+            print(self.search_url + self.category + "&" + self.query + self.searchable_name)
         search_json = json.loads(search.content.decode('utf-8'))
-        # self.results_total = search_json["results"]["total"]
         if search_json["success"] == False:
-            return search_json["message"]
+            # return search_json["message"]
+            return None
+     
+        temp_total = search_json["results"]["total"]
+
+        if self.results_total > temp_total:
+            self.results_total = temp_total
 
         if DEBUG:
             print(f'{"item":<5}{"Name":<54}{"Lowest Price":<10}')
@@ -196,29 +225,17 @@ class NEXARDA_Search:
         for i in range(self.results_total):
             name = search_json["results"]["items"][i]["title"][:-7]
             # year = (search_json["results"]["items"][i]["title"][-5:-1])
-            lowest_price = ((re.findall(r"[$,\d]+[.,\d]+[.,\d]+[.,\d]", search_json["results"]["items"][i]["text"])))
-            if lowest_price:
-                lowest_price = lowest_price[0] 
-            else:
+            # lowest_price = ((re.findall(r"[$,\d]+[.,\d]+[.,\d]+[.,\d]", search_json["results"]["items"][i]["text"])))
+            lowest_price = search_json["results"]["items"][i]["game_info"]["lowest_price"]
+            if not lowest_price:
                 lowest_price = "Free"
+            elif lowest_price < 0.0:
+                lowest_price = "unknown"
             
-            # # Retrieving developer and publisher id numbers
-            # developers_id = []
-            # developers_id = search_json["results"]["items"][i]["game_info"]["developers"]
-            # publishers_id = search_json["results"]["items"][i]["game_info"]["publishers"]
+            description = search_json["results"]["items"][i]["game_info"]["short_desc"]
+            
 
-            # # Linking developer id to developer name
-            # dev_search = requests.get(self.search_url + "developers" + "&" + "id=" + str(developers_id[0]))
-            # dev_json = json.loads(dev_search.content.decode('utf-8'))
-            # print(dev_json)
-
-
-            # print("developers ID:  ", developers_id)
-
-            # developers = 0
-            # for x in range()
-
-            self.search_results_dict[name] = lowest_price
+            self.search_results_dict[name] = [lowest_price, description]
             
             if DEBUG:
                 print(f'{i:<5}{name:<54}{lowest_price:<10}')
