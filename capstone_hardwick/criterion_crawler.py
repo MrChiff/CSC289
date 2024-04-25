@@ -44,7 +44,10 @@
 
 
 # import search_class as SC
-from search_class import RAWG_Pull as RP
+import search_class as SC
+import asyncio
+import rawg
+import rawgpy
 
 # API page example (not useful/too much info)
 # GET https://api.rawg.io/api/platforms?key=YOUR_API_KEY
@@ -63,21 +66,22 @@ def main():
     print("\n####################\n" + \
           "# Top Games (RAWG) #\n" + \
           "####################\n")
-    # top_games_dict = SC.RAWG_Search().top_games()
+    top_games_dict = SC.RAWG_Search().top_games()
+    # print(top_games_dict)
 
     print("\n###################\n" + \
             "# Consoles (RAWG) #\n" + \
             "###################\n")
-    console_list = RP().update_console()
-    print("Length:  ", len(console_list))
-    print(console_list)
+    console_list = SC.RAWG_Search().update_console()
+    # print("Length:  ", len(console_list))
+    # print(console_list)
 
     print("\n########################\n" + \
             "# Manufacturers (RAWG) #\n" + \
             "########################\n")
-    mfg_list = RP().update_mfg()
-    print("Length:  ", len(mfg_list))
-    print(mfg_list)
+    mfg_list = SC.RAWG_Search().update_mfg()
+    # print("Length:  ", len(mfg_list))
+    # print(mfg_list)
 
     # print("PriceMatching.com Work Around")
     # # a $49/mo subscription is required to use the Price Matching API. However, they do have a csv file with the data
@@ -95,14 +99,44 @@ def main():
     # NEXARDA => github.com/NEXARDA/NEXARDA
     # print("\n\n\n")
 
-    # print("\n###########\n" + \
-    #       "# NEXARDA #\n" + \
-    #       "###########\n")
+    print("\n###########\n" + \
+          "# NEXARDA #\n" + \
+          "###########\n")
 
     
-    # game_dict = SC.NEXARDA_Search().search(category, game_name)
+    game_dict = SC.NEXARDA_Search().search(category, game_name)
     # # print(game_dict)
 
+
+
+    # print("\n###########\n" + \
+    #       "# RAWGPY #\n" + \
+    #       "###########\n")
+    # import rawgpy
+
+    # rawg = rawgpy.RAWG("Criterion Crawler")
+    # results = rawg.search("Warframe")  # defaults to returning the top 5 results
+    # print(results)
+    # game = results[0]
+    # game.populate()  # get additional info for the game
+
+    # print(game.name)
+
+    # print(game.description)
+
+    # for store in game.stores:
+    #     print(store.url)
+
+    # rawg.login("someemail@example.com", "somepassword")
+
+    # me = rawg.current_user()
+
+    # print(me.name) # print my name, equivalent to print(self.username)
+
+    # me.populate() # gets additional info for the user
+
+    # for game in me.playing:
+    #     print(game.name) # prints all the games i'm currently playing
 
 
 # Call the main function.

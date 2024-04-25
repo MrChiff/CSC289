@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `vgls` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `vgls`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: vgls
@@ -29,7 +31,7 @@ CREATE TABLE `consoles` (
   PRIMARY KEY (`id`),
   KEY `manufacturer_fk_idx` (`manufacturer_id`),
   CONSTRAINT `manufacturer_fk` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +40,7 @@ CREATE TABLE `consoles` (
 
 LOCK TABLES `consoles` WRITE;
 /*!40000 ALTER TABLE `consoles` DISABLE KEYS */;
-INSERT INTO `consoles` VALUES (1,'Playstation',2),(2,'Xbox 360',3),(3,'Xbox One',3),(4,'Super Nintendo',1),(5,'NES',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'Game Cube',1),(9,'Wii',1),(10,'Atari',7),(11,'Playstation 5',2),(12,'Playstation 3',2),(13,'Playstation 4',2),(14,'Xbox Series S',3),(15,'Xbox Series X',3),(16,'Wii U',1),(17,'Atari Jaguar',7),(18,'Saturn',4),(19,'Dreamcast',4),(20,'SG-1000',4),(21,'Master System',4),(22,'Genesis',4),(23,'Game Gear',4),(24,'Sega CD',4),(25,'Pico',4),(26,'32X',4),(27,'Advanced Pico Beena',4),(28,'Genesis Mini',4),(29,'Game Gear Micro',4),(30,'Genesis Mini 2',4),(31,'Nintendo 64',1),(32,'Game Boy',1),(33,'Game Boy Color',1),(34,'Game Boy Advance',1),(35,'DS',1),(36,'3DS',1),(37,'Virtual Boy',1),(38,'Playstation Portable',2),(39,'Vita',2),(40,'PS One',2),(41,'Xbox',3);
+INSERT INTO `consoles` VALUES (1,'Playstation',2),(2,'Xbox 360',3),(3,'Xbox One',3),(4,'SNES',1),(5,'NES',1),(6,'Switch',1),(7,'Playstation 2',2),(8,'GameCube',1),(9,'Wii',1),(10,'Atari',7),(11,'Playstation 5',2),(12,'Playstation 3',2),(13,'Playstation 4',2),(14,'Xbox Series S',3),(15,'Xbox Series X',3),(16,'Wii U',1),(17,'Jaguar',7),(18,'SEGA Saturn',4),(19,'Dreamcast',4),(20,'SG-1000',4),(21,'SEGA Master System',4),(22,'Genesis',4),(23,'Game Gear',4),(24,'SEGA CD',4),(25,'Pico',4),(26,'SEGA 32X',4),(27,'Advanced Pico Beena',4),(28,'Genesis Mini',4),(29,'Game Gear Micro',4),(30,'Genesis Mini 2',4),(31,'Nintendo 64',1),(32,'Game Boy',1),(33,'Game Boy Color',1),(34,'Game Boy Advance',1),(35,'Nintendo DS',1),(36,'Nintendo 3DS',1),(37,'Virtual Boy',1),(38,'PSP',2),(39,'PS Vita',2),(40,'PS One',2),(41,'Xbox',3),(42,'Xbox One',3),(43,'iOS',17),(44,'Android',18),(45,'Nintendo DSi',1),(46,'macOS',17),(47,'Commodore / Amiga',19),(48,'Atari 7800',7),(49,'Atari 5200',7),(50,'Atari 2600',7),(51,'Atari Flashback',7),(52,'Atari 8-bit',7),(53,'Atari ST',7),(54,'Atari Lynx',7),(55,'Atari XEGS',7),(56,'3DO',20),(57,'Neo Geo',21);
 /*!40000 ALTER TABLE `consoles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +117,7 @@ CREATE TABLE `manufacturer` (
   `id` int NOT NULL AUTO_INCREMENT,
   `manufacturer` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +126,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA'),(8,'Square'),(9,'Sony Interactive Entertainment America'),(10,'Ubisoft'),(11,'Epic Games'),(12,'Capcom'),(13,'Activisionblizzard'),(14,'PopCap Games'),(15,'Konami');
+INSERT INTO `manufacturer` VALUES (0,'unknown'),(1,'Nintendo'),(2,'Sony'),(3,'Microsoft'),(4,'Sega'),(5,'Namco'),(6,'Square Enix'),(7,'Atari SA'),(8,'Square'),(9,'Sony Interactive Entertainment America'),(10,'Ubisoft'),(11,'Epic Games'),(12,'Capcom'),(13,'Activisionblizzard'),(14,'PopCap Games'),(15,'Konami'),(16,'Apple'),(17,'Google'),(18,'Android'),(19,'Commodore'),(20,'3DO'),(21,'SNK Corporation');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,6 +188,14 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'niatheangel','Brenda','Beach','$2b$12$8ZRKlA58QA7pdFHaUMpzWOdhpSiM0PgHJWyHCyDR00sdxSZtSOvTm','default.jpg','Admin'),(2,'testuser','Test','User','$2b$12$LUjfP38q6PLv7BB86RWmnuz42nNexNW1cQAnRz3jI58tIQsIinYby','default.jpg','Admin'),(3,'dragon2peer','David','North','$2b$12$.azK9JwUerZQ15bCkVfVveby9eBu3VwSp/dPPP75YigRPTUCYSe/W','default.jpg','User'),(4,'testuser2','test','user2','$2b$12$wswCbOB/4A9d/cQeR5hRMe8cwLVNQS8s3Rs9pz5ImDfJFoRrGM3ji','default.jpg','User');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'vgls'
+--
+
+--
+-- Dumping routines for database 'vgls'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -196,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-08 15:20:04
+-- Dump completed on 2024-04-24 21:40:25

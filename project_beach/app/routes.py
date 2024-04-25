@@ -509,26 +509,26 @@ def console_update(user_id):
 ###################################
 # Pulling Consoles Info from RAWG #
 ###################################
-@app.route("/console/pull", methods = ['GET', 'POST'])
-@login_required
-def console_pull():
-    temp = []
-    accounts=Consoles.query.all()
-    # converts the accounts from objects to strings
-    for account in accounts:
-        temp.append(str(account))
-    console_list = RS().update_console()
-    for con in console_list:
-        not_in_list = con not in temp
-        flash(not_in_list) 
-        if con not in temp:
-            input = Consoles(console=con, manufacturer_id = 0000000)
-            db.session.add(input)
-            db.session.commit()
+# @app.route("/console/pull", methods = ['GET', 'POST'])
+# @login_required
+# def console_pull():
+#     temp = []
+#     accounts=Consoles.query.all()
+#     # converts the accounts from objects to strings
+#     for account in accounts:
+#         temp.append(str(account))
+#     console_list = RS().update_console()
+#     for con in console_list:
+#         not_in_list = con not in temp
+#         flash(not_in_list) 
+#         if con not in temp:
+#             input = Consoles(console=con, manufacturer_id = 0)
+#             db.session.add(input)
+#             db.session.commit()
 
-    accounts=Consoles.query.all()
-    flash("The consoles have been successfully updated from RAWG.", 'success')
-    return render_template('consoles.html', title='Consoles', accounts=accounts)
+#     accounts=Consoles.query.all()
+#     flash("The consoles have been successfully updated from RAWG.", 'success')
+#     return render_template('consoles.html', title='Consoles', accounts=accounts)
 
 
 ############################

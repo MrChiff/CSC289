@@ -73,6 +73,7 @@ class Consoles(db.Model, UserMixin):
     console = db.Column(db.String(100), nullable = False)
     # Each Console can have only one manufacturer
     manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable = False)
+    # manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'))
     # This is the back reference for the one to many
     system_id = db.relationship('Games', backref='consoles', lazy=True)
     # This is how the object will be printed
