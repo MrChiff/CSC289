@@ -5,9 +5,9 @@ import sys
 import math
 
 DEBUG = False
-#================#
+#==================#
 class RAWG_Search():
-#================#    
+#==================#    
     '''
     This class uses the RAWG API to search for platforms and video games
     '''
@@ -27,7 +27,8 @@ class RAWG_Search():
         self.search_results_dict = {}
 
         self.search_url = self.base_url + self.category + self.api_key + "&search=" + self.searchable_name
-        print(self.search_url)
+        if DEBUG:
+            print(self.search_url)
 
         response = requests.get(self.search_url)
         response_json = response.json()
@@ -50,7 +51,7 @@ class RAWG_Search():
             price_desc_dict = NEXARDA_Search().search("games", name)
 
             if price_desc_dict is None:
-                self.search_results_dict[name] = [rawg_id, platform, playtime]
+                self.search_results_dict[name] = [rawg_id, platform, 'unknown', 'unknown', playtime]
             else: 
                 price_desc_list = price_desc_dict[(next(iter(price_desc_dict)))]
                 self.search_results_dict[name] = [rawg_id, platform, price_desc_list[0], price_desc_list[1], playtime]
@@ -74,16 +75,19 @@ class RAWG_Search():
         desc_price_list = []
 
         self.top_games_url = self.base_url + "games?" + self.api_key + "&-ordering=metacritic" 
-        print(self.top_games_url)
+        if DEBUG:
+            print(self.top_games_url)
         response = requests.get(self.top_games_url)
         response_json = response.json()
-        print(response_json)
+        if DEBUG:
+            print(response_json)
 
         if DEBUG:
             print(f'{"item":<5}{"Name":<54}{"Platform":<72}{"Playtime":<5}')
 
         for i in range(self.results_total):
             name = response_json["results"][i]["name"]
+            rawg_id = response_json["results"][i]["id"]
             playtime = response_json["results"][i]["playtime"]
             if playtime == 0:
                 playtime = "unknown"
@@ -95,10 +99,10 @@ class RAWG_Search():
             price_desc_dict = NEXARDA_Search().search("games", name)
 
             if price_desc_dict is None:
-                self.top_results_dict[name] = [platform, playtime]
+                self.top_results_dict[name] = [rawg_id, platform, 'unknown', 'unknown', playtime]
             else: 
                 price_desc_list = price_desc_dict[(next(iter(price_desc_dict)))]
-                self.top_results_dict[name] = [platform, price_desc_list[0], price_desc_list[1], playtime]
+                self.top_results_dict[name] = [rawg_id, platform, price_desc_list[0], price_desc_list[1], playtime]
 
             if DEBUG:
                 print(f'{i:<5}{name:<54}{" ".join(platform):<72}{playtime:<5}')
@@ -185,6 +189,7 @@ class NEXARDA_Search:
     #===============================#
     def search(self, category, name):
     #===============================#
+        DEBUG = False
         self.category = category
         self.search_results_dict = {} 
 

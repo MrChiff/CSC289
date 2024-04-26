@@ -612,8 +612,48 @@ def games_update(user_id):
     return render_template('edit_games.html', title = 'Game Info', form = form)
 
 
+###################################
+# Pulling Consoles Info from RAWG #
+###################################
+@app.route("/games/pull", methods = ['GET', 'POST'])
+@login_required
+def pull_top_games():
+    # print("************************************************************")
+    # print("Started pull_top_games")
+    temp = []
+    accounts=Games.query.all()
+    # converts the accounts from objects to strings
+    for account in accounts:
+        temp.append(str(account))
+    top_games = RS().top_games()
+    for game in top_games:
+        # print("************************************************************")
+        # print(str(game) + str(top_games[game]))
+        # flash(str(game) + str(top_games[game]))
+        rawg_id = top_games[game][0]
+        # platforms is a list
+        platforms = top_games[game][1]
+        price = top_games[game][2]
+        description = top_games[game][3]
+        playtime = top_games[game][4]
+        # print("************************************************************")
+        # print("passed variable import from RAWG_Search().top_games()")
+        not_in_list = game not in temp
+        flash(not_in_list) 
+        if game not in temp:
+            for platform in platforms:
+                # print("************************************************************")
+                # print(platform)
+                # print("************************************************************")
+                con = Consoles.query.filter_by(console=platform).first().id
+                # print("console:  ", con)
+                input = Games(videogame=game, creator_id = 0, console_id = con)
+                db.session.add(input)
+                db.session.commit()
 
-
+    accounts=Games.query.all()
+    flash("The top games from RAWG (according to metacritic score) have been added to the video game database.", 'success')
+    return render_template('video_games.html', title='Vidoe Games', accounts=accounts)
 
 
 

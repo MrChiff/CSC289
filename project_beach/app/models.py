@@ -87,7 +87,7 @@ class Consoles(db.Model, UserMixin):
 class Games(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     videogame = db.Column(db.String(100), nullable = False)
-    creator_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable = False)
+    creator_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable = True)
     # Each Console can have more than one game
     console_id = db.Column(db.Integer, db.ForeignKey('consoles.id'), nullable = False)
     # This is how the object will be printed

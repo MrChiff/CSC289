@@ -45,9 +45,9 @@
 
 # import search_class as SC
 import search_class as SC
-import asyncio
-import rawg
-import rawgpy
+# import asyncio
+# import rawg
+# import rawgpy
 
 # API page example (not useful/too much info)
 # GET https://api.rawg.io/api/platforms?key=YOUR_API_KEY
@@ -61,6 +61,7 @@ def main():
     category = "games" 
     # rawg_search_results(game_name) 
     results_dict = SC.RAWG_Search().game_search(category, game_name)
+    print(results_dict)
 
 
     # print("\n####################\n" + \
