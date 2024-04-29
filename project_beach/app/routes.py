@@ -80,6 +80,7 @@ def login():
 @app.route("/welcome")
 @login_required
 def welcome():
+
     return render_template('welcome.html', title='Welcome')
  
 
@@ -506,31 +507,6 @@ def console_update(user_id):
     return render_template('edit_consoles.html', title = 'Manufacturer Info', form = form)
 
 
-###################################
-# Pulling Consoles Info from RAWG #
-###################################
-# @app.route("/console/pull", methods = ['GET', 'POST'])
-# @login_required
-# def console_pull():
-#     temp = []
-#     accounts=Consoles.query.all()
-#     # converts the accounts from objects to strings
-#     for account in accounts:
-#         temp.append(str(account))
-#     console_list = RS().update_console()
-#     for con in console_list:
-#         not_in_list = con not in temp
-#         flash(not_in_list) 
-#         if con not in temp:
-#             input = Consoles(console=con, manufacturer_id = 0)
-#             db.session.add(input)
-#             db.session.commit()
-
-#     accounts=Consoles.query.all()
-#     flash("The consoles have been successfully updated from RAWG.", 'success')
-#     return render_template('consoles.html', title='Consoles', accounts=accounts)
-
-
 ############################
 # Video Game Systems Route #
 ############################
@@ -618,8 +594,6 @@ def games_update(user_id):
 @app.route("/games/pull", methods = ['GET', 'POST'])
 @login_required
 def pull_top_games():
-    # print("************************************************************")
-    # print("Started pull_top_games")
     temp = []
     accounts=Games.query.all()
     # converts the accounts from objects to strings
@@ -627,24 +601,16 @@ def pull_top_games():
         temp.append(str(account))
     top_games = RS().top_games()
     for game in top_games:
-        # print("************************************************************")
-        # print(str(game) + str(top_games[game]))
-        # flash(str(game) + str(top_games[game]))
         rawg_id = top_games[game][0]
         # platforms is a list
         platforms = top_games[game][1]
         price = top_games[game][2]
         description = top_games[game][3]
         playtime = top_games[game][4]
-        # print("************************************************************")
-        # print("passed variable import from RAWG_Search().top_games()")
         not_in_list = game not in temp
         flash(not_in_list) 
         if game not in temp:
             for platform in platforms:
-                # print("************************************************************")
-                # print(platform)
-                # print("************************************************************")
                 con = Consoles.query.filter_by(console=platform).first().id
                 # print("console:  ", con)
                 input = Games(videogame=game, creator_id = 0, console_id = con)

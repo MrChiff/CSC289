@@ -224,3 +224,14 @@ class UpdateGames(FlaskForm):
     #######################################################
     
     
+#####################
+# Update Games Form #
+#####################
+
+# This is creating the form for user library creation
+class CreateLibrary(FlaskForm):
+    # Username will be used as the label for the html.
+    videogame = StringField('Video Game', validators=[DataRequired()])
+    manufacturer = QuerySelectField(query_factory=manufacturer_query, allow_blank=False)
+    console = QuerySelectField(query_factory = console_query, allow_blank=False)
+    submit = SubmitField('Update Video Games')
