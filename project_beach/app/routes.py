@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
 from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, \
     UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query, \
-        games_query, CreateLibrary
+    games_query, CreateLibrary
 from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
 from app.db_query import playstation, switch

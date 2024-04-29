@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `vgls` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `vgls`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: vgls
@@ -84,15 +82,15 @@ DROP TABLE IF EXISTS `library`;
 CREATE TABLE `library` (
   `id` int NOT NULL AUTO_INCREMENT,
   `videogame_id` int NOT NULL,
-  `machine_id` int NOT NULL,
+  `console_id` int NOT NULL,
   `quantity` int NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `game_fk_idx` (`videogame_id`),
-  KEY `console_fk_idx` (`machine_id`),
+  KEY `console_fk_idx` (`console_id`),
   KEY `library_user_fk_idx` (`user_id`),
   CONSTRAINT `game_fk` FOREIGN KEY (`videogame_id`) REFERENCES `games` (`id`),
-  CONSTRAINT `library_console_fk` FOREIGN KEY (`machine_id`) REFERENCES `consoles` (`id`),
+  CONSTRAINT `library_console_fk` FOREIGN KEY (`console_id`) REFERENCES `consoles` (`id`),
   CONSTRAINT `library_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -190,12 +188,37 @@ INSERT INTO `user` VALUES (1,'niatheangel','Brenda','Beach','$2b$12$8ZRKlA58QA7p
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'vgls'
+-- Temporary view structure for view `vw_consolidated`
 --
 
+DROP TABLE IF EXISTS `vw_consolidated`;
+/*!50001 DROP VIEW IF EXISTS `vw_consolidated`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_consolidated` AS SELECT 
+ 1 AS `games_id`,
+ 1 AS `videogame`,
+ 1 AS `console`,
+ 1 AS `manufacturer`*/;
+SET character_set_client = @saved_cs_client;
+
 --
--- Dumping routines for database 'vgls'
+-- Final view structure for view `vw_consolidated`
 --
+
+/*!50001 DROP VIEW IF EXISTS `vw_consolidated`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_consolidated` AS select `games`.`id` AS `games_id`,`games`.`videogame` AS `videogame`,`consoles`.`console` AS `console`,`manufacturer`.`manufacturer` AS `manufacturer` from ((`games` left join `consoles` on((`games`.`id` = `consoles`.`id`))) left join `manufacturer` on((`games`.`creator_id` = `manufacturer`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -206,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-24 21:40:25
+-- Dump completed on 2024-04-29 16:00:58
