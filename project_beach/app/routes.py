@@ -1,7 +1,9 @@
 # Importing flask
 import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
-from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query
+from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, \
+    UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query, \
+        games_query, CreateLibrary
 from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
 from app.db_query import playstation, switch
@@ -643,80 +645,22 @@ def pull_top_games():
 # This is to log the user out of the current session so another user can log in. 
 @app.route("/create_library")
 @login_required
-def library():
-    return render_template('create_library.html', title='Create Library')  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+def modify_library():
+    # form = CreateLibrary()
+    # if form.validate_on_submit():
+    #     manufacturer_name = str(form.manufacturer.data)
+    #     manufacturer = db.session.execute(db.select(Manufacturer).filter_by(manufacturer=manufacturer_name)).scalar_one()
+    #     manufacturer_idnum = manufacturer.id
+    #     console_name = str(form.console.data)
+    #     console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
+    #     console_idnum = console.id
+    #     post = Games(videogame=form.videogame.data, creator_id=manufacturer_idnum ,console_id=console_idnum )
+    #     db.session.add(post)
+    #     db.session.commit()
+    #     flash("The video game has been added successfully.")
+    #     return redirect(url_for('video_games'))
+    # return render_template('create_games.html', title='Create Games', form=form)
+    return render_template('create_library.html', title='Library')  
 
 
 ########################

@@ -108,4 +108,4 @@ class Library(db.Model, UserMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # This is how the object will be printed
     def __repr__(self):
-        return f"{self.videogame}"
+        return f"{self.user_id}"

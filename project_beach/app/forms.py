@@ -222,16 +222,23 @@ class UpdateGames(FlaskForm):
     # Being created when updating but still allow the     #
     # Console name if you need to change the manufacturer #
     #######################################################
+
+#################################################
+# Query the Game Consoles Table for QuerySelect #
+#################################################
+# This will query the manufacturer table to populate the QuerySelect
+def games_query():
+    return Games.query
     
     
 #####################
-# Update Games Form #
+# Library Form #
 #####################
 
 # This is creating the form for user library creation
 class CreateLibrary(FlaskForm):
     # Username will be used as the label for the html.
-    videogame = StringField('Video Game', validators=[DataRequired()])
-    manufacturer = QuerySelectField(query_factory=manufacturer_query, allow_blank=False)
-    console = QuerySelectField(query_factory = console_query, allow_blank=False)
-    submit = SubmitField('Update Video Games')
+    manufacturer = QuerySelectField(query_factory=manufacturer_query, allow_blank=False, validators=[DataRequired()])
+    console = QuerySelectField(query_factory = console_query, allow_blank=False, validators=[DataRequired()])
+    videogame = QuerySelectField(query_factory = games_query, allow_blank=False, validators=[DataRequired()])
+    submit = SubmitField('Update Library')
