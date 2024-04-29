@@ -591,7 +591,7 @@ def games_update(user_id):
 
 
 ###################################
-# Pulling Consoles Info from RAWG #
+# Pulling Top Games Info from RAWG #
 ###################################
 @app.route("/games/pull", methods = ['GET', 'POST'])
 @login_required
@@ -610,7 +610,7 @@ def pull_top_games():
         description = top_games[game][3]
         playtime = top_games[game][4]
         not_in_list = game not in temp
-        flash(not_in_list) 
+        # flash(not_in_list) 
         if game not in temp:
             for platform in platforms:
                 con = Consoles.query.filter_by(console=platform).first().id
