@@ -92,7 +92,7 @@ CREATE TABLE `library` (
   CONSTRAINT `game_fk` FOREIGN KEY (`videogame_id`) REFERENCES `games` (`id`),
   CONSTRAINT `library_console_fk` FOREIGN KEY (`console_id`) REFERENCES `consoles` (`id`),
   CONSTRAINT `library_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,6 +101,7 @@ CREATE TABLE `library` (
 
 LOCK TABLES `library` WRITE;
 /*!40000 ALTER TABLE `library` DISABLE KEYS */;
+INSERT INTO `library` VALUES (1,1,13,1,2),(2,8,13,2,2);
 /*!40000 ALTER TABLE `library` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,4 +230,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-29 16:00:58
+-- Dump completed on 2024-04-29 18:37:19
