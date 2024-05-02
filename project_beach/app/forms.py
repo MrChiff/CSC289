@@ -242,3 +242,19 @@ class CreateLibrary(FlaskForm):
     console = QuerySelectField(query_factory = console_query, allow_blank=False, validators=[DataRequired()])
     videogame = QuerySelectField(query_factory = games_query, allow_blank=False, validators=[DataRequired()])
     submit = SubmitField('Update Library')
+
+##########################
+# Video Game Search Form #
+##########################
+
+# This is creating the form for user registration
+class VideoGameSearch(FlaskForm):
+    # Username will be used as the label for the html.
+    vg_search = StringField('Video Game Search', validators=[DataRequired()])
+    submit = SubmitField('Search')
+    
+    def validate_manufacturer(self, vg_search):
+        vg_name = Games.query.filter_by(videogame = vg_search.data).first()
+        if vg_name:
+            flash("This manufacturer already exists. Please try again")
+            raise ValidationError('This manufacturer already exists. Please select another one.')

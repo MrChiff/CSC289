@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
 from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, \
     UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query, \
-    games_query, CreateLibrary
+    games_query, CreateLibrary, VideoGameSearch
 from app.models import User, Reviews, Manufacturer, Consoles, Games
 from app import app, db, bcrypt
 from app.db_query import playstation, switch
@@ -13,7 +13,7 @@ import sqlite3
 from PIL import Image
 from werkzeug.exceptions import abort
 from search_class import RAWG_Search as RS
-from search_class import NEXARDA_Search as NS
+# from search_class import NEXARDA_Search as NS
 
 
 
@@ -84,6 +84,61 @@ def login():
 def welcome():
 
     return render_template('welcome.html', title='Welcome')
+
+################
+# Search Route #
+################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/search", methods = ['GET', 'POST'])
+@login_required
+def search():
+    form = VideoGameSearch()
+    if form.validate_on_submit():
+        # Getting search results from RAWG and NEXARDA
+        search_results = RS().game_search("games", form.vg_search.data)
+        
+        # Committing unique results to database
+        temp = []
+        results_names = []
+        prices = []
+        accounts=Games.query.all()
+
+        # converts the accounts from objects to strings
+        for account in accounts:
+            temp.append(str(account))
+
+        for game in search_results:
+            results_names.append(game)
+            rawg_id = search_results[game][0]
+            # platforms is a list
+            platforms = search_results[game][1]
+            price = search_results[game][2]
+            prices.append(price)
+            description = search_results[game][3]
+            playtime = search_results[game][4]
+            not_in_list = game not in temp
+            # flash(not_in_list) 
+            if game not in temp:
+                for platform in platforms:
+                    con = Consoles.query.filter_by(console=platform).first()
+                    if con is None:
+                        new_console = Consoles(console=platform, manufacturer_id = 0)
+                        db.session.add(new_console)
+                        db.session.commit()
+                        con = Consoles.query.filter_by(console=platform).first()
+                    input = Games(videogame=game, creator_id = 0, console_id = con.id)
+                    db.session.add(input)
+                    db.session.commit() 
+
+        # # Display search results in table on html
+        # # Getting 405 method not allowed
+        # # return render_template('search.html', title='Search', form=form, results_names=results_names, prices=prices)
+        # return render_template('search.html', title='Search', form=form, results_names=results_names)
+        # Make add button to add to user library
+        return render_template('search.html', title='Search', form=form, results_names=search_results)
+    # flash(f'The search was successful!', 'success')
+    # return render_template('search.html', title='Search', form=form, results_names="", prices="")
+    return render_template('search.html', title='Search', form=form, results_names="")
  
 
 ######################
@@ -613,9 +668,13 @@ def pull_top_games():
         # flash(not_in_list) 
         if game not in temp:
             for platform in platforms:
-                con = Consoles.query.filter_by(console=platform).first().id
-                # print("console:  ", con)
-                input = Games(videogame=game, creator_id = 0, console_id = con)
+                con = Consoles.query.filter_by(console=platform).first()
+                if con is None:
+                    new_console = Consoles(console=platform, manufacturer_id = 0)
+                    db.session.add(new_console)
+                    db.session.commit()
+                    con = Consoles.query.filter_by(console=platform).first()
+                input = Games(videogame=game, creator_id = 0, console_id = con.id)
                 db.session.add(input)
                 db.session.commit()
 

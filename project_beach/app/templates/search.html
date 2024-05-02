@@ -1,0 +1,43 @@
+{% extends "base2.html" %}
+{% block base2 %}
+
+<div class="content-section2">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
+	 	<form method ="POST" action = ''>
+			<fieldset class = 'from-group'>
+				<legend class="display-3 border-bottom lead text-center text-white mb-4">Video Game Search</legend>
+                <div class="row justify-content-center">
+					<div class='media-body col-5'>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group text-white">
+                            {{ form.vg_search.label(class="form-control2-label") }}
+                            {% if form.vg_search.errors %}
+                                {{ form.vg_search(class="form-control2 form-control2-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.vg_search.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.vg_search(class="form-control2 form-control2-lg") }}
+                            {% endif %}
+                        </div>
+                        {{ form.submit(class="btn btn-outline-info") }}
+                        <a class='btn btn-outline-info m-1' href="{{url_for('search')}}">Clear</a>
+                        {% for name in results_names %}
+							<article class='media content-section'>
+								<div class='media-body'>
+									<div class='article-metadata'>
+										<a class="mr-2">{{name}}</a>
+                                        <a class="mr-2">{{results_names[name]}}</a>
+									</div>
+								</div>
+							</article>
+						{% endfor %}
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+</div>
+
+{% endblock base2 %}
