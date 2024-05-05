@@ -105,7 +105,7 @@ class Library(db.Model, UserMixin):
     # This is console id
     console_id = db.Column(db.Integer, db.ForeignKey('console.id'), nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
     # This is how the object will be printed
     def __repr__(self):
-        return f"{self.videogame_id}"
+        return f"{self.videogame_id, self.console_id, self.quantity, self.user_id}"

@@ -17,22 +17,21 @@
 				<div class="row justify-content-center">
 					<div class='media-body col-6'>
 						<a class='btn btn-outline-info m-1' href="{{url_for('create_library')}}">Create Library</a>
-						{% for account in accounts %}
-						<article class='media content-section'>
-							<div class='media-body'>
-								<div class='article-metadata'>
-									<h6>Videogame Console Quantity User</h6>
-									<a class="mr-4">{{account.id}}</a>
-									<a class="mr-4">{{account.videogame_id}}</a>
-									<a class="mr-4">{{account.console_id}}</a>
-									<a class="mr-4">{{account.quantity}}</a>
-									<a class="mr-4">{{account.user_id}}</a>
-									<a class="ml-4 mr-6" href="{{url_for("delete_library", user_id=account.id)}}">Delete</a>
+                        {% for account in accounts %}
+							<article class='media content-section'>
+								<div class='media-body'>
+									<div class='article-metadata'>
+										<a class="mr-4">{{account.videogame}}</a>
+										<!-- Possibly need to take out the Jinga code out and add html to get console name -->
+										<a class="mr-4">{{account.console}}</a>
+                                        <a class="mr-4">{{account.quantity}}</a>
+                                        <a class="mr-4">{{account.user}}</a>
+										<a class="ml-4 mr-6" href="{{url_for("delete_game", user_id=account.id)}}">Delete</a>
 										<!--I need to update this line of code to update the console information-->
-										<a class="ml-4 mr-6" href="{{url_for('update_library', user_id=account.id)}}">Update Library</a>
+										<a class="ml-4 mr-6" href="{{url_for('games_update', user_id=account.id)}}">Update Console</a>
+									</div>
 								</div>
-							</div>
-						</article>
+							</article>
 						{% endfor %}
 					</div>
 				</div>

@@ -646,9 +646,10 @@ def pull_top_games():
 @app.route("/view_library")
 @login_required
 def view_library():
+    headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
     accounts = Library.query.all()
     print (accounts)
-    return render_template('library.html', title='Library', accounts = accounts)
+    return render_template('library.html', title='Library',headings = headings, accounts = accounts)
 
 
 
@@ -683,29 +684,6 @@ def create_library():
         flash("The library has been added successfully.")
         return render_template('create_library')
     return render_template('create_library.html', title='Library', form=form)  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

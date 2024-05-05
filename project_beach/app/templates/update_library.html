@@ -1,12 +1,25 @@
 {% extends "base2.html" %}
+{% block base2 %}
 <style>
     body{
         background-repeat:no-repeat;
         background-attachment: fixed;
         background-size: cover;
-        background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
+        background-image:url({{url_for('static', filename='images/create.webp')}})
     }
 </style>
-{% block base2 %}
-
+<div class="content-section2">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
+	 	<form method ="POST" action = ''>
+			<fieldset class = 'from-group'>
+				<legend class="display-3 border-bottom lead text-center text-white mb-4">Update Library</legend>
+                <div class="row justify-content-center">
+					<div class='media-body col-5'>
+                        <h1 class='text-white'>UNDER CONSTRUCTION</h1>
+                        <a class='btn btn-outline-info m-1' href="{{url_for('view_library')}}">Cancel</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+</div>
 {% endblock %}
