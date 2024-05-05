@@ -13,12 +13,12 @@
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			<fieldset class = 'from-group'>
-				<legend class="display-3 border-bottom lead text-center mb-4">Add Video Games</legend>
+				<legend class="display-3 border-bottom lead text-center text-white mb-4">Add Video Games</legend>
 				<div class="row justify-content-center">
 					<div class='media-body col-6'>
                         {{ form.hidden_tag() }}
                         <div class="form-group">
-                            {{ form.videogame.label(class="form-control3-label my-text") }}
+                            {{ form.videogame.label(class="form-control3-label text-white") }}
                             {% if form.videogame.errors %}
                                 {{ form.videogame(class="form-control3 form-control3-lg is-invalid") }}
                                 <div class="invalid-feedback">
@@ -29,15 +29,16 @@
                             {% else %}
                                 {{ form.videogame(class="form-control3 form-control3-lg") }}
                             {% endif %}
-                            {{ form.console.label(class="form-control3-label my-text") }}
+                            {{ form.console.label(class="form-control3-label text-white") }}
                             {{ form.console (class="form-control3 form-control3-lg") }}
                             <br>
-                            {{ form.manufacturer.label(class="form-control3-label my-text") }}
+                            {{ form.manufacturer.label(class="form-control3-label text-white") }}
                             {{ form.manufacturer (class="form-control3 form-control3-lg") }}
                             <br>
                             <br>
                             {{ form.submit(class='btn btn-outline-info text-bold') }}    
-                        <a class='btn btn-outline-info m-1 my-text' href="{{url_for('video_games')}}">Cancel</a>
+                            <a class='btn btn-outline-info m-1 my-text' href="{{url_for('video_games')}}">Cancel</a>
+                        </div>
                     </div>
                 </div>
             </fieldset>

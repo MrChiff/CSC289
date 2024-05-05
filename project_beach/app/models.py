@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable = False, default = 'default.jpg')
     admin_user = db.Column(db.String(20), nullable = False, default = 'User')
     reviews = db.relationship('Reviews', backref='author', lazy = True)
-
+    user_id = db.relationship('Library', backref='user', lazy=True)
     # This is how the object will be printed
     def __repr__(self):
         return f"{self.username}"
@@ -76,6 +76,7 @@ class Consoles(db.Model, UserMixin):
     # manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'))
     # This is the back reference for the one to many
     system_id = db.relationship('Games', backref='consoles', lazy=True)
+    library_id = db.relationship('Library', backref='consoles', lazy=True)
     # This is how the object will be printed
     def __repr__(self):
         return f"{self.console}"
@@ -90,6 +91,7 @@ class Games(db.Model, UserMixin):
     creator_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable = True)
     # Each Console can have more than one game
     console_id = db.Column(db.Integer, db.ForeignKey('consoles.id'), nullable = False)
+    videogame_id = db.relationship('Library', backref='games', lazy=True)
     # This is how the object will be printed
     def __repr__(self):
         return f"{self.videogame}"
@@ -101,11 +103,11 @@ class Games(db.Model, UserMixin):
 #####################
 class Library(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    videogame_id = db.Column(db.String(100), nullable = False)
+    videogame_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable = False)
     # This is console id
-    console_id = db.Column(db.Integer, db.ForeignKey('console.id'), nullable = False)
+    console_id = db.Column(db.Integer, db.ForeignKey('consoles.id'), nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False) 
     # This is how the object will be printed
     def __repr__(self):
         return f"{self.videogame_id, self.console_id, self.quantity, self.user_id}"

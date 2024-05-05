@@ -649,6 +649,7 @@ def view_library():
     headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
     accounts = Library.query.all()
     print (accounts)
+    print(current_user)
     return render_template('library.html', title='Library',headings = headings, accounts = accounts)
 
 
@@ -676,13 +677,20 @@ def delete_library(user_id):
 @app.route("/create_library", methods = ['GET', 'POST'])
 @login_required
 def create_library():
-    form=CreateLibrary
+    form=CreateLibrary()
     if form.validate_on_submit():
-        post = Library(videogame=form.videogame.data, console=form.console.data, quantity = form.quantity.data, user = current_user)
+        videogame_name = str(form.videogame.data)
+        videogame = db.session.execute(db.select(Games).filter_by(videogame=videogame_name)).scalar_one()
+        videogame_idnum = videogame.id
+        console_name = str(form.console.data)
+        console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
+        console_idnum = console.id
+        quantity = int(form.quantity.data)
+        post = Library(videogame_id = videogame_idnum, console_id = console_idnum, quantity = quantity, user = current_user)
         db.session.add(post)
         db.session.commit()
-        flash("The library has been added successfully.")
-        return render_template('create_library')
+        flash("The library has been updated successfully")
+        return redirect(url_for('view_library'))
     return render_template('create_library.html', title='Library', form=form)  
 
 

@@ -231,19 +231,7 @@ class UpdateGames(FlaskForm):
 def games_query():
     return Games.query
     
-    
-################
-# Library Form #
-################
 
-# This is creating the form for user library creation
-#class UserLibrary(FlaskForm):
-    # Username will be used as the label for the html.
-#    videogame = QuerySelectField(query_factory = games_query, allow_blank=False, validators=[DataRequired()])
-#    console = QuerySelectField(query_factory = console_query, allow_blank=False, validators=[DataRequired()])
-#    quantity = IntegerField('Quantity', validators=[DataRequired()])
-#    user = current_user
-#    submit = SubmitField('Update Library')
 
 
 ############################
@@ -256,7 +244,6 @@ class CreateLibrary(FlaskForm):
     videogame = QuerySelectField(query_factory= games_query, allow_blank=False)
     console = QuerySelectField(query_factory = console_query, allow_blank=False)
     quantity = IntegerField('Quantity', validators=[DataRequired()])
-    user = current_user
     submit = SubmitField('Create Library')
     
     
