@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block base %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='main.css') }}">
+<main role='main' class="container">
+    <style>
+        body{
+            background-repeat:no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
+        }
+    </style>
+    <div class='content-section col-8'>
+        <article class='media content-section'>
+            <img class="rounded-circle article-img" src="{{ url_for("static", filename='images/' + post.author.image_file) }}">
+            <div class='media-body'>
+                <div class='article-metadata'>
+                    <a class="mr-2 text-white" href="#">{{ post.author.username }}</a>
+                    <small class='text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                    <!-- This is only going to show a link that will allow the author of the review to delete it -->
+                    {% if post.author == current_user %}
+                    <div><a class="btn btn-secondary btn-sm m-1" href="{{ url_for('review_update', review_id=post.id) }}">Update</a>
+                        <!-- This button has a modal that will work to delete the post the user wants to delete. -->
+                        <!-- The modal will usually show a pop up to verify you want to perform that action -->
+                        <!-- WORKON USING THIS LINE OF CODE TO WORK ON BEING ABLE TO DELETE USERNAMES. GAMES, AND SUCH -->
+                        <button type='button' class='btn btn-danger btn-sm m-1' data-toggle='modal' data-target="#deleteModal">Delete</button>
+                    </div>
+                    {% endif %}
+                </div>
+                <h2 class='article-title'>{{ post.title }}</h2>
+                <p class='article-content'>{{ post.content }}</p>
+            </div>
+        </article>
+        <!-- USE THIS MODAL TO TRY TO INCORPORATE IT INTO DELETING USERS, GAMES, GAME SYSTEMS, ETC -->
+        <!-- Modal -->
+        <div class="modal fade" id='deleteModal' tabindex='-1' role='dialog' aria-labelledby='deleteModal' aria-hidden='true'>
+            <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h5 class="modal-title" id='deleteModalLabel'>Are you sure you want to delete this review?</h5>
+                        <button type="button" class='close' data-dismiss='modal' aria-label="Close">
+                            <span aria-hidden='true'>&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class="btn btn-secondary" data-dismiss='modal'>Close</button>
+                    <!-- This will be the route for officially delete the post -->
+                    <form action="{{ url_for('delete_review', review_id=post.id)}}" method="POST">
+                        <input class="btn btn-danger" type='submit' value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock base %}

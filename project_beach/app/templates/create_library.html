@@ -1,5 +1,6 @@
 {% extends "base2.html" %}
 {% block base2 %}
+
 <style>
     body{
         background-repeat:no-repeat;
@@ -8,42 +9,38 @@
         background-image:url({{url_for('static', filename='images/create.webp')}})
     }
 </style>
-
 <div class="content-section2">
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			<fieldset class = 'from-group'>
-				<legend class="display-3 border-bottom lead text-center mb-4">Library</legend>
-				<div class="row justify-content-center">
-					<div class='media-body col-6'>
+				<legend class="display-3 border-bottom lead text-center text-white mb-4">Add Manufacturer</legend>
+                <div class="row justify-content-center">
+					<div class='media-body col-5'>
                         {{ form.hidden_tag() }}
-                        <div class="form-group">
-                            {{ form.videogame.label(class="form-control3-label my-text") }}
+                        <div class="form-group text-white">
+                            {{ form.videogame.label(class="form-control2-label") }}
                             {% if form.videogame.errors %}
-                                {{ form.videogame(class="form-control3 form-control3-lg is-invalid") }}
+                                {{ form.videogame(class="form-control2 form-control2-lg is-invalid") }}
                                 <div class="invalid-feedback">
                                     {% for error in form.videogame.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.videogame(class="form-control3 form-control3-lg") }}
+                                {{ form.videogame(class="form-control2 form-control2-lg") }}
                             {% endif %}
-                            {{ form.console.label(class="form-control3-label my-text") }}
-                            {{ form.console (class="form-control3 form-control3-lg") }}
-                            <br>
-                            {{ form.manufacturer.label(class="form-control3-label my-text") }}
-                            {{ form.manufacturer (class="form-control3 form-control3-lg") }}
-                            <br>
-                            <br>
-                            {{ form.submit(class='btn btn-outline-info text-bold') }}    
-                        <a class='btn btn-outline-info m-1 my-text' href="{{url_for('video_games')}}">Return To Video Games Page</a>
+                            {{ form.console_id.label(class="form-control2-label") }}
+                            {{ form.console_id(class="form-control2 form-control2-lg") }}
+                            {{ form.quantity.label(class="form-control2-label") }}
+                            {{ form.quantity(class="form-control2 form-control2-lg") }}
+                        </div>
+                        {{ form.submit(class="btn btn-outline-info") }}
+                        <a class='btn btn-outline-info m-1' href="{{url_for('view_manufacturer')}}">Cancel</a>
                     </div>
                 </div>
             </fieldset>
         </form>
 </div>
-
 
 
 {% endblock base2 %}

@@ -150,6 +150,7 @@ def console_query():
 
 
 
+
 ############################
 # Create Game Console Form #
 ############################
@@ -231,30 +232,38 @@ def games_query():
     return Games.query
     
     
-#####################
+################
 # Library Form #
-#####################
+################
 
 # This is creating the form for user library creation
-class CreateLibrary(FlaskForm):
+#class UserLibrary(FlaskForm):
     # Username will be used as the label for the html.
-    manufacturer = QuerySelectField(query_factory=manufacturer_query, allow_blank=False, validators=[DataRequired()])
-    console = QuerySelectField(query_factory = console_query, allow_blank=False, validators=[DataRequired()])
-    videogame = QuerySelectField(query_factory = games_query, allow_blank=False, validators=[DataRequired()])
-    submit = SubmitField('Update Library')
+#    videogame = QuerySelectField(query_factory = games_query, allow_blank=False, validators=[DataRequired()])
+#    console = QuerySelectField(query_factory = console_query, allow_blank=False, validators=[DataRequired()])
+#    quantity = IntegerField('Quantity', validators=[DataRequired()])
+#    user = current_user
+#    submit = SubmitField('Update Library')
 
-##########################
-# Video Game Search Form #
-##########################
+
+############################
+# Create User Library Form #
+############################
 
 # This is creating the form for user registration
-class VideoGameSearch(FlaskForm):
+class CreateLibrary(FlaskForm):
     # Username will be used as the label for the html.
-    vg_search = StringField('Video Game Search', validators=[DataRequired()])
-    submit = SubmitField('Search')
+    videogame = QuerySelectField(query_factory= games_query, allow_blank=False)
+    console = QuerySelectField(query_factory = console_query, allow_blank=False)
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    user = current_user
+    submit = SubmitField('Create Library')
     
-    def validate_manufacturer(self, vg_search):
-        vg_name = Games.query.filter_by(videogame = vg_search.data).first()
-        if vg_name:
-            flash("This manufacturer already exists. Please try again")
-            raise ValidationError('This manufacturer already exists. Please select another one.')
+    
+    #######################################################
+    # Figure out a way to say if this game already exists #
+    # in both video game name and console then to say it  #
+    # already exists.                                     #
+    #######################################################
+    
+    

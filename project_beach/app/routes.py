@@ -3,8 +3,9 @@ import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
 from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, \
     UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query, \
-    games_query, CreateLibrary, VideoGameSearch
-from app.models import User, Reviews, Manufacturer, Consoles, Games
+        games_query, CreateLibrary
+# import app.forms
+from app.models import User, Reviews, Manufacturer, Consoles, Games, Library
 from app import app, db, bcrypt
 from app.db_query import playstation, switch
 from flask_login import login_user, current_user, logout_user, login_required
@@ -13,7 +14,7 @@ import sqlite3
 from PIL import Image
 from werkzeug.exceptions import abort
 from search_class import RAWG_Search as RS
-# from search_class import NEXARDA_Search as NS
+from search_class import NEXARDA_Search as NS
 
 
 
@@ -84,61 +85,6 @@ def login():
 def welcome():
 
     return render_template('welcome.html', title='Welcome')
-
-################
-# Search Route #
-################
-# This is to log the user out of the current session so another user can log in. 
-@app.route("/search", methods = ['GET', 'POST'])
-@login_required
-def search():
-    form = VideoGameSearch()
-    if form.validate_on_submit():
-        # Getting search results from RAWG and NEXARDA
-        search_results = RS().game_search("games", form.vg_search.data)
-        
-        # Committing unique results to database
-        temp = []
-        results_names = []
-        prices = []
-        accounts=Games.query.all()
-
-        # converts the accounts from objects to strings
-        for account in accounts:
-            temp.append(str(account))
-
-        for game in search_results:
-            results_names.append(game)
-            rawg_id = search_results[game][0]
-            # platforms is a list
-            platforms = search_results[game][1]
-            price = search_results[game][2]
-            prices.append(price)
-            description = search_results[game][3]
-            playtime = search_results[game][4]
-            not_in_list = game not in temp
-            # flash(not_in_list) 
-            if game not in temp:
-                for platform in platforms:
-                    con = Consoles.query.filter_by(console=platform).first()
-                    if con is None:
-                        new_console = Consoles(console=platform, manufacturer_id = 0)
-                        db.session.add(new_console)
-                        db.session.commit()
-                        con = Consoles.query.filter_by(console=platform).first()
-                    input = Games(videogame=game, creator_id = 0, console_id = con.id)
-                    db.session.add(input)
-                    db.session.commit() 
-
-        # # Display search results in table on html
-        # # Getting 405 method not allowed
-        # # return render_template('search.html', title='Search', form=form, results_names=results_names, prices=prices)
-        # return render_template('search.html', title='Search', form=form, results_names=results_names)
-        # Make add button to add to user library
-        return render_template('search.html', title='Search', form=form, results_names=search_results)
-    # flash(f'The search was successful!', 'success')
-    # return render_template('search.html', title='Search', form=form, results_names="", prices="")
-    return render_template('search.html', title='Search', form=form, results_names="")
  
 
 ######################
@@ -665,16 +611,12 @@ def pull_top_games():
         description = top_games[game][3]
         playtime = top_games[game][4]
         not_in_list = game not in temp
-        # flash(not_in_list) 
+        flash(not_in_list) 
         if game not in temp:
             for platform in platforms:
-                con = Consoles.query.filter_by(console=platform).first()
-                if con is None:
-                    new_console = Consoles(console=platform, manufacturer_id = 0)
-                    db.session.add(new_console)
-                    db.session.commit()
-                    con = Consoles.query.filter_by(console=platform).first()
-                input = Games(videogame=game, creator_id = 0, console_id = con.id)
+                con = Consoles.query.filter_by(console=platform).first().id
+                # print("console:  ", con)
+                input = Games(videogame=game, creator_id = 0, console_id = con)
                 db.session.add(input)
                 db.session.commit()
 
@@ -698,28 +640,76 @@ def pull_top_games():
 
 
 
+######################
+# View Library Route #
+######################
+@app.route("/view_library")
+@login_required
+def view_library():
+    accounts = Library.query.all()
+    print (accounts)
+    return render_template('library.html', title='Library', accounts = accounts)
+
+
+
+
+#############################
+# Delete library item Route #
+#############################
+@app.route("/library/delete/<int:user_id>")
+@login_required
+def delete_library(user_id):        
+    post = Library.query.get_or_404(user_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Your Library item been deleted", 'success')
+    return redirect(url_for('view_library'))
+
+
+
+
 ########################
 # Create Library Route #
 ########################
 # This is to log the user out of the current session so another user can log in. 
-@app.route("/create_library")
+@app.route("/create_library", methods = ['GET', 'POST'])
 @login_required
-def modify_library():
-    # form = CreateLibrary()
-    # if form.validate_on_submit():
-    #     manufacturer_name = str(form.manufacturer.data)
-    #     manufacturer = db.session.execute(db.select(Manufacturer).filter_by(manufacturer=manufacturer_name)).scalar_one()
-    #     manufacturer_idnum = manufacturer.id
-    #     console_name = str(form.console.data)
-    #     console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
-    #     console_idnum = console.id
-    #     post = Games(videogame=form.videogame.data, creator_id=manufacturer_idnum ,console_id=console_idnum )
-    #     db.session.add(post)
-    #     db.session.commit()
-    #     flash("The video game has been added successfully.")
-    #     return redirect(url_for('video_games'))
-    # return render_template('create_games.html', title='Create Games', form=form)
-    return render_template('create_library.html', title='Library')  
+def create_library():
+    form=CreateLibrary
+    if form.validate_on_submit():
+        post = Library(videogame=form.videogame.data, console=form.console.data, quantity = form.quantity.data, user = current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash("The library has been added successfully.")
+        return render_template('create_library')
+    return render_template('create_library.html', title='Library', form=form)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################
