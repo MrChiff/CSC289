@@ -780,11 +780,18 @@ def update_game_prices():
 @app.route("/view_library")
 @login_required
 def view_library():
-    headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
-    accounts = Library.query.all()
-    print (accounts)
-    print(current_user)
-    return render_template('library.html', title='Library',headings = headings, accounts = accounts)
+    headings = {'Videogame', 'Console', 'Quantity', 'User'}
+    user = User.query.filter_by(username=str(current_user)).first().id
+    accounts = Library.query.filter_by(user_id = user)
+    for account in accounts:
+        account.game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
+        account.console = Consoles.query.filter_by(id = account.console_id).first().console
+        #output[account.id] = [game_name, console, accounts.quantity]
+        return render_template('library.html', title='Library',headings = headings, accounts = accounts)
+    #accounts = Library.query.all()
+    #print (accounts)
+    #print(current_user)
+    #return render_template('library.html', title='Library',headings = headings, accounts = accounts)
 
 ######################
 # View Library Route #
