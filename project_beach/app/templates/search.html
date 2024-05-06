@@ -25,14 +25,21 @@
                         {{ form.submit(class="btn btn-outline-info") }}
                         <a class='btn btn-outline-info m-1' href="{{url_for('search')}}">Clear</a>
                         {% for name in results_names %}
-							<article class='media content-section'>
-								<div class='media-body'>
-									<div class='article-metadata'>
-										<a class="mr-2">{{name}}</a>
-                                        <a class="mr-2">{{results_names[name]}}</a>
-									</div>
-								</div>
-							</article>
+                            {% for console in results_names[name][0] %}
+							    <article class='media content-section'>
+								    <div class='media-body'>
+									    <div class='article-metadata'>
+										    <a class="mr-2">Video Game:  {{name}}</a>
+                                            <a class="mr-2">Consoles:  {{console}}</a>
+                                            <a class="mr-2">Lowest Price:  {{results_names[name][1]}}</a>
+                                            <br>
+                                            <a class="mr-2">Description:  {{results_names[name][2]}}</a>
+                                            <br>
+                                            <a class="ml-4 mr-6" href="{{url_for('add_search_to_library', user_id=user, name = name, console = console, price = results_names[name][1], description = results_names[name][2])}}">Add To Library</a>
+									    </div>
+								    </div>
+							    </article>
+                            {% endfor %}
 						{% endfor %}
                     </div>
                 </div>

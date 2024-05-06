@@ -92,6 +92,7 @@ class Games(db.Model, UserMixin):
     # Each Console can have more than one game
     console_id = db.Column(db.Integer, db.ForeignKey('consoles.id'), nullable = False)
     videogame_id = db.relationship('Library', backref='games', lazy=True)
+    price = db.Column(db.Float, nullable = True)
     # This is how the object will be printed
     def __repr__(self):
         return f"{self.videogame}"

@@ -51,7 +51,7 @@ class RAWG_Search():
             price_desc_dict = NEXARDA_Search().search("games", name)
 
             if price_desc_dict is None:
-                self.search_results_dict[name] = [rawg_id, platform, 'unknown', 'unknown', playtime]
+                self.search_results_dict[name] = [rawg_id, platform, 0.00, 'unknown', playtime]
             else: 
                 price_desc_list = price_desc_dict[(next(iter(price_desc_dict)))]
                 self.search_results_dict[name] = [rawg_id, platform, price_desc_list[0], price_desc_list[1], playtime]
@@ -99,7 +99,7 @@ class RAWG_Search():
             price_desc_dict = NEXARDA_Search().search("games", name)
 
             if price_desc_dict is None:
-                self.top_results_dict[name] = [rawg_id, platform, 'unknown', 'unknown', playtime]
+                self.top_results_dict[name] = [rawg_id, platform, 0.00, 'unknown', playtime]
             else: 
                 price_desc_list = price_desc_dict[(next(iter(price_desc_dict)))]
                 self.top_results_dict[name] = [rawg_id, platform, price_desc_list[0], price_desc_list[1], playtime]
@@ -228,13 +228,11 @@ class NEXARDA_Search:
 
         for i in range(self.results_total):
             name = search_json["results"]["items"][i]["title"][:-7]
-            # year = (search_json["results"]["items"][i]["title"][-5:-1])
-            # lowest_price = ((re.findall(r"[$,\d]+[.,\d]+[.,\d]+[.,\d]", search_json["results"]["items"][i]["text"])))
             lowest_price = search_json["results"]["items"][i]["game_info"]["lowest_price"]
             if not lowest_price:
-                lowest_price = "Free"
+                lowest_price = 0.00
             elif lowest_price < 0.0:
-                lowest_price = "unknown"
+                lowest_price = 0.00
             
             description = search_json["results"]["items"][i]["game_info"]["short_desc"]
             

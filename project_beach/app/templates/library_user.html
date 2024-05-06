@@ -1,0 +1,45 @@
+{% extends "base2.html" %}
+{% block base2 %}
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/create.webp')}})
+    }
+</style>
+
+<div class="content-section2">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
+	 	<form method ="POST" action = ''>
+			<fieldset class = 'from-group'>
+				<legend class="display-3 border-bottom lead text-center mb-4 text-white">Add/Edit/Delete Library</legend>
+				<div class="row justify-content-center">
+					<div class='media-body col-6'>
+						<a class='btn btn-outline-info m-1' href="{{url_for('create_library')}}">Create Library</a>
+						{% for id in output %}
+						<article class='media content-section'>
+							<div class='media-body'>
+								<div class='article-metadata'>
+									<h6>ID Game Console Qty User</h6>
+									<a class="mr-4">{{id}}</a>
+									<a class="mr-4">{{outpu[id][0]}}</a>
+									<a class="mr-4">{{outpu[id][1]}}</a>
+									<a class="mr-4">{{outpu[id][2]}}</a>
+									<a class="ml-4 mr-6" href="{{url_for("delete_library", user_id=user)}}">Delete</a>
+										<!--I need to update this line of code to update the console information-->
+										<a class="ml-4 mr-6" href="{{url_for('update_library', user_id=user)}}">Update Library</a>
+								</div>
+							</div>
+						</article>
+						{% endfor %}
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</form>
+</div>
+
+
+
+{% endblock base2 %}

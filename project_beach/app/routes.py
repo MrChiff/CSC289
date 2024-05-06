@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
 from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, \
     UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query, \
-        games_query, CreateLibrary
+        games_query, CreateLibrary, VideoGameSearch
 # import app.forms
 from app.models import User, Reviews, Manufacturer, Consoles, Games, Library
 from app import app, db, bcrypt
@@ -85,7 +85,78 @@ def login():
 def welcome():
 
     return render_template('welcome.html', title='Welcome')
+
+################
+# Search Route #
+################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/search", methods = ['GET', 'POST'])
+@login_required
+def search():
+    user = User.query.filter_by(username=str(current_user)).first().id
+    form = VideoGameSearch()
+    if form.validate_on_submit():
+        # Getting search results from RAWG and NEXARDA
+        search_results = RS().game_search("games", form.vg_search.data)
+        
+        # Committing unique results to database
+        temp = []
+        results_names = []
+        # prices = []
+        output = {}
+        accounts=Games.query.all()
+
+        # converts the accounts from objects to strings
+        for account in accounts:
+            temp.append(str(account))
+
+        for game in search_results:
+            results_names.append(game)
+            rawg_id = search_results[game][0]
+            # platforms is a list
+            platforms = search_results[game][1]
+            price = search_results[game][2]
+            # prices.append(price)
+            description = search_results[game][3]
+            playtime = search_results[game][4]
+            # not_in_list = game not in temp
+            # flash(not_in_list) 
+            if game not in temp:
+                for platform in platforms:
+                    con = Consoles.query.filter_by(console=platform).first()
+                    if con is None:
+                        new_console = Consoles(console=platform, manufacturer_id = 0)
+                        db.session.add(new_console)
+                        db.session.commit()
+                        con = Consoles.query.filter_by(console=platform).first()
+                    input = Games(videogame=game, creator_id = 0, console_id = con.id)
+                    db.session.add(input)
+                    db.session.commit() 
+            output[game] = [platforms, price, description]
+
+        return render_template('search.html', title='Search', form=form, results_names=output, user = user)
+    
+    return render_template('search.html', title='Search', form=form, results_names="", user = user)
  
+#######################################
+# Add Search Results To Library Route #
+#######################################
+# This is to log the user out of the current session so another user can log in. 
+@app.route("/add_search_to_library/<int:user_id>/<name>/<console>/<price>/<description>", methods = ['GET', 'POST'])
+@login_required
+def add_search_to_library(user_id, name, console, price, description):
+    console_id = Consoles.query.filter_by(console=console).first().id
+    videogame_id = Games.query.filter_by(videogame = name, console_id = console_id).first().id
+    add_to_library = Library(videogame_id=videogame_id, console_id=console_id, quantity = 1, user_id=user_id)
+    db.session.add(add_to_library)
+    db.session.commit()
+    return redirect(url_for('welcome'))
+
+# def add_search_to_library(info):
+#     user_id = info[0]
+#     flash("user id:  " + str(user_id))
+#     # flash("video game:  " + vg_name)
+#     return redirect(url_for('welcome'))
 
 ######################
 # Registration Route #
@@ -556,8 +627,8 @@ def create_game():
 ###############################
 @app.route("/games/delete/<int:user_id>")
 @login_required
-def delete_game(user_id):        
-    post = Games.query.get_or_404(user_id)
+def delete_game(game_id):  
+    post = Games.query.get_or_404(game_id)
     db.session.delete(post)
     db.session.commit()
     flash("Your Game has been deleted", 'success')
@@ -611,12 +682,15 @@ def pull_top_games():
         description = top_games[game][3]
         playtime = top_games[game][4]
         not_in_list = game not in temp
-        flash(not_in_list) 
         if game not in temp:
             for platform in platforms:
-                con = Consoles.query.filter_by(console=platform).first().id
-                # print("console:  ", con)
-                input = Games(videogame=game, creator_id = 0, console_id = con)
+                con = Consoles.query.filter_by(console=platform).first()
+                if con is None:
+                    new_console = Consoles(console=platform, manufacturer_id = 0)
+                    db.session.add(new_console)
+                    db.session.commit()
+                    con = Consoles.query.filter_by(console=platform).first()
+                input = Games(videogame=game, creator_id = 0, console_id = con.id, price = price)
                 db.session.add(input)
                 db.session.commit()
 
@@ -652,7 +726,29 @@ def view_library():
     print(current_user)
     return render_template('library.html', title='Library',headings = headings, accounts = accounts)
 
+######################
+# View Library Route #
+######################
+# @app.route("/view_library")
+# @login_required
+# def view_library():
+#     output = {}
+#     headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
+#     user = User.query.filter_by(username=str(current_user)).first().id
+#     if User.query.filter_by(user_id = user).first().admin_user == "Admin":
+#         accounts = Library.query.all()
+#         print (accounts)
+#         print(current_user)
+#         return render_template('library.html', title='Library',headings = headings, accounts = accounts)
 
+#     else:
+#         accounts = Library.query.filter_by(user_id = user)
+#         for account in accounts:
+#             game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
+#             console = Consoles.query.filter_by(id = accounts.console_id).first().console
+#             output[account.id] = [game_name, console, accounts.quantity]
+#             return render_template('library_user.html', title='Library',headings = headings, output = output, user = user)
+    
 
 
 #############################
