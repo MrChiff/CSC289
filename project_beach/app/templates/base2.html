@@ -24,6 +24,23 @@ This will include a navigation bar-->
         {% endif %}
   <!--This will add a favicon to the webpage tab instead of having the gray world icon-->
   <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+  <!--
+  <script type = "text/javascript"> 
+    var db = openDatabase('app/vgls/vgls.sql', '1.0', 'Query for Consoles', 2 * 1024 * 1024); 
+    db.transaction(function (tx) { 
+      tx.executeSql('SELECT * FROM consoles WHERE category = console', [], function (tx, results) { 
+         var cons = results.rows, i; 
+         msg = "<p>Found rows: " + len + "</p>"; 
+         document.querySelector('#status').innerHTML +=  msg; 
+   
+         for (i = 0; i < len; i++) { 
+         msg = "<p><b>" + results.rows.item(i).log + "</b></p>"; 
+         document.querySelector('#status').innerHTML +=  msg; 
+         } 
+      }, null); 
+      }); 
+   </script> 
+   -->
 	</head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,6 +72,12 @@ This will include a navigation bar-->
                 Video Games
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="/atari">Atari</a></li>
+                <li><a class="dropdown-item" href="/atari">Dreamcast</a></li>
+                <li><a class="dropdown-item" href="/atari">Game Boy</a></li>
+                <li><a class="dropdown-item" href="/atari">Game Boy Advanced</a></li>
+                <li><a class="dropdown-item" href="/atari">Game Boy Color</a></li>
+                <li><a class="dropdown-item" href="/atari">Game Gear</a></li>
                 <li><a class="dropdown-item" href="/playstation">Playstation</a></li>
                 <li><a class="dropdown-item" href="/playstation_4">Playstation 4</a></li>
                 <li><a class="dropdown-item" href="/playstation_5">Playstation 5</a></li>
