@@ -70,8 +70,6 @@ class RAWG_Search():
         This function gathers the top games by RAWG and exports them as a dictionary.
         '''
         self.top_results_dict = {}
-        desc_price_dict = {}
-        desc_price_list = []
 
         self.top_games_url = self.base_url + "games?" + self.api_key + "&-ordering=metacritic" 
         print(self.top_games_url)

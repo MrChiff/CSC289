@@ -60,8 +60,8 @@ def main():
     game_name="call of duty"
     category = "games" 
     # rawg_search_results(game_name) 
-    results_dict = SC.RAWG_Search().game_search(category, game_name)
-    print(results_dict)
+    # results_dict = SC.RAWG_Search().game_search(category, game_name)
+    # print(results_dict)
 
 
     # print("\n####################\n" + \
@@ -98,16 +98,18 @@ def main():
 
 
     # NEXARDA => github.com/NEXARDA/NEXARDA
-    # print("\n\n\n")
+    print("\n\n\n")
 
-    # print("\n###########\n" + \
-    #       "# NEXARDA #\n" + \
-    #       "###########\n")
+    print("\n###########\n" + \
+          "# NEXARDA #\n" + \
+          "###########\n")
 
     
-    # game_dict = SC.NEXARDA_Search().search(category, game_name)
-    # # # print(game_dict)
+    game_dict = SC.NEXARDA_Search().search(category, game_name)
 
+    print(f'{"item":<5}{"Name":<54}{"Lowest Price":<10}')
+    for game in game_dict:
+        print(f'{game:<54}{game_dict[game][0]:<10}')
 
 
     # print("\n###########\n" + \

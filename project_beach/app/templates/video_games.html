@@ -16,7 +16,8 @@
 				<div class="row justify-content-center">
 					<div class='media-body col-6'>
 						<a class='btn btn-outline-info m-1' href="{{url_for('create_game')}}">Create Video Games</a>
-						<a class='btn btn-outline-info m-1' href="{{url_for('pull_top_games')}}">Pull Top Video Games from RAWG</a>
+						<a class='btn btn-outline-info m-1' href="{{url_for('pull_top_games')}}">Update Video Games</a>
+						<a class='btn btn-outline-info m-1' href="{{url_for('update_game_prices')}}">Update Video Game Prices</a>
                         {% for account in accounts %}
 							<article class='media content-section'>
 								<div class='media-body'>

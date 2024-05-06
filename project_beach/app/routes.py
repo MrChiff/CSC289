@@ -7,7 +7,7 @@ from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review
 # import app.forms
 from app.models import User, Reviews, Manufacturer, Consoles, Games, Library
 from app import app, db, bcrypt
-from app.db_query import playstation, switch
+from app.db_query import playstation, switch, pc, nes, gameboy
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import sqlite3
@@ -581,6 +581,34 @@ def console_update(user_id):
     return render_template('edit_consoles.html', title = 'Manufacturer Info', form = form)
 
 
+
+###################################
+# Pulling Consoles Info from RAWG #
+###################################
+@app.route("/console/pull", methods = ['GET', 'POST'])
+@login_required
+def console_pull():
+    temp = []
+    accounts = Consoles.query.all()
+    # converts the accounts from objects to strings
+    for account in accounts:
+        temp.append(str(account))
+    # Retrieves a list of all consoles from RAWG
+    console_list = RS().update_console()
+    # for the console in the list of consoles:
+    for con in console_list:
+        # if the console doesn't already exist
+        if con not in temp:
+            # add console to database
+            input = Consoles(console=con, manufacturer_id = 0)
+            db.session.add(input)
+            db.session.commit()
+    # retrieve update list of consoles from database
+    accounts=Consoles.query.all()
+    flash("The consoles have been successfully updated from RAWG.", 'success')
+    return render_template('consoles.html', title='Consoles', accounts=accounts)
+
+
 ############################
 # Video Game Systems Route #
 ############################
@@ -625,7 +653,7 @@ def create_game():
 ###############################
 # Delete a Video GAme Route #
 ###############################
-@app.route("/games/delete/<int:user_id>")
+@app.route("/games/delete/<int:game_id>")
 @login_required
 def delete_game(game_id):  
     post = Games.query.get_or_404(game_id)
@@ -639,26 +667,26 @@ def delete_game(game_id):
 #########################
 # Update Games Route #
 #########################
-@app.route("/games/<int:user_id>/update", methods = ['GET', 'POST'])
+@app.route("/games/<int:game_id>/update", methods = ['GET', 'POST'])
 @login_required
-def games_update(user_id):
-    users = Games.query.get_or_404(user_id)
+def games_update(game_id):
+    game = Games.query.get_or_404(game_id)
     form = UpdateGames()
     if form.validate_on_submit():
-        users.videogame = form.videogame.data
+        game.videogame = form.videogame.data
         console_name = str(form.console.data)
         console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
         console_idnum = console.id
-        users.console_id = console_idnum
+        game.console_id = console_idnum
         manufacturer_name = str(form.manufacturer.data)
         manufacturer = db.session.execute(db.select(Manufacturer).filter_by(manufacturer=manufacturer_name)).scalar_one()
         manufacturer_idnum = manufacturer.id
-        users.creator_id = manufacturer_idnum
+        game.creator_id = manufacturer_idnum
         db.session.commit()
         flash("The videogame has been successfully updated", 'success')
     elif request.method == 'GET':
         # This will prepopulate the fields to change
-        form.videogame.data = users.videogame
+        form.videogame.data = game.videogame
     return render_template('edit_games.html', title = 'Game Info', form = form)
 
 
@@ -696,6 +724,38 @@ def pull_top_games():
 
     accounts=Games.query.all()
     flash("The top games from RAWG (according to metacritic score) have been added to the video game database.", 'success')
+    return render_template('video_games.html', title='Vidoe Games', accounts=accounts)
+
+
+##################################
+# Updating Game Prices (NEXARDA) #
+##################################
+@app.route("/games/price_update", methods = ['GET', 'POST'])
+@login_required
+def update_game_prices():
+    temp = []
+    accounts=Games.query.all()
+    # converts the accounts from objects to strings
+    for account in accounts:
+        temp.append(str(account))
+        print("account.videogame type:  ", type(account.videogame))
+
+        # uses NEXARDA to determine the price
+        # returns dictionary => game[video_game_name] = [price, description]
+        game = NS().search('games', account.videogame)
+        print("type(game):  ", type(game))
+        
+
+        # if a price is available for that specific game:
+        if game and account.videogame in game:
+            # print("game[account.vidoegame]:  ", game[account.videogame])
+            # if account.videogame in game:
+                # compare new price to old price and update if necessary
+            if game[account.videogame][0] != account.price:
+                account.price = game[account.videogame][0]
+                db.session.commit()
+
+    flash("The prices have been updated!.", 'success')
     return render_template('video_games.html', title='Vidoe Games', accounts=accounts)
 
 
