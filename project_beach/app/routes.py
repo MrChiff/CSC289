@@ -735,12 +735,12 @@ def view_library():
 #     output = {}
 #     headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
 #     user = User.query.filter_by(username=str(current_user)).first().id
+
 #     if User.query.filter_by(user_id = user).first().admin_user == "Admin":
 #         accounts = Library.query.all()
 #         print (accounts)
 #         print(current_user)
 #         return render_template('library.html', title='Library',headings = headings, accounts = accounts)
-
 #     else:
 #         accounts = Library.query.filter_by(user_id = user)
 #         for account in accounts:
