@@ -5,18 +5,31 @@
         background-repeat:no-repeat;
         background-attachment: fixed;
         background-size: cover;
-        background-image:url({{url_for('static', filename='images/create.webp')}})
+        background-image:url({{url_for('static', filename='images/about.jpg')}})
     }
 </style>
 <div class="content-section2">
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			<fieldset class = 'from-group'>
-				<legend class="display-3 border-bottom lead text-center text-white mb-4">Update Library</legend>
+				<legend class="display-3 border-bottom lead text-center mb-4 my-text">Update Library</legend>
                 <div class="row justify-content-center">
 					<div class='media-body col-5'>
-                        <h1 class='text-white'>UNDER CONSTRUCTION</h1>
-                        <a class='btn btn-outline-info m-1' href="{{url_for('view_library')}}">Cancel</a>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.videogame.label(class="form-control3-label my-text") }}
+                            {{ form.videogame(class="form-control3 form-control3-lg") }}
+                            <br>
+                            {{ form.console.label(class="form-control3-label my-text") }}
+                            {{ form.console (class="form-control3 form-control3-lg") }}
+                            <br>
+                            {{ form.quantity.label(class="form-control3-label my-text") }}
+                            {{ form.quantity (class="form-control3 form-control3-lg") }}
+                            <br>
+                            <br>
+                            {{ form.submit(class='btn btn-outline-info text-bold') }}    
+                        <a class='btn btn-outline-info m-1 my-text' href="{{url_for('view_library')}}">Cancel</a>
+                    
                     </div>
                 </div>
             </fieldset>

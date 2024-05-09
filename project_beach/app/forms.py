@@ -269,3 +269,24 @@ class VideoGameSearch(FlaskForm):
         if vg_name:
             flash("This manufacturer already exists. Please try again")
             raise ValidationError('This manufacturer already exists. Please select another one.')
+        
+
+
+
+
+#######################
+# Update Library Form #
+#######################
+
+# This is creating the form for user registration
+class UpdateLibrary(FlaskForm):
+    # Username will be used as the label for the html.
+    videogame = QuerySelectField(query_factory=games_query, allow_blank=False)
+    console = QuerySelectField(query_factory=console_query, allow_blank=False)
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    submit = SubmitField('Update Library')
+    #######################################################
+    # Need to figure out how to prevent a duplicate from  #
+    # Being created when updating but still allow the     #
+    # Console name if you need to change the manufacturer #
+    #######################################################

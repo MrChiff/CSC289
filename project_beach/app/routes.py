@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, url_for, flash, redirect, request, session, send_from_directory, abort
 from app.forms import Registration, Login, ChangePassword, UpdateAccount, Review, EditAccount, Manufacturers, \
     UpdateManufacturers, GameConsole, UpdateConsole, Game_Names, UpdateGames, console_query, manufacturer_query, \
-        games_query, CreateLibrary, VideoGameSearch
+        games_query, CreateLibrary, VideoGameSearch, UpdateLibrary
 # import app.forms
 from app.models import User, Reviews, Manufacturer, Consoles, Games, Library
 from app import app, db, bcrypt
@@ -865,10 +865,27 @@ def create_library():
 # Update Library Route #
 ########################
 # This is to log the user out of the current session so another user can log in. 
-@app.route("/update")
+@app.route("/update/<int:user_id>",  methods = ['GET', 'POST'])
 @login_required
-def update_library():
-    return render_template('update_library.html', title='Update Library')
+def update_library(user_id):
+    library = Library.query.get_or_404(user_id)
+    form = UpdateLibrary()
+    if form.validate_on_submit():
+        videogame_name = str(form.videogame.data)
+        videogame = db.session.execute(db.select(Games).filter_by(videogame=videogame_name)).scalar_one()
+        videogame_idnum = videogame.id
+        library.creator_id = videogame_idnum
+        console_name = str(form.console.data)
+        console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
+        console_idnum = console.id
+        library.console_id = console_idnum
+        quantity = int(form.quantity.data)
+        db.session.commit()
+        flash("The Library has been successfully updated", 'success')
+    elif request.method == 'GET':
+        print("something went wrong")
+    return render_template('update_library.html', title='Update Library', form = form)
+
 
 
 ######################
