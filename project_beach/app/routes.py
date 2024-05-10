@@ -780,14 +780,12 @@ def update_game_prices():
 @app.route("/view_library")
 @login_required
 def view_library():
-    headings = {'Videogame', 'Console', 'Quantity', 'User'}
     user = User.query.filter_by(username=str(current_user)).first().id
     accounts = Library.query.filter_by(user_id = user)
     for account in accounts:
         account.game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
         account.console = Consoles.query.filter_by(id = account.console_id).first().console
-        #output[account.id] = [game_name, console, accounts.quantity]
-        return render_template('library.html', title='Library',headings = headings, accounts = accounts)
+        return render_template('library.html', title='Library', accounts = accounts)
     #accounts = Library.query.all()
     #print (accounts)
     #print(current_user)
@@ -874,18 +872,18 @@ def update_library(user_id):
         videogame_name = str(form.videogame.data)
         videogame = db.session.execute(db.select(Games).filter_by(videogame=videogame_name)).scalar_one()
         videogame_idnum = videogame.id
-        library.creator_id = videogame_idnum
+        library.videogame_id = videogame_idnum
         console_name = str(form.console.data)
         console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
         console_idnum = console.id
         library.console_id = console_idnum
         quantity = int(form.quantity.data)
+        library.quantity = quantity
         db.session.commit()
         flash("The Library has been successfully updated", 'success')
     elif request.method == 'GET':
         print("something went wrong")
     return render_template('update_library.html', title='Update Library', form = form)
-
 
 
 ######################
