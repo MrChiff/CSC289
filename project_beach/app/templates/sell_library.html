@@ -1,12 +1,21 @@
 {% extends "base2.html" %}
+{% block base2 %}
 <style>
     body{
         background-repeat:no-repeat;
         background-attachment: fixed;
         background-size: cover;
-        background-image:url({{url_for('static', filename='images/accountinfo.jpg')}})
+        background-image:url({{url_for('static', filename='images/about.jpg')}})
     }
 </style>
-{% block base2 %}
+<div class="content-section2">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
+	 	<form method ="POST" action = ''>
+			<fieldset class = 'from-group'>
+				<legend class="display-3 border-bottom lead text-center mb-4 my-text">Sell Library</legend>
+                <h1>Under Construction</h1>
+            </fieldset>
+        </form>
+</div>
 
 {% endblock %}
