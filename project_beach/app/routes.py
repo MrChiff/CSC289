@@ -142,9 +142,9 @@ def search():
 # Add Search Results To Library Route #
 #######################################
 # This is to log the user out of the current session so another user can log in. 
-@app.route("/add_search_to_library/<int:user_id>/<name>/<console>/<price>/<description>", methods = ['GET', 'POST'])
+@app.route("/add_search_to_library/<int:user_id>/<name>/<console>/", methods = ['GET', 'POST'])
 @login_required
-def add_search_to_library(user_id, name, console, price, description):
+def add_search_to_library(user_id, name, console):
     console_id = Consoles.query.filter_by(console=console).first().id
     videogame_id = Games.query.filter_by(videogame = name, console_id = console_id).first().id
     add_to_library = Library(videogame_id=videogame_id, console_id=console_id, quantity = 1, user_id=user_id)
@@ -152,11 +152,7 @@ def add_search_to_library(user_id, name, console, price, description):
     db.session.commit()
     return redirect(url_for('welcome'))
 
-# def add_search_to_library(info):
-#     user_id = info[0]
-#     flash("user id:  " + str(user_id))
-#     # flash("video game:  " + vg_name)
-#     return redirect(url_for('welcome'))
+
 
 ######################
 # Registration Route #
@@ -790,10 +786,10 @@ def view_library():
     accounts = Library.query.filter_by(user_id = user)
     # print(accounts)
     for account in accounts:
-        game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
+        game_name = Games.query.filter_by(id = account.videogame_id).first()
         console = Consoles.query.filter_by(id = account.console_id).first().console
-        output[account.id] = [game_name, console, account.quantity]
-    return render_template('library_user.html', title='Library',headings = headings, output = output, user = user)
+        output[account.id] = [game_name.videogame, console, account.quantity, game_name.price]
+    return render_template('library_user.html', title='Library',headings = headings, output = output)
     
 
 

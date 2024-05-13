@@ -11,6 +11,13 @@ from PIL import Image
 from werkzeug.exceptions import abort
 
 
+def games_for_console(console_name):
+    console_id = Consoles.query.filter_by(console=console_name).first().id
+    # game_id = game_name.id
+    games = Games.query.filter_by(console_id = console_id).all()
+
+    return games
+
 ##########################################
 # Display Description and Price for Game #
 ##########################################
@@ -22,10 +29,9 @@ def price_descript():
 
 @app.route("/pc")
 def pc():
-    game_name = Consoles.query.filter_by(console='PC').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'PC Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console("pc")
+    return render_template('videogame_view.html', title = 'PC Games', games = games, console = "PC", user = user)
 
 
 #########################################
@@ -41,10 +47,10 @@ def pc():
 
 @app.route("/nes")
 def nes():
-    game_name = Consoles.query.filter_by(console='NES').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'NES Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console("NES")
+    return render_template('videogame_view.html', title = 'NES Games', games = games, console = "NES", user = user)
+
 
 
 #####################################
@@ -53,10 +59,9 @@ def nes():
 
 @app.route("/switch")
 def switch():
-    game_name = Consoles.query.filter_by(console='Nintendo Switch').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Nintendo Switch Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Nintendo Switch')
+    return render_template('videogame_view.html', title = 'Nintendo Switch Games', games = games, console = 'Nintendo Switch', user = user)
 
 #####################################
 # Display all Nintendo Game Boy Games #
@@ -64,10 +69,10 @@ def switch():
 
 @app.route("/gameboy")
 def gameboy():
-    game_name = Consoles.query.filter_by(console='Game Boy').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Game Boy Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Game Boy')
+    return render_template('videogame_view.html', title = 'Game Boy', games = games, console = 'Game Boy', user = user)
+
 
 
 #####################################
@@ -98,6 +103,7 @@ def gamecube():
     game_name = Consoles.query.filter_by(console='GameCube').first()
     game_id = game_name.id
     console_names = Games.query.filter_by(console_id = game_id).all()
+
     return render_template('videogame_view.html', title = 'GameCube Games', console_names = console_names)
 
 
@@ -292,10 +298,9 @@ def xbox_sx():
 
 @app.route("/atari")
 def atari():
-    game_name = Consoles.query.filter_by(console='atari').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Atari Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console("atari")
+    return render_template('videogame_view.html', title = 'Atari Games', games = games, console = "atari", user = user)
 
 
 

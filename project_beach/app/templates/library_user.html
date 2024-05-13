@@ -25,10 +25,13 @@
 									<a class="mr-4">{{output[id][0]}}</a>
 									<a class="mr-4">{{output[id][1]}}</a>
 									<a class="mr-4">Qty:  {{output[id][2]}}</a>
-									<a class="ml-4 mr-6" href="{{url_for("delete_library", user_id=user)}}">Delete</a>
-										<!--I need to update this line of code to update the console information-->
-										<a class="ml-4 mr-6" href="{{url_for('update_library', user_id=user)}}">Update Library</a>
-										<a class="ml-4 mr-6" href="{{url_for('update_library', user_id=user)}}">Sell Game</a>
+									<a class="mr-4">Price:  {{output[id][3]}}</a>
+									<a class="ml-4 mr-6" href="{{url_for("delete_library", user_id=id)}}">Delete</a>
+									<!--I need to update this line of code to update the console information-->
+									<a class="ml-4 mr-6" href="{{url_for('update_library', user_id=id)}}">Update Library</a>
+									<!--
+									<a class="ml-4 mr-6" href="{{url_for('update_library', user_id=id)}}">Sell Game</a>
+									-->
 								</div>
 							</div>
 						</article>

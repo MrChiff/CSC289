@@ -10,14 +10,19 @@
     }
 </style>
 <div class='media-body col-6'>
-    {% for console_name in console_names %}
+    {% for game in games %}
         <article class='media content-section'>
             <div class='media-body'>
                 <div class='article-metadata'>
-                    <a class="mr-4">{{console_name.videogame}}</a>
+                    <a class="mr-4">{{game.videogame}}</a>
+                    <a class="mr-4">Price:  {{game.price}}</a>
+                    <!--
                     <a class="ml-4 mr-6" href="/price_descript">Description & Price</a>
-                    <!--I need to update this line of code to update the console information-->
+                    -->
+                    <!--I need to update this line of code to update the console information
                     <a class="ml-4 mr-6" href="#">Update link later</a>
+                    -->
+                    <a class="ml-4 mr-6" href="{{url_for('add_search_to_library', user_id=user, name = game.videogame, console = console)}}">Add To Library</a>
                 </div>
             </div>
         </article>

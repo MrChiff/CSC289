@@ -6,7 +6,7 @@
 		background-repeat:no-repeat;
 		background-attachment: fixed;
 		background-size: cover;
-		background-image:url({{url_for('static', filename='images/admin.jpg')}})
+		background-image:url({{url_for('static', filename='images/backiee-275311.jpg')}})
 	}
 </style>
 
@@ -14,7 +14,7 @@
     <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
 	 	<form method ="POST" action = ''>
 			<fieldset class = 'from-group'>
-				<legend class="display-3 border-bottom lead text-center text-white mb-4">Video Game Search</legend>
+				<legend class="display-3 border-bottom lead text-center text-gray mb-4">Video Game Search</legend>
                 <div class="row justify-content-center">
 					<div class='media-body col-5'>
                         {{ form.hidden_tag() }}
@@ -44,7 +44,7 @@
                                             <br>
                                             <a class="mr-2">Description:  {{results_names[name][2]}}</a>
                                             <br>
-                                            <a class="ml-4 mr-6" href="{{url_for('add_search_to_library', user_id=user, name = name, console = console, price = results_names[name][1], description = results_names[name][2])}}">Add To Library</a>
+                                            <a class="ml-4 mr-6" href="{{url_for('add_search_to_library', user_id=user, name = name, console = console)}}">Add To Library</a>
 									    </div>
 								    </div>
 							    </article>
