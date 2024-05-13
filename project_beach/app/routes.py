@@ -760,36 +760,6 @@ def update_game_prices():
 
 
 
-#####################################
-# Display all Playstation One Games #
-#####################################
-
-#@app.route("/playstation_one")
-#def playstation_one():
-#    game_name = Consoles.query.filter_by(console='Playstation One').first()
-#    game_id = game_name.id
-#    console_names = Games.query.filter_by(console_id = game_id).all()
-#    return render_template('playstation_one.html', title = 'Playstation Games', console_names = console_names)
-
-
-
-
-######################
-# View Library Route #
-######################
-@app.route("/view_library")
-@login_required
-def view_library():
-    user = User.query.filter_by(username=str(current_user)).first().id
-    accounts = Library.query.filter_by(user_id = user)
-    for account in accounts:
-        account.game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
-        account.console = Consoles.query.filter_by(id = account.console_id).first().console
-        return render_template('library.html', title='Library', accounts = accounts)
-    #accounts = Library.query.all()
-    #print (accounts)
-    #print(current_user)
-    #return render_template('library.html', title='Library',headings = headings, accounts = accounts)
 
 ######################
 # View Library Route #
@@ -797,22 +767,33 @@ def view_library():
 # @app.route("/view_library")
 # @login_required
 # def view_library():
-#     output = {}
-#     headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
 #     user = User.query.filter_by(username=str(current_user)).first().id
+#     accounts = Library.query.filter_by(user_id = user)
+#     for account in accounts:
+#         account.game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
+#         account.console = Consoles.query.filter_by(id = account.console_id).first().console
+#         # return render_template('library.html', title='Library', headings = '', accounts = accounts)
+#     # accounts = Library.query.all()
+#     # print(accounts)
+#     #print(current_user)
+#     return render_template('library.html', title='Library', headings='', accounts = accounts)
 
-#     if User.query.filter_by(user_id = user).first().admin_user == "Admin":
-#         accounts = Library.query.all()
-#         print (accounts)
-#         print(current_user)
-#         return render_template('library.html', title='Library',headings = headings, accounts = accounts)
-#     else:
-#         accounts = Library.query.filter_by(user_id = user)
-#         for account in accounts:
-#             game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
-#             console = Consoles.query.filter_by(id = accounts.console_id).first().console
-#             output[account.id] = [game_name, console, accounts.quantity]
-#             return render_template('library_user.html', title='Library',headings = headings, output = output, user = user)
+######################
+# View Library Route #
+######################
+@app.route("/view_library")
+@login_required
+def view_library():
+    output = {}
+    headings = {'ID', 'Videogame', 'Console', 'Quantity', 'User'}
+    user = User.query.filter_by(username=str(current_user)).first().id
+    accounts = Library.query.filter_by(user_id = user)
+    # print(accounts)
+    for account in accounts:
+        game_name = Games.query.filter_by(id = account.videogame_id).first().videogame
+        console = Consoles.query.filter_by(id = account.console_id).first().console
+        output[account.id] = [game_name, console, account.quantity]
+    return render_template('library_user.html', title='Library',headings = headings, output = output, user = user)
     
 
 
@@ -841,13 +822,16 @@ def create_library():
     form=CreateLibrary()
     if form.validate_on_submit():
         videogame_name = str(form.videogame.data)
-        videogame = db.session.execute(db.select(Games).filter_by(videogame=videogame_name)).scalar_one()
-        videogame_idnum = videogame.id
+        # videogame = db.session.execute(db.select(Games).filter_by(videogame=videogame_name)).scalar_one()
+        # videogame_idnum = videogame.id
+        videogame_idnum = Games.query.filter_by(videogame = videogame_name).first().id
         console_name = str(form.console.data)
-        console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
-        console_idnum = console.id
+        # console = db.session.execute(db.select(Consoles).filter_by(console=console_name)).scalar_one()
+        # console_idnum = console.id
+        console_idnum = Consoles.query.filter_by(console = console_name).first().id
         quantity = int(form.quantity.data)
-        post = Library(videogame_id = videogame_idnum, console_id = console_idnum, quantity = quantity, user = current_user)
+        user = User.query.filter_by(username=str(current_user)).first().id
+        post = Library(videogame_id = videogame_idnum, console_id = console_idnum, quantity = quantity, user_id = user)
         db.session.add(post)
         db.session.commit()
         flash("The library has been updated successfully")
@@ -893,6 +877,8 @@ def update_library(user_id):
 @app.route("/sell")
 @login_required
 def sell_library():
+    
+
     return render_template('sell_library.html', title='Sell Library')
 
 

@@ -112,3 +112,16 @@ class Library(db.Model, UserMixin):
     # This is how the object will be printed
     def __repr__(self):
         return f"{self.videogame_id, self.console_id, self.quantity, self.user_id}"
+    
+
+#####################
+# Library model #
+#####################
+class Sell(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key = True)
+    videogame_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable = False)
+    quantity = db.Column(db.Integer, nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False) 
+    # This is how the object will be printed
+    def __repr__(self):
+        return f"{self.videogame_id, self.console_id, self.quantity, self.user_id}"
