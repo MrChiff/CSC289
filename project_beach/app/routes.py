@@ -609,11 +609,22 @@ def console_pull():
 # Video Game Systems Route #
 ############################
 # This is to log the user out of the current session so another user can log in. 
+# @app.route("/video_games")
+# @login_required
+# def video_games():
+#     accounts = Games.query.all()
+#     return render_template('video_games.html', title='Video Games', accounts = accounts)
+
 @app.route("/video_games")
 @login_required
 def video_games():
+    output = {}
+    headings = {'ID', 'Videogame', 'Console'}
     accounts = Games.query.all()
-    return render_template('video_games.html', title='Video Games', accounts = accounts)
+    for account in accounts:
+        console = Consoles.query.filter_by(id = account.console_id).first().console
+        output[account.id] = [account.videogame, console]
+    return render_template('video_games_admin.html', title='Video Games', accounts = output)
 
 
 

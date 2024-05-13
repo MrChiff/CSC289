@@ -1,0 +1,42 @@
+{% extends "base2.html" %}
+{% block base2 %}
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/login.webp')}})
+    }
+</style>
+<div class="content-section2">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/edit-user.jpg);"-->
+	 	<form method ="POST" action = ''>
+			<fieldset class = 'from-group'>
+				<legend class="display-3 border-bottom lead text-center mb-4 text-white">Add/Edit/Delete Video Games</legend>
+				<div class="row justify-content-center">
+					<div class='media-body col-6'>
+						<a class='btn btn-outline-info m-1' href="{{url_for('create_game')}}">Create Video Games</a>
+						<a class='btn btn-outline-info m-1' href="{{url_for('pull_top_games')}}">Update Video Games</a>
+						<a class='btn btn-outline-info m-1' href="{{url_for('update_game_prices')}}">Update Video Game Prices</a>
+                        {% for id in accounts %}
+							<!--accounts[game_id] = [videogame, console]-->
+							<article class='media content-section'>
+								<div class='media-body'>
+									<div class='article-metadata'>
+										<a class="mr-4">{{accounts[id][0]}}</a>
+										<a class="mr-4">{{accounts[id][1]}}</a>
+										<a class="ml-4 mr-6" href="{{url_for("delete_game", game_id=id)}}">Delete</a>
+										<!--I need to update this line of code to update the console information-->
+										<a class="ml-4 mr-6" href="{{url_for('games_update', game_id=id)}}">Update Console</a>
+									</div>
+								</div>
+							</article>
+						{% endfor %}
+					</div>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</form>
+</div>
+{% endblock %}
