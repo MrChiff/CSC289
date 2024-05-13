@@ -22,7 +22,6 @@ class RAWG_Search():
     #====================================#
 
         self.category = category + "?"
-        # print(self.category)
         self.searchable_name = "+".join(name.split())
         self.search_results_dict = {}
 
@@ -32,7 +31,6 @@ class RAWG_Search():
 
         response = requests.get(self.search_url)
         response_json = response.json()
-        # print(response_json)
 
         if DEBUG:
             print(f'{"item":<5}{"ID":<8}{"Name":<54}{"Platform":<72}{"lowest price":<5}')
@@ -52,7 +50,6 @@ class RAWG_Search():
 
             # if the the dictionary exists and the name is in the dictionary:
             if price_desc_dict and name in price_desc_dict: 
-                print("price, description:  ", price_desc_dict[name])
                 price, desc = price_desc_dict[name]
                 self.search_results_dict[name] = [rawg_id, platform, price, desc, playtime]
             else: 
@@ -96,7 +93,6 @@ class RAWG_Search():
             
             # use NEXARDA for getting the description and price
             price_desc_dict = NEXARDA_Search().search("games", name)
-            print("price_desc_dict:  ", price_desc_dict)
                 
             # if the the dictionary exists and the name is in the dictionary:
             if price_desc_dict and name in price_desc_dict: 
@@ -125,15 +121,10 @@ class RAWG_Search():
         self.update_consoles_list = []
 
         self.update_consoles_url = self.base_url + "platforms?" + self.api_key
-        print(self.update_consoles_url)
         response = requests.get(self.update_consoles_url)
         response_json = response.json()
 
-        # if DEBUG:
-        #     print(response_json)
-        
         # This is the total number of results for the first page of results.
-
         results_total = response_json["count"]
         page_results = len(response_json["results"])
         max_pages = math.ceil(results_total/page_results)
@@ -191,7 +182,7 @@ class NEXARDA_Search:
     #===============================#
     def search(self, category, name):
     #===============================#
-        DEBUG = True
+        # DEBUG = True
         self.category = category
         self.search_results_dict = {} 
 
@@ -217,7 +208,6 @@ class NEXARDA_Search:
             print(self.search_url + self.category + "&" + self.query + self.searchable_name)
         search_json = json.loads(search.content.decode('utf-8'))
         if search_json["success"] == False:
-            # return search_json["message"]
             return None
      
         temp_total = search_json["results"]["total"]

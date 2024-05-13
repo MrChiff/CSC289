@@ -81,10 +81,9 @@ def gameboy():
 
 @app.route("/gameboy_adv")
 def gameboy_adv():
-    game_name = Consoles.query.filter_by(console='Game Boy Advanced').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Game Boy Advanced Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Game Boy Advanced')
+    return render_template('videogame_view.html', title = 'Game Boy Advanced', games = games, console = 'Game Boy Advanced', user = user)
 
 
 #####################################
@@ -93,68 +92,58 @@ def gameboy_adv():
 
 @app.route("/gameboy_color")
 def gameboy_color():
-    game_name = Consoles.query.filter_by(console='Game Boy Color').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Game Boy Color Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Game Boy Color')
+    return render_template('videogame_view.html', title = 'Game Boy Color', games = games, console = 'Game Boy Color', user = user)
 
 @app.route("/gamecube")
 def gamecube():
-    game_name = Consoles.query.filter_by(console='GameCube').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-
-    return render_template('videogame_view.html', title = 'GameCube Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('GameCube')
+    return render_template('videogame_view.html', title = 'GameCube', games = games, console = 'GameCube', user = user)
 
 
 @app.route("/nintendo3ds")
 def nintendo3ds():
-    game_name = Consoles.query.filter_by(console='Nintendo 3DS').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Nintendo 3DS Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Nintendo 3DS')
+    return render_template('videogame_view.html', title = 'Nintendo 3DS', games = games, console = 'Nintendo 3DS', user = user)
 
 @app.route("/nintendo64")
 def nintendo64():
-    game_name = Consoles.query.filter_by(console='Nintendo 64').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Nintendo 64 Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Nintendo 64')
+    return render_template('videogame_view.html', title = 'Nintendo 64', games = games, console = 'Nintendo 64', user = user)
 
 @app.route("/nintendods")
 def nintendods():
-    game_name = Consoles.query.filter_by(console='Nintendo DS').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Nintendo DS Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Nintendo DS')
+    return render_template('videogame_view.html', title = 'Nintendo DS', games = games, console = 'Nintendo DS', user = user)
 
 @app.route("/nintendodsi")
 def nintendodsi():
-    game_name = Consoles.query.filter_by(console='Nintendo DSi').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Nintendo DSi Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Nintendo DSi')
+    return render_template('videogame_view.html', title = 'Nintendo DSi', games = games, console = 'Nintendo DSi', user = user)
 
 @app.route("/snes")
 def snes():
-    game_name = Consoles.query.filter_by(console='SNES').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'SNES Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('SNES')
+    return render_template('videogame_view.html', title = 'SNES', games = games, console = 'SNES', user = user)
 
 @app.route("/wii")
 def wii():
-    game_name = Consoles.query.filter_by(console='Wii').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Wii Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Wii')
+    return render_template('videogame_view.html', title = 'Wii', games = games, console = 'Wii', user = user)
 
 @app.route("/wiiu")
 def wiiu():
-    game_name = Consoles.query.filter_by(console='Wii U').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Wii U Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Wii U')
+    return render_template('videogame_view.html', title = 'Wii U', games = games, console = 'Wii U', user = user)
 
 
 
@@ -172,10 +161,9 @@ def wiiu():
 
 @app.route("/playstation")
 def playstation():
-    game_name = Consoles.query.filter_by(console='Playstation').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Playstation Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Playstation')
+    return render_template('videogame_view.html', title = 'Playstation', games = games, console = 'Playstation', user = user)
 
 
 ###################################
@@ -184,10 +172,9 @@ def playstation():
 
 @app.route("/playstation2")
 def playstation2():
-    game_name = Consoles.query.filter_by(console='Playstation 2').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Playstation 2 Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Playstation 2')
+    return render_template('videogame_view.html', title = 'Playstation 2', games = games, console = 'Playstation 2', user = user)
 
 
 #################################
@@ -196,10 +183,9 @@ def playstation2():
 
 @app.route("/playstation3")
 def playstation3():
-    game_name = Consoles.query.filter_by(console='Playstation 3').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Playstation 3 Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Playstation 3')
+    return render_template('videogame_view.html', title = 'Playstation 3', games = games, console = 'Playstation 3', user = user)
 
 
 
@@ -209,10 +195,9 @@ def playstation3():
 
 @app.route("/playstation_4")
 def playstation_4():
-    game_name = Consoles.query.filter_by(console='Playstation 4').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Playstation 4 Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Playstation 4')
+    return render_template('videogame_view.html', title = 'Playstation 4', games = games, console = 'Playstation 4', user = user)
 
 
 ###################################
@@ -221,26 +206,22 @@ def playstation_4():
 
 @app.route("/playstation_5")
 def playstation_5():
-    game_name = Consoles.query.filter_by(console='Playstation 5').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Playstation 5 Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Playstation 5')
+    return render_template('videogame_view.html', title = 'Playstation 5', games = games, console = 'Playstation 5', user = user)
 
 
 @app.route("/psvita")
 def psvita():
-    game_name = Consoles.query.filter_by(console='PS Vita').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'PS Vita Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('PS Vita')
+    return render_template('videogame_view.html', title = 'PS Vita', games = games, console = 'PS Vita', user = user)
 
 @app.route("/psp")
 def psp():
-    game_name = Consoles.query.filter_by(console='PSP').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'PSP Games', console_names = console_names)
-
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('PSP')
+    return render_template('videogame_view.html', title = 'PSP', games = games, console = 'PSP', user = user)
 
 
 
@@ -252,24 +233,21 @@ def psp():
 
 @app.route("/xbox")
 def xbox():
-    game_name = Consoles.query.filter_by(console='Xbox').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Xbox Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Xbox')
+    return render_template('videogame_view.html', title = 'Xbox', games = games, console = 'Xbox', user = user)
 
 @app.route("/xbox360")
 def xbox360():
-    game_name = Consoles.query.filter_by(console='Xbox 360').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Xbox 360 Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Xbox 360')
+    return render_template('videogame_view.html', title = 'Xbox 360', games = games, console = 'Xbox 360', user = user)
 
 @app.route("/xbox1")
 def xbox1():
-    game_name = Consoles.query.filter_by(console='Xbox One').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Xbox One Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Xbox One')
+    return render_template('videogame_view.html', title = 'Xbox One', games = games, console = 'Xbox One', user = user)
 
 
 ##########################################
@@ -278,10 +256,9 @@ def xbox1():
 
 @app.route("/xbox_sx")
 def xbox_sx():
-    game_name = Consoles.query.filter_by(console='Xbox Series S/X').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Xbox Series S/X Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Xbox Series S/X')
+    return render_template('videogame_view.html', title = 'Xbox Series S/X', games = games, console = 'Xbox Series S/X', user = user)
 
 
 
@@ -313,36 +290,30 @@ def atari():
 
 @app.route("/dreamcast")
 def dreamcast():
-    game_name = Consoles.query.filter_by(console='Dreamcast').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Dreamcast Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Dreamcast')
+    return render_template('videogame_view.html', title = 'Dreamcast', games = games, console = 'Dreamcast', user = user)
 
 @app.route("/gamegear")
 def gamegear():
-    game_name = Consoles.query.filter_by(console='Game Gear').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Game Gear Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Game Gear')
+    return render_template('videogame_view.html', title = 'Game Gear', games = games, console = 'Game Gear', user = user)
 
 @app.route("/genesis")
 def genesis():
-    game_name = Consoles.query.filter_by(console='Genesis').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'Genesis Games', console_names = console_names)
-
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('Genesis')
+    return render_template('videogame_view.html', title = 'Genesis', games = games, console = 'Genesis', user = user)
 
 @app.route("/sega_cd")
 def sega_cd():
-    game_name = Consoles.query.filter_by(console='SEGA CD').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'SEGA CD Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('SEGA CD')
+    return render_template('videogame_view.html', title = 'SEGA CD', games = games, console = 'SEGA CD', user = user)
 
 @app.route("/sega_saturn")
 def sega_saturn():
-    game_name = Consoles.query.filter_by(console='SEGA Saturn').first()
-    game_id = game_name.id
-    console_names = Games.query.filter_by(console_id = game_id).all()
-    return render_template('videogame_view.html', title = 'SEGA Saturn Games', console_names = console_names)
+    user = User.query.filter_by(username=str(current_user)).first().id
+    games = games_for_console('SEGA Saturn')
+    return render_template('videogame_view.html', title = 'SEGA Saturn', games = games, console = 'SEGA Saturn', user = user)
