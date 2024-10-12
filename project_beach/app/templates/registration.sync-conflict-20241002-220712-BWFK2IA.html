@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block base %}
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/register.jpg')}})
+    }
+</style>
+	<!--body class="img js-fullheight" style="background-image: url(static/images/register.jpg);"-->
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-start">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Please Register Your Account</h2>
+				</div>
+                <div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+		      	<form method = "POST", action="">
+                    {{ form.hidden_tag() }}
+		      		<div class="form-group">
+                        {{ form.username.label(class="form-control-label") }}
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+                    
+
+                        
+                    <div class="form-group">
+                        {{ form.first_name.label(class="form-control-label") }}
+                        {% if form.first_name.errors %}
+                            {{ form.first_name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.first_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.first_name(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.last_name.label(class="form-control-label") }}
+                        {% if form.last_name.errors %}
+                            {{ form.last_name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.last_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.last_name(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+	            <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+	            </div>
+                <div class="col-md-12 col-mb-5">
+					<div class="login-wrap p-0">
+	            <div class="form-group">
+                    {{ form.submit(class="form-control btn btn-primary submit px-3") }}
+                </div>
+			</div>
+		</div>
+	</section>
+	<!--/body-->
+</html>
+{% endblock base %}

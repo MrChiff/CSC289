@@ -1,0 +1,77 @@
+<!--This is using template inheritance-->
+{% extends "base2.html" %}
+{% block base2 %}
+<style>
+    body{
+        background-repeat:no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static', filename='images/about.jpg')}})
+    }
+</style>
+<div class="content-section">
+    <!--body class="img js-fullheight" style="background-image: url(static/images/about.jpg);"-->
+    <form method="POST" action="">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Welcome to Video Game Library And Sales {{current_user.firstname}}.</legend>
+        </fieldset>
+        <div class="content">
+            <br>   
+        <body>
+            <br>
+            <h1>About Us:</h1>
+
+            <div style= "float:right;position: relative; left: 10px;">
+                <img src="./static/images/llama_pics/326842_Mathmaticus_ll_xl-1024-v1-0.png" width="200"/>
+            </div>
+
+            <p>
+                Input first paragraph
+            </p>
+            <p>
+                Insert second paragraph and change picture if keeping it
+                
+            <div style= "float:left;position: relative; right: 10px;">
+                <img src="./static/images\default.jpg" width="200"/>
+            </div>
+
+            <p>
+                Insert 3rd paragraph and bottom right picture if keeping it.
+            </p>
+
+            <div style= "float:right;position: relative; left: 10px;">
+                <img src="./static/images\default.jpg" width="200"/>
+            </div>
+
+            <p>
+                Insert paragraph if needed. If not, remove
+            </p>
+
+            <p>
+                Insert paragraph if needed. If not, remove
+            </p>
+
+            <p>
+                Insert paragraph if needed. If not, remove
+            </p>
+                
+            <p>
+                Insert paragraph if needed. If not, remove
+            </p>
+
+            <p>
+                Insert paragraph if needed. If not, remove
+            </p>
+
+
+            <br>
+            <nav>
+            </nav>
+        <!--/body-->
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock base2 %}    

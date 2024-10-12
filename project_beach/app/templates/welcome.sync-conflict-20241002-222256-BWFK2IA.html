@@ -1,0 +1,55 @@
+{% extends "base2.html" %}
+{% block base2 %}
+<style>
+	body{
+		background-repeat:no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-image:url({{url_for('static', filename='images/welcome.jpg')}})
+	}
+</style>
+	<!--body class="img js-fullheight" style="background-image: url(static/images/welcome.jpg);"-->
+	<section class="ftco-section">
+		<div class="container-md">
+			<div class="text-center py-4">
+				<h2 class="text-white">Welcome to Video Games Library & Sales</h2>
+				<p class="lead text-white">Please select the option you would like to perform.</p>
+			</div>
+			<div class="row my-1 align-items-center justify-content-center">
+				<div class="col-6 col-lg-3 col-xl-2">
+					<div class="card border-0">
+						<img src="/static/images/build_library.jpg" class="card-img-top" alt="create library">
+						<div class="card-body text-center py-4">
+							<h4 class="card-title">Create Library</h4>
+							<p class="lead display-5 my-2 text-primary fw-bold">Click below to create your library.</p>
+							<a href="/create" class="btn btn-outline-primary btn-lg mt-3">Create</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-6 col-lg-3 col-xl-2">
+					<div class="card border-0">
+						<img src="/static/images/update_library.jpg" class="card-img-top" alt="update library">
+						<div class="card-body text-center py-4">
+							<h4 class="card-title">Update Library</h4>
+							<p class="lead display-5 my-2 text-primary fw-bold">Click below to update your library.</p>
+							<a href="/update" class="btn btn-outline-primary btn-lg mt-3">Update</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-6 col-lg-3 col-xl-2">
+					<div class="card border-0">
+						<img src="/static/images/sell_library.jpg" class="card-img-top" alt="sell library">
+						<div class="card-body text-center py-4">
+							<h4 class="card-title">Sell Library</h4>
+							<p class="lead display-5 my-2 text-primary fw-bold">Click below to sell your library.</p>
+							<a href="/sell" class="btn btn-outline-primary btn-lg mt-3">Sell Items</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</section>
+	<!--/body-->
+</html>
+{% endblock base2 %}
